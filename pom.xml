@@ -52,19 +52,36 @@
     <artifactId>jahia-modules</artifactId>
     <version>7.1.2.0</version>
   </parent>
-  <groupId>org.jahia.modules</groupId>
+
   <artifactId>marketing-factory-smart-carousel</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Marketing Factory Smart Carousel</name>
   <description>This is the custom module (Marketing Factory Smart Carousel) for running on a Digital Experience Manager server.</description>
+
   <scm>
     <connection>scm:dummy:uri</connection>
     <developerConnection>scm:dummy:uri</developerConnection>
   </scm>
+
   <properties>
     <jahia-depends>bootstrap3-core,default,marketing-factory-core</jahia-depends>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jahia.modules</groupId>
+      <artifactId>marketing-factory-core</artifactId>
+      <version>1.6.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.unomi</groupId>
+      <artifactId>unomi-api</artifactId>
+      <version>1.1.0-incubating-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
   <repositories>
     <repository>
       <releases>
@@ -79,6 +96,7 @@
       <url>https://devtools.jahia.com/nexus/content/groups/public</url>
     </repository>
   </repositories>
+
   <build>
     <plugins>
       <plugin>
