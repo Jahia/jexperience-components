@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean class="org.jahia.services.uicomponents.bean.editmode.EngineConfiguration">
+        <property name="key" value="wemnt:carousel"/>
+        <property name="engineTabs">
+            <list>
+                <ref bean="Engine.Tab.Content"/>
+                <ref bean="Engine.Tab.ListOrdering"/>
+                <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
+                    <property name="id" value="dmfconditions"/>
+                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>
+                    <property name="tabItem">
+                        <bean class="org.jahia.ajax.gwt.client.widget.contentengine.CustomEditEngineTabItem">
+                            <property name="onInitMethodName" value="carouselPersonalizationConditionsInit"/>
+                            <property name="onLanguageChangeMethodName" value="carouselPersonalizationConditionsLanguageChange"/>
+                            <property name="doSaveMethodName" value="carouselPersonalizationConditionsDoSave"/>
+                            <property name="doValidateMethodName" value="carouselPersonalizationConditionsDoValidate"/>
+                            <property name="handleCreate" value="true"/>
+                            <property name="handleMultipleSelection" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="creationButtons">
+            <list>
+                <ref bean="Engine.Button.WorkInProgress"/>
+                <ref bean="Engine.Button.Create"/>
+                <ref bean="Engine.Button.CreateAndNew"/>
+            </list>
+        </property>
+        <property name="editionButtons">
+            <list>
+                <ref bean="Engine.Button.WorkInProgress"/>
+                <ref bean="Engine.Button.Update"/>
+            </list>
+        </property>
+        <property name="commonButtons">
+            <list>
+                <ref bean="Engine.Button.Cancel"/>
+            </list>
+        </property>
+        <property name="parent" ref="editmode"/>
+    </bean>
+
+    <bean class="org.jahia.ajax.gwt.helper.ModuleGWTResources">
+        <property name="javascriptResources">
+            <list>
+                <value>/modules/marketing-factory-smart-carousel/javascript/wem-edit-carousel-personalization.js</value>
+            </list>
+        </property>
+    </bean>
+</beans>

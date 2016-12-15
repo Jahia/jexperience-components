@@ -2,19 +2,33 @@
 <content xmlns:j="http://www.jahia.org/jahia/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0">
     <modules jcr:primaryType="jnt:modules">
         <marketing-factory-smart-carousel j:dependencies="bootstrap3-core default marketing-factory-core"
-                                        j:modulePriority="0"
-                                        j:moduleType="module"
-                                        j:title="Marketing Factory Smart Carousel"
-                                        jcr:primaryType="jnt:module">
-                
-                <portlets jcr:primaryType="jnt:portletFolder"/>
+                                          j:modulePriority="0"
+                                          j:moduleType="module"
+                                          j:title="Marketing Factory Smart Carousel"
+                                          jcr:primaryType="jnt:module">
+
+            <portlets jcr:primaryType="jnt:portletFolder"/>
+            <files jcr:primaryType="jnt:folder"/>
+            <contents jcr:primaryType="jnt:contentFolder"/>
+            <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
                 <files jcr:primaryType="jnt:folder"/>
                 <contents jcr:primaryType="jnt:contentFolder"/>
-                <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
-                    <files jcr:primaryType="jnt:folder"/>
-                    <contents jcr:primaryType="jnt:contentFolder"/>
-                </templates>
-                
-            </marketing-factory-smart-carousel>
+                <wem-edit-engine-carousel-perso j:applyOn="wemnt:carousel"
+                                                j:defaultTemplate="false"
+                                                j:hiddenTemplate="true"
+                                                j:view="wemSettings"
+                                                jcr:mixinTypes="jmix:useUILocale"
+                                                jcr:primaryType="jnt:contentTemplate">
+                    <j:translation_en jcr:language="en"
+                                      jcr:mixinTypes="mix:title"
+                                      jcr:primaryType="jnt:translation"/>
+                    <pagecontent jcr:primaryType="jnt:contentList">
+                            <main-resource-display j:mainResourceView="customEditEngine"
+                                                   jcr:primaryType="jnt:mainResourceDisplay"/>
+                        </pagecontent>
+                </wem-edit-engine-carousel-perso>
+            </templates>
+
+        </marketing-factory-smart-carousel>
     </modules>
 </content>

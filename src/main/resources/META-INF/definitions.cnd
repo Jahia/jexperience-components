@@ -1,2 +1,20 @@
 <jnt = 'http://www.jahia.org/jahia/nt/1.0'>
 <jmix = 'http://www.jahia.org/jahia/mix/1.0'>
+<wemnt = 'http://www.jahia.org/jahia/wem/nt/1.0'>
+<wemmix = 'http://www.jahia.org/jahia/wem/mix/1.0'>
+<mix = 'http://www.jcp.org/jcr/mix/1.0'>
+
+[wemnt:carouselItem] > jnt:content, mix:title, wemmix:editItem
+ - image (weakreference, picker[type='image']) i18n mandatory < jnt:file
+ - caption (string,textarea) i18n
+ - isFallback (boolean) = false autocreated
+
+[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:customEditEngine orderable
+ - useIndicators (boolean) = false autocreated indexed=no
+ - useLeftAndRightControls (boolean) = false autocreated indexed=no
+ - wem:active (boolean) = true autocreated
+ - wem:ajaxRender (boolean) = false autocreated
+ - wem:startsOn (date)
+ - wem:endsOn (date)
+ - wem:idealNumberOfItems (long) = '4' autocreated indexed=no
+ + * (wemnt:carouselItem) = wemnt:carouselItem
