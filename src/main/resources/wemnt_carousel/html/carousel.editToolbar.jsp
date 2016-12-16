@@ -26,7 +26,8 @@
     <div id="${elementID}" class="carousel slide" data-ride="carousel" style="height: 500px;">
         <c:if test="${not empty carouselItems}">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select slider
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    <fmt:message key="wemnt_carousel.editToolbar.label.selectImage"/>
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                     <c:forEach items="${carouselItems}" var="carouselItem" varStatus="status">
