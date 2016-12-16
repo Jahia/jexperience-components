@@ -22,8 +22,8 @@
     <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
     <c:set var="personalizationActive" value="${wem:isPersonalizationActive(currentNode)}"/>
     <c:set var="ajaxRender" value="${currentNode.properties['wem:ajaxRender'].boolean}"/>
-
     <c:set value="false" var="hasIdealNumber"/>
+    <c:set value="0" var="idealNumberOfItems"/>
     <c:if test="${not empty currentNode.properties['wem:idealNumberOfItems']}">
         <c:set value="${currentNode.properties['wem:idealNumberOfItems'].long}" var="idealNumberOfItems"/>
         <c:set value="true" var="hasIdealNumber"/>
@@ -39,25 +39,91 @@
 
             <c:choose>
                 <c:when test="${ajaxRender}">
+
+                    <c:set var="useIndicators" value="${currentNode.properties['useIndicators'].boolean}"/>
+
+                    <template:addResources>
+                        <script type="text/javascript">
+                            function smartCarouselCallback${fn:replace(currentNode.identifier, '-', '')} (successfulFilters) {
+                                // clean container
+                                $('#carouselInner_${currentNode.identifier}').html('');
+                                $('#carouselIndicators_${currentNode.identifier}').html('');
+
+                                var hasIdealNumber = ${hasIdealNumber};
+                                var idealNumberOfItems = ${idealNumberOfItems};
+                                var generateImage = function (content, cssClass) {
+                                    $('#carouselInner_${currentNode.identifier}').append('<div class="' + cssClass + '"></div>');
+                                    $('#carouselInner_${currentNode.identifier} div').last().load(content);
+                                };
+                                var generateIndicators = function (cssClass, index) {
+                                    if (${useIndicators}) {
+                                        $('#carouselIndicators_${currentNode.identifier}').append('<li data-target="#${elementID}" data-slide-to="' + index + '" class="' + cssClass + '"></li>');
+                                    }
+                                };
+                                var fallbackVariants = [
+                                    <c:forEach items="${carouselItems}" var="carouselItem" varStatus="status">
+                                        <c:if test="${carouselItem.properties['isFallback'].boolean}">
+                                            <c:if test="${not status.first}">,</c:if>
+                                            {
+                                                identifier: "${carouselItem.identifier}",
+                                                content: "<c:url value="${url.base}${functions:escapePath(carouselItem.path)}.${functions:default(carouselItem.properties['j:view'].string, 'default')}.html.ajax"/>"
+                                            }
+                                        </c:if>
+                                    </c:forEach>
+                                ];
+
+                                var isFirst = true;
+                                var index = 0;
+                                if (successfulFilters.length > 0) {
+                                    for (var successVariant in successfulFilters) {
+                                        if ((hasIdealNumber && index < idealNumberOfItems) || !hasIdealNumber) {
+                                            generateImage(successfulFilters[successVariant].content, isFirst?'item active':'item');
+                                            generateIndicators(isFirst?'active':'', index);
+                                            isFirst = false;
+                                            index++;
+                                        }
+                                    }
+
+                                    if (hasIdealNumber && successfulFilters.length < idealNumberOfItems) {
+                                        for (var fallbackVariant in fallbackVariants) {
+                                            var exist = false;
+                                            for (var sVariant in successfulFilters) {
+                                                if (successfulFilters[sVariant].filterId == fallbackVariants[fallbackVariant].identifier) {
+                                                    exist = true;
+                                                }
+                                            }
+                                            if (!exist) {
+                                                generateImage(fallbackVariants[fallbackVariant].content, isFirst?'item active':'item');
+                                                generateIndicators(isFirst?'active':'', index);
+                                                isFirst = false;
+                                                index++;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (fallbackVariants.length > 0) {
+                                        for (var fVariant in fallbackVariants) {
+                                            generateImage(fallbackVariants[fVariant].content, isFirst?'item active':'item');
+                                            generateIndicators(isFirst?'active':'', index);
+                                            isFirst = false;
+                                            index++;
+                                        }
+                                    } else {
+                                        $('${elementID}').hide();
+                                    }
+                                }
+                            }
+                        </script>
+                    </template:addResources>
+
                     <div id="${elementID}" class="carousel slide" data-ride="carousel">
                         <%-- Indicators --%>
-                        <c:if test="${currentNode.properties['useIndicators'].boolean and not ajaxRender}">
-                            <ol class="carousel-indicators">
-                                <c:forEach items="${fn:split(nodeToDisplay, ' ')}" var="variantIdentifier" varStatus="status">
-                                    <jcr:node var="currentVariant" uuid="${variantIdentifier}"/>
-                                    <li data-target="#${elementID}" data-slide-to="${status.index}" <c:if test='${status.index == 0}'>class="active"</c:if>></li>
-                                </c:forEach>
-                            </ol>
+                        <c:if test="${useIndicators}">
+                            <ol id="carouselIndicators_${currentNode.identifier}" class="carousel-indicators"></ol>
                         </c:if>
 
                         <%-- Wrapper for slides --%>
-                        <div class="carousel-inner" role="listbox">
-                            <c:forEach items="${carouselItems}" var="item" varStatus="status">
-                                <div style="display: none;" id="personalizedCarouselItem${parsedId}${status.index}" class="item <c:if test='${status.first}'>active</c:if>" onshow="$('#personalizedCarouselItemIndicator${parsedId}${status.index}').prop('display', 'block')">
-                                    <template:module node="${item}" nodeTypes="wemnt:carouselItem"/>
-                                </div>
-                            </c:forEach>
-                        </div>
+                        <div id="carouselInner_${currentNode.identifier}" class="carousel-inner" role="listbox" style="height: 500px;"></div>
 
                         <%-- Controls --%>
                         <c:if test="${currentNode.properties['useLeftAndRightControls'].boolean}">
@@ -75,32 +141,25 @@
                     <script type="text/javascript">
                         (function(){
                             var filters = {
-                                <c:forEach items="${carouselItems}" var="item" varStatus="varStatus">
-                                '${item.identifier}' : {
-                                    <c:set var="hasfilter" value="${not empty item.properties['wem:jsonFilter'].string}" />
-                                    <c:set var="itemFilter" value=""/>
-                                    <c:if test="${hasfilter}">
-                                    <c:set var="itemFilter" value="{\"appliesOn\":[{}],\"condition\":${item.properties['wem:jsonFilter'].string}}"/>
-                                    </c:if>
-                                    "filter": {"filterid":"${item.identifier}","filters":[${itemFilter}]},
-                                    <c:if test="${not ajaxRender}">
-                                    "content": "personalizedCarouselItem${parsedId}${varStatus.index}",
-                                    </c:if>
-                                    <c:if test="${ajaxRender}">
-                                    "content": "<c:url value="${url.base}${functions:escapePath(item.path)}.${functions:default(item.properties['j:view'].string, 'default')}.html.ajax"/>",
-                                    </c:if>
-                                    "priority": -${varStatus.index + 1}
-                                }${!varStatus.last ? ',' : ''}
+                                <c:forEach items="${carouselItems}" var="carouselItem" varStatus="varStatus">
+                                    <c:set var="hasfilter" value="${not empty carouselItem.properties['wem:jsonFilter'].string}" />
+                                    <c:set var="carouselItemFilter" value=""/>
+                                    '${carouselItem.identifier}' : {
+                                        <c:if test="${hasfilter}">
+                                            <c:set var="carouselItemFilter" value="{\"appliesOn\":[{}],\"condition\":${carouselItem.properties['wem:jsonFilter'].string}}"/>
+                                        </c:if>
+                                        "filter": {
+                                            "filterid": "${carouselItem.identifier}",
+                                            "filters": [${carouselItemFilter}]
+                                        },
+                                        "content": "<c:url value="${url.base}${functions:escapePath(carouselItem.path)}.${functions:default(carouselItem.properties['j:view'].string, 'default')}.html.ajax"/>",
+                                        "priority": -${varStatus.index + 1}
+                                    }${!varStatus.last ? ',' : ''}
                                 </c:forEach>
                             };
 
-                            <c:set var="strategy" value="${currentNode.properties['wem:personalizationStrategy'].string}"/>
-                            <c:if test="${empty strategy}">
-                            <c:set var="strategy" value="priority"/>
-                            </c:if>
-
                             if(window.wem) {
-                                window.wem.registerPersonalization(filters,'${strategy}','${elementID}', '', ${ajaxRender}, null);
+                                window.wem.registerPersonalization(filters, null, '${elementID}', null, ${ajaxRender}, smartCarouselCallback${fn:replace(currentNode.identifier, '-', '')});
                             } else {
                                 console.log("No wem available in page, can't register personalization.")
                             }
@@ -111,14 +170,14 @@
                 <c:otherwise>
                     <c:set var="nodeToDisplay" value=""/>
                     <c:forEach items="${wem:getWemPersonalizedContent(renderContext.request, renderContext.site.siteKey, currentNode, null)}" var="variant">
-                        <c:if test="${variant.value eq 'true'}">
+                        <c:if test="${variant.value eq 'true' and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
                             <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variant.key}"/>
                         </c:if>
                     </c:forEach>
 
                     <c:if test="${hasIdealNumber and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
                         <c:forEach items="${carouselItems}" var="carouselItem">
-                            <c:if test="${carouselItem.properties['isFallback'].boolean and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
+                            <c:if test="${carouselItem.properties['isFallback'].boolean and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems and not functions:contains(nodeToDisplay, carouselItem.identifier)}">
                                 <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
                             </c:if>
                         </c:forEach>
@@ -126,7 +185,7 @@
 
                     <div id="${elementID}" class="carousel slide" data-ride="carousel">
                         <%-- Indicators --%>
-                        <c:if test="${currentNode.properties['useIndicators'].boolean and not ajaxRender}">
+                        <c:if test="${currentNode.properties['useIndicators'].boolean}">
                             <ol class="carousel-indicators">
                                 <c:forEach items="${fn:split(nodeToDisplay, ' ')}" var="variantIdentifier" varStatus="status">
                                     <jcr:node var="currentVariant" uuid="${variantIdentifier}"/>
@@ -173,7 +232,7 @@
             <c:if test="${fn:length(nodeToDisplay) gt 0}">
                 <div id="${elementID}" class="carousel slide" data-ride="carousel">
                         <%-- Indicators --%>
-                    <c:if test="${currentNode.properties['useIndicators'].boolean and not ajaxRender}">
+                    <c:if test="${currentNode.properties['useIndicators'].boolean}">
                         <ol class="carousel-indicators">
                             <c:forEach items="${fn:split(nodeToDisplay, ' ')}" var="variantIdentifier" varStatus="status">
                                 <jcr:node var="currentVariant" uuid="${variantIdentifier}"/>

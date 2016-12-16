@@ -20,11 +20,11 @@
 <c:if test="${renderContext.editMode}">
     <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
 
-    <c:set var="elementID" value="smartCarousel-${currentNode.identifier}" />
-    <c:set var="parsedId" value="${fn:replace(currentNode.identifier,'-','_')}"/>
+    <c:if test="${not empty carouselItems}">
+        <c:set var="elementID" value="smartCarousel-${currentNode.identifier}" />
+        <c:set var="parsedId" value="${fn:replace(currentNode.identifier,'-','_')}"/>
 
-    <div id="${elementID}" class="carousel slide" data-ride="carousel" style="height: 500px;">
-        <c:if test="${not empty carouselItems}">
+        <div id="${elementID}" class="carousel slide" data-ride="carousel" style="height: 500px;">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                     <fmt:message key="wemnt_carousel.editToolbar.label.selectImage"/>
@@ -46,8 +46,8 @@
                     </div>
                 </c:forEach>
             </div>
-        </c:if>
-    </div>
+        </div>
+    </c:if>
 
     <template:module path="*" nodeTypes="wemnt:carouselItem" />
 </c:if>

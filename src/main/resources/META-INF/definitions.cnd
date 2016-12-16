@@ -13,7 +13,7 @@
  - useIndicators (boolean) = false autocreated indexed=no
  - useLeftAndRightControls (boolean) = false autocreated indexed=no
  - wem:active (boolean) = true autocreated
- - wem:ajaxRender (boolean) = false autocreated
+ - wem:ajaxRender (boolean) = true autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)
  - wem:idealNumberOfItems (long) = '4' autocreated indexed=no
