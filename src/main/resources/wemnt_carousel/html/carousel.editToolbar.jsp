@@ -20,57 +20,33 @@
 <c:if test="${renderContext.editMode}">
     <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
 
-    <template:addResources type="css" resources="wem.css" />
-    <template:addResources type="javascript" resources="wem-edit-toolbar.js" />
+    <c:set var="elementID" value="smartCarousel-${currentNode.identifier}" />
     <c:set var="parsedId" value="${fn:replace(currentNode.identifier,'-','_')}"/>
 
-    <div>
-        <div style="clear: both">
-            <div <c:if test="${not empty carouselItems}"> style="float: right;width: 150px;"</c:if> >
-                <template:module path="*" nodeTypes="wemnt:carouselItem" />
+    <div id="${elementID}" class="carousel slide" data-ride="carousel" style="height: 500px;">
+        <c:if test="${not empty carouselItems}">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select slider
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <c:forEach items="${carouselItems}" var="carouselItem" varStatus="status">
+                        <template:module node="${carouselItem}" view="select" editable="false">
+                            <template:param name="currentIndex" value="${status.index}"/>
+                            <template:param name="elementID" value="${elementID}"/>
+                        </template:module>
+                    </c:forEach>
+                </ul>
             </div>
 
-            <c:if test="${not empty carouselItems}">
-                <div>
-                    <div class=" x-component " style="border-width: 0;">
-                        <div class=" x-component" style="overflow: hidden; z-index: 99999">
-                            <div class=" button-placeholder x-component" style="overflow: visible;" onclick="wemEditToolbar.previous('${parsedId}')">
-                                <img onmouseover="parent.disableGlobalSelection(true)" onmouseout="parent.disableGlobalSelection(false)" src="<c:url value="/modules/marketing-factory-core/img/arrow_left_blue.png"/>" class="gwt-Image x-component" >
-                            </div>
-                            <div class=" button-placeholder x-component" style="overflow: visible;">
-                                <span onmouseover="parent.disableGlobalSelection(true)" onmouseout="parent.disableGlobalSelection(false)" id="wemEditToolbarCount${parsedId}"> </span>
-                            </div>
-                            <div class=" button-placeholder x-component" style="overflow: visible;" onclick="wemEditToolbar.next('${parsedId}')">
-                                <img onmouseover="parent.disableGlobalSelection(true)" onmouseout="parent.disableGlobalSelection(false)" src="<c:url value="/modules/marketing-factory-core/img/arrow_right_blue.png"/>" class="gwt-Image x-component">
-                            </div>
-                            <c:if test="${editableVariants}" >
-                                <div class=" button-placeholder x-component" style="overflow: visible;">
-                                    <span onmouseover="parent.disableGlobalSelection(true)" onmouseout="parent.disableGlobalSelection(false)" onclick="window.parent.editContent('${currentNode.path}')" id="wemEditToolbarLabel${parsedId}"> </span>
-                                </div>
-                            </c:if>
-                        </div>
-
+            <div class="carousel-inner" role="listbox" style="height: 500px;">
+                <c:forEach items="${carouselItems}" var="carouselItem" varStatus="status">
+                    <div class="item <c:if test='${status.first}'>active</c:if>" style="height: 500px;">
+                        <template:module node="${carouselItem}" nodeTypes="wemnt:carouselItem" editable="${!resourceReadOnly}"/>
                     </div>
-                </div>
-            </c:if>
-        </div>
+                </c:forEach>
+            </div>
+        </c:if>
     </div>
 
-    <script>
-        <c:forEach items="${carouselItems}" var="subchild"  varStatus="st">
-            wemEditToolbar.addData('${parsedId}','${functions:escapeJavaScript(subchild.unescapedName)}');
-        </c:forEach>
-        <c:if test="${not empty carouselItems}">
-            wemEditToolbar.view('${parsedId}');
-        </c:if>
-    </script>
-
-    <c:if test="${renderContext.editMode && !resourceReadOnly}">
-        <c:forEach items="${carouselItems}" var="subchild" varStatus="st">
-            <div ${st.first ? '' : 'style="display: none"'}  id="wemEditToolbarContent${parsedId}${st.index}" class="tabs-wemEditToolbar-div wemEditToolbarParent${parsedId}">
-                <template:module node="${subchild}" nodeTypes="wemnt:carouselItem" />
-            </div>
-        </c:forEach>
-    </c:if>
-    <div class="clear"></div>
+    <template:module path="*" nodeTypes="wemnt:carouselItem" />
 </c:if>

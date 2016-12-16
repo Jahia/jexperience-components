@@ -1,8 +1,14 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
 <%@ taglib prefix="ui" uri="http://www.jahia.org/tags/uiComponentsLib" %>
+<%@ taglib prefix="functions" uri="http://www.jahia.org/tags/functions" %>
+<%@ taglib prefix="query" uri="http://www.jahia.org/tags/queryLib" %>
+<%@ taglib prefix="utility" uri="http://www.jahia.org/tags/utilityLib" %>
+<%@ taglib prefix="s" uri="http://www.jahia.org/tags/search" %>
 <%--@elvariable id="currentNode" type="org.jahia.services.content.JCRNodeWrapper"--%>
 <%--@elvariable id="out" type="java.io.PrintWriter"--%>
 <%--@elvariable id="script" type="org.jahia.services.render.scripting.Script"--%>
@@ -11,21 +17,8 @@
 <%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
+<template:addResources type="javascript"  resources="custom/slider.edit.js"/>
 
-<jcr:nodeProperty var="image" node="${currentNode}" name="image"/>
-<c:set var="title" value="${currentNode.properties['jcr:title'].string}"/>
-<c:set var="caption" value="${currentNode.properties['caption'].string}"/>
-<c:if test="${! empty image.node.url}">
-    <c:url var="imageUrl" value="${image.node.url}" context="/"/>
-</c:if>
-<img src="${imageUrl}" alt="${fn:escapeXml(image.node.displayableName)}" style="<c:if test="${renderContext.editMode}">height:500px; </c:if> width: 100%;"/>
-<c:if test="${not empty title or not empty caption}">
-    <div class="carousel-caption" style="top: 325px;background-color: rgba(0, 0, 0, 0.4);">
-        <c:if test="${not empty title}">
-            <h3 style="color: #fff">${title}</h3>
-        </c:if>
-        <c:if test="${not empty caption}">
-            <p style="color: #fff">${caption}</p>
-        </c:if>
-    </div>
-</c:if>
+<li role="presentation" data-target="#${elementID}" data-slide-to="${currentIndex}">
+    <a href="#" onclick="return false;">${currentNode.displayableName}</a>
+</li>
