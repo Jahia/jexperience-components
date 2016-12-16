@@ -49,7 +49,7 @@
     <bean class="org.jahia.ajax.gwt.helper.ModuleGWTResources">
         <property name="javascriptResources">
             <list>
-                <value>/modules/marketing-factory-smart-carousel/javascript/wem-edit-carousel-personalization.js</value>
+                <value>/modules/marketing-factory-components/javascript/wem-edit-carousel-personalization.js</value>
             </list>
         </property>
     </bean>

@@ -53,11 +53,11 @@
     <version>7.1.2.0</version>
   </parent>
 
-  <artifactId>marketing-factory-smart-carousel</artifactId>
+  <artifactId>marketing-factory-components</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
-  <name>Marketing Factory Smart Carousel</name>
-  <description>This is the custom module (Marketing Factory Smart Carousel) for running on a Digital Experience Manager server.</description>
+  <name>Marketing Factory Components</name>
+  <description>This is the custom module (Marketing Factory Components) for running on a Digital Experience Manager server.</description>
 
   <scm>
     <connection>scm:dummy:uri</connection>
