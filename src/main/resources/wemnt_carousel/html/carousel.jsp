@@ -169,7 +169,7 @@
 
                 <c:otherwise>
                     <c:set var="nodeToDisplay" value=""/>
-                    <c:forEach items="${wem:getWemPersonalizedContent(renderContext.request, renderContext.site.siteKey, currentNode, null)}" var="variant">
+                    <c:forEach items="${wem:getWemPersonalizedContent(renderContext.request, renderContext.site.siteKey, currentNode, null, 'wemmix:editItem')}" var="variant">
                         <c:if test="${variant.value eq 'true' and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
                             <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variant.key}"/>
                         </c:if>
