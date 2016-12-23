@@ -9,7 +9,7 @@
  - caption (string,textarea) i18n
  - isFallback (boolean) = false autocreated
 
-[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:customEditEngine, wemmix:personalizedOrOptimizedNode orderable
+[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:customEditEngine, wemmix:wemContainer orderable
  - useIndicators (boolean) = false autocreated indexed=no
  - useLeftAndRightControls (boolean) = false autocreated indexed=no
  - wem:active (boolean) = true autocreated
