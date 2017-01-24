@@ -18,3 +18,18 @@
  - wem:endsOn (date)
  - wem:idealNumberOfItems (long) = '4' autocreated indexed=no
  + * (wemnt:carouselItem) = wemnt:carouselItem
+
+[wemmix:privacyComponents] > jmix:droppableContent mixin
+
+[wemnt:privacySettingsModal] > jnt:content, wemmix:privacyComponents
+ - wem:privacyModalButtonLabel (string) i18n
+ - wem:buttonType (string, choicelist[resourceBundle]) = 'tagButton' autocreated indexed=no nofulltext < 'tagButton', 'tagA'
+ - wem:buttonCssClass (string) = 'btn btn-primary' indexed=no nofulltext
+ - wem:buttonHtmlId (string) indexed=no nofulltext
+ - wem:privacyModalTitle (string) i18n
+ - wem:privacyModalInfo (string) i18n
+ - wem:activatePrivateBrowsing (boolean) = true autocreated
+ - wem:startPrivateBrowsingButtonLabel (string) i18n
+ - wem:stopPrivateBrowsingButtonLabel (string) i18n
+ - wem:anonymizeProfile (boolean) = true autocreated
+ - wem:anonymizeProfileButtonLabel (string) i18n
