@@ -65,6 +65,17 @@
     <url>https://github.com/Jahia/Marketing-Factory-Components</url>
   </scm>
 
+  <distributionManagement>
+    <repository>
+      <id>jahia-enterprise-releases</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>jahia-enterprise-snapshots</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <properties>
     <jahia-depends>bootstrap3-core,default,marketing-factory-core</jahia-depends>
   </properties>
