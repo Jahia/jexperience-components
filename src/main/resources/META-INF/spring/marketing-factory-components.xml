@@ -8,7 +8,6 @@
         <property name="engineTabs">
             <list>
                 <ref bean="Engine.Tab.Content"/>
-                <ref bean="Engine.Tab.ListOrdering"/>
                 <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
                     <property name="id" value="dmfconditions"/>
                     <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>

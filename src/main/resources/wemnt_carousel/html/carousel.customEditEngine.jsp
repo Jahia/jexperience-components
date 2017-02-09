@@ -25,7 +25,8 @@
                        angular-ui-notification.min.css"/>
 
 <template:addResources type="javascript"
-                       resources="jquery.dataTables.min-1.10.5.js,
+                       resources="jquery-ui-1.12.1.min.js,
+                       jquery.dataTables.min-1.10.5.js,
                        dataTables.bootstrap.js,
                        moment.min.js,
                        moment-timezone.js,
@@ -57,8 +58,10 @@
                        actions.js,
                        picker.js,
                        timeline.js,
-                       dt-pager.js"/>
+                       dt-pager.js,
+                       sortable.js"/>
 
+<template:addResources type="css" resources="perso-opti-customEditEngine.css"/>
 <template:addResources type="javascript" resources="manage-personalization-conditions.js"/>
 
 <c:set var="variants" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}" />
@@ -87,42 +90,61 @@
 <div ng-app="managePersonalization">
     <div ng-controller="ManagePersonalizationCtrl" class="opttstpage">
 
-        <div class="group">
-            <div class="selectModCont">
-                <label message-key="label.engineTab.dmfconditions.selectedVariant"></label>
-                <div class="btn-group tabsperscontsel" role="group">
-                    <button ng-repeat="variant in toBeSaveVariants" ng-class="{'active': variant.id == toBeSaveVariant.id}"
-                            type="button" class="btn btn-primary" ng-click="selectVariant(variant)">{{trimVariantName(variant.name)}}</button>
+        <div ng-if="toBeSaveVariants.length">
+
+            <div class="group variants-table">
+                <div class="selectModCont">
+                    <label message-key="label.engineTab.dmfconditions.selectedVariant" class="fixLabelPos"/>
+                </div>
+                <div ui-sortable="sortableOptions" ng-model="toBeSaveVariants" class="sortableListContainer" ng-if="toBeSaveVariants">
+                    <ul ng-repeat="variant in toBeSaveVariants | orderBy:'position'" class="list" ng-class="{'active':variant.id === toBeSaveVariant.id}">
+                        <li class="item dragHandleContainer">
+                            <i class="material-icons dragndrop">drag_handle</i>
+                        </li>
+                        <li class="item radioBtn">
+                            <div ng-click="selectVariant(variant)"><i class="material-icons check">{{(variant.id === toBeSaveVariant.id) ? 'radio_button_checked' : 'radio_button_unchecked'}}</i></div>
+                        </li>
+                        <li class="item itemLarge">
+                            {{variant.name}}
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <form name="personalized" novalidate="">
-            <div class="group">
-                <div class="selectModCont">
-                    <label message-key="label.engineTab.dmfconditions.conditions"></label>
-                    <div class="btn-group tabsperscontsel" role="group">
-                        <button ng-repeat="tab in tabs" ng-class="{'active': (tab == toBeSaveVariant.tab && toBeSaveVariant.init)}"
-                                type="button" class="btn btn-primary" ng-click="selectTab(tab)" message-key="label.engineTab.dmfconditions.type.{{tab}}"></button>
+            <form name="personalized" novalidate="" ng-show="toBeSaveVariant" class="botnFormPositionFix">
+                <div class="group condBuilderMarginFix">
+                    <div class="selectModCont">
+                        <label message-key="label.engineTab.dmfconditions.conditions" class="fixLabelPos"></label>
+                        <div class="btn-group tabsperscontsel" role="group">
+                            <ul class="list checkboxList">
+                                <li ng-repeat="tab in tabs" ng-click="selectTab(tab)" class="item radioBtn">
+                                    <i class="material-icons check" ng-class="{'active':((tab === toBeSaveVariant.tab) && toBeSaveVariant.init) }">{{((tab === toBeSaveVariant.tab) && toBeSaveVariant.init) ? 'radio_button_checked' : 'radio_button_unchecked'}}</i>
+                                    <div class="selectRadioLabel"><span message-key="label.engineTab.dmfconditions.type.{{tab}}"/></div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row" ng-if="toBeSaveVariant.init">
-                <div class="groupaltforcond">
-                    <a href="" class="btn btn-primary" aria-expanded="false" ng-click="toBeSaveVariant.init = false"><i class="fa fa-remove"></i> <span message-key="label.engineTab.dmfconditions.remove"></span></a>
+                <div class="row" ng-if="toBeSaveVariant.init">
+                    <div class="groupaltforcond">
+                        <a href="" class="btn btn-primary" aria-expanded="false" ng-click="toBeSaveVariant.init = false"><i class="fa fa-remove"></i> <span message-key="label.engineTab.dmfconditions.remove"></span></a>
 
-                    <fieldset>
-                        <input type="hidden" name="condition" ng-model="toBeSaveVariant.conditions[toBeSaveVariant.tab].type" required>
-                        <div ng-class="{'has-error' : hasError('condition')}">
-                            <condition ref="toBeSaveVariant.conditions[toBeSaveVariant.tab]"
-                                       types="conditionTypes"
-                                       form="personalized"
-                                       disable-edition="toBeSaveVariant.disableEdition"/>
-                        </div>
-                    </fieldset>
+                        <fieldset>
+                            <input type="hidden" name="condition" ng-model="toBeSaveVariant.conditions[toBeSaveVariant.tab].type" required>
+                            <div ng-class="{'has-error' : hasError('condition')}">
+                                <condition ref="toBeSaveVariant.conditions[toBeSaveVariant.tab]"
+                                           types="conditionTypes"
+                                           form="personalized"
+                                           disable-edition="toBeSaveVariant.disableEdition"/>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <div ng-if="!toBeSaveVariants.length">
+            <span message-key="label.engineTab.dmfconditions.noVariant"/>
+        </div>
     </div>
 </div>
