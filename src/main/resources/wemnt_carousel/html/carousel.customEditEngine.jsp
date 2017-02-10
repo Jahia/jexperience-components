@@ -70,6 +70,7 @@
     var currentDMFNodeUUID = "${currentNode.identifier}";
     var urlBase = '${url.base}';
 
+    var persoType = 'content';
     var variants = {};
     <c:forEach items="${variants}" var="variantNode">
     variants["${variantNode.identifier}"] = {
