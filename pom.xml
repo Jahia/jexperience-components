@@ -53,7 +53,7 @@
   </parent>
 
   <artifactId>marketing-factory-components</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Marketing Factory Components</name>
   <description>This is the custom module (Marketing Factory Components) for running on a Digital Experience Manager server.</description>
