@@ -13,7 +13,7 @@
             <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
                 <files jcr:primaryType="jnt:folder"/>
                 <contents jcr:primaryType="jnt:contentFolder"/>
-                <wem-edit-engine-carousel-perso j:applyOn="wemnt:carousel"
+                <wem-edit-engine-cpmnt-perso j:applyOn="wemnt:carousel wemnt:slider"
                                                 j:defaultTemplate="false"
                                                 j:hiddenTemplate="true"
                                                 j:view="wemSettings"
@@ -26,7 +26,7 @@
                             <main-resource-display j:mainResourceView="customEditEngine"
                                                    jcr:primaryType="jnt:mainResourceDisplay"/>
                         </pagecontent>
-                </wem-edit-engine-carousel-perso>
+                </wem-edit-engine-cpmnt-perso>
             </templates>
 
         </marketing-factory-components>

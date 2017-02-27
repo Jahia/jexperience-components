@@ -31,3 +31,24 @@
  - wem:stopPrivateBrowsingButtonLabel (string) i18n
  - wem:anonymizeProfile (boolean) = true autocreated
  - wem:anonymizeProfileButtonLabel (string) i18n
+
+[wemnt:sliderPanel] > jnt:content, mix:title, wemmix:editItem
+ - jcr:title (string) internationalized
+ - subtitle (string) internationalized
+ - body (string) internationalized
+ - internalLink (weakreference, picker[type='editoriallink']) < 'jmix:droppableContent', 'jnt:page', 'jnt:contentFolder', 'jnt:folder'
+ - linkText (string) internationalized
+ - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
+ - isFallback (boolean) = false autocreated
+
+[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:list orderable
+ - transition (string, choicelist[resourceBundle]) < 'slide', 'fade', 'zoom'
+ - layout (string, choicelist[resourceBundle]) < 'autofill', 'partialview'
+ - autoplay (string, choicelist[resourceBundle]) < 'false', 'true'
+ - editview (string, choicelist[resourceBundle]) < 'edit','edit.collapsible'
+ - wem:active (boolean) = true autocreated
+ - wem:idealNumberOfPanels (long) = '3' autocreated indexed=no
+ - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
+ - wem:startsOn (date)
+ - wem:endsOn (date)
+ + * (wemnt:sliderPanel)
