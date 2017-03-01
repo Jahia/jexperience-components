@@ -114,7 +114,7 @@
                         <c:set var="anonymizeProfileButtonLabel" value="${currentNode.properties['wem:anonymizeProfileButtonLabel'].string}"/>
                     </c:if>
                     <button type="button" class="btn"
-                            onclick="wem.anonymizeProfile('#anonymizeError_${currentNode.identifier}')"
+                            onclick="wem.anonymizeProfile(function() {location.reload()}, function(xhr) {$('#anonymizeError_${currentNode.identifier}').show(); console.error(xhr.responseText)})"
                             <c:if test="${renderContext.editMode}">disabled</c:if>>
                         ${anonymizeProfileButtonLabel}
                     </button>
@@ -126,7 +126,7 @@
                 <c:if test="${currentNode.properties['wem:activatePrivateBrowsing'].boolean}">
                     <button id="privateBrowsing_${currentNode.identifier}"
                             type="button" class="btn"
-                            onclick="wem.togglePrivateBrowsing('#privateBrowsingError_${currentNode.identifier}')"
+                            onclick="wem.togglePrivateBrowsing(function() {location.reload()}, function(xhr) {$('#privateBrowsingError_${currentNode.identifier}').show(); console.error(xhr.responseText)})"
                             <c:if test="${renderContext.editMode}">disabled</c:if>>
                         <c:if test="${renderContext.editMode}">
                             ${startPrivateBrowsingButton}
