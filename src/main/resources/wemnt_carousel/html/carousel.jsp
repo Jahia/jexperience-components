@@ -22,11 +22,11 @@
     <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
     <c:set var="personalizationActive" value="${wem:isPersonalizationActive(currentNode)}"/>
     <c:set var="ajaxRender" value="${currentNode.properties['wem:ajaxRender'].boolean}"/>
-    <c:set value="false" var="hasIdealNumber"/>
-    <c:set value="0" var="idealNumberOfItems"/>
-    <c:if test="${not empty currentNode.properties['wem:idealNumberOfItems']}">
-        <c:set value="${currentNode.properties['wem:idealNumberOfItems'].long}" var="idealNumberOfItems"/>
-        <c:set value="true" var="hasIdealNumber"/>
+    <c:set value="false" var="hasMaxNumber"/>
+    <c:set value="0" var="maxNumberOfItems"/>
+    <c:if test="${not empty currentNode.properties['wem:maxNumberOfItems']}">
+        <c:set value="${currentNode.properties['wem:maxNumberOfItems'].long}" var="maxNumberOfItems"/>
+        <c:set value="true" var="hasmaxNumber"/>
     </c:if>
 
     <c:set var="elementID" value="smartCarousel-${currentNode.identifier}" />
@@ -44,13 +44,19 @@
 
                     <template:addResources>
                         <script type="text/javascript">
+                            function compareFn(a, b) {
+                                // sort in reverse order of priority so that the first element is the highest priority one
+                                return -(a.priority - b.priority);
+                            }
+
+
                             function smartCarouselCallback${fn:replace(currentNode.identifier, '-', '')} (successfulFilters) {
                                 // clean container
                                 $('#carouselInner_${currentNode.identifier}').html('');
                                 $('#carouselIndicators_${currentNode.identifier}').html('');
 
-                                var hasIdealNumber = ${hasIdealNumber};
-                                var idealNumberOfItems = ${idealNumberOfItems};
+                                var hasMaxNumber = ${hasMaxNumber};
+                                var maxNumberOfItems = ${maxNumberOfItems};
                                 var generateImage = function (content, cssClass) {
                                     $('#carouselInner_${currentNode.identifier}').append('<div class="' + cssClass + '"></div>');
                                     $('#carouselInner_${currentNode.identifier} div').last().load(content);
@@ -60,57 +66,40 @@
                                         $('#carouselIndicators_${currentNode.identifier}').append('<li data-target="#${elementID}" data-slide-to="' + index + '" class="' + cssClass + '"></li>');
                                     }
                                 };
-                                var fallbackVariants = [
-                                    <c:forEach items="${carouselItems}" var="carouselItem" varStatus="status">
-                                        <c:if test="${carouselItem.properties['isFallback'].boolean}">
-                                            <c:if test="${not status.first}">,</c:if>
-                                            {
-                                                identifier: "${carouselItem.identifier}",
-                                                content: "<c:url value="${url.base}${functions:escapePath(carouselItem.path)}.${functions:default(carouselItem.properties['j:view'].string, 'default')}.html.ajax"/>"
-                                            }
-                                        </c:if>
-                                    </c:forEach>
-                                ];
 
                                 var isFirst = true;
                                 var index = 0;
-                                if (successfulFilters.length > 0) {
-                                    for (var successVariant in successfulFilters) {
-                                        if ((hasIdealNumber && index < idealNumberOfItems) || !hasIdealNumber) {
-                                            generateImage(successfulFilters[successVariant].content, isFirst?'item active':'item');
+
+                                for (var variant in filters) {
+                                    var successFilterFound = undefined;
+                                    for (var j in successfulFilters) {
+                                        if (successfulFilters[j].filterId === filters[variant].filter.filterid) {
+                                            successFilterFound = filters[variant];
+                                            break;
+                                        }
+                                    }
+
+                                    if(successFilterFound) {
+                                        if ((hasMaxNumber && index < maxNumberOfItems) || !hasMaxNumber) {
+                                            generateImage(filters[variant].content, isFirst?'item active':'item');
                                             generateIndicators(isFirst?'active':'', index);
                                             isFirst = false;
                                             index++;
                                         }
-                                    }
-
-                                    if (hasIdealNumber && successfulFilters.length < idealNumberOfItems) {
-                                        for (var fallbackVariant in fallbackVariants) {
-                                            var exist = false;
-                                            for (var sVariant in successfulFilters) {
-                                                if (successfulFilters[sVariant].filterId == fallbackVariants[fallbackVariant].identifier) {
-                                                    exist = true;
-                                                }
-                                            }
-                                            if (!exist) {
-                                                generateImage(fallbackVariants[fallbackVariant].content, isFirst?'item active':'item');
+                                    } else {
+                                        if(filters[variant].filter.filters.length == 0) {
+                                            if ((hasMaxNumber && index < maxNumberOfItems) || !hasMaxNumber) {
+                                                generateImage(filters[variant].content, isFirst?'item active':'item');
                                                 generateIndicators(isFirst?'active':'', index);
                                                 isFirst = false;
                                                 index++;
                                             }
                                         }
                                     }
-                                } else {
-                                    if (fallbackVariants.length > 0) {
-                                        for (var fVariant in fallbackVariants) {
-                                            generateImage(fallbackVariants[fVariant].content, isFirst?'item active':'item');
-                                            generateIndicators(isFirst?'active':'', index);
-                                            isFirst = false;
-                                            index++;
-                                        }
-                                    } else {
-                                        $('${elementID}').hide();
-                                    }
+                                }
+
+                                if (index == 0) {
+                                    document.getElementById('${elementID}').style.display="none";
                                 }
                             }
                         </script>
@@ -137,11 +126,12 @@
                             </a>
                         </c:if>
                     </div>
-
                     <script type="text/javascript">
+                        var filters = {};
                         (function(){
-                            var filters = {
+                            filters = {
                                 <c:forEach items="${carouselItems}" var="carouselItem" varStatus="varStatus">
+
                                     <c:set var="hasfilter" value="${not empty carouselItem.properties['wem:jsonFilter'].string}" />
                                     <c:set var="carouselItemFilter" value=""/>
                                     '${carouselItem.identifier}' : {
@@ -159,7 +149,7 @@
                             };
 
                             if(window.wem) {
-                                window.wem.registerPersonalization(filters, null, '${elementID}', null, ${ajaxRender}, smartCarouselCallback${fn:replace(currentNode.identifier, '-', '')});
+                                window.wem.registerPersonalization(filters, null, '${elementID}', null, null, smartCarouselCallback${fn:replace(currentNode.identifier, '-', '')});
                             } else {
                                 console.log("No wem available in page, can't register personalization.")
                             }
@@ -169,17 +159,12 @@
 
                 <c:otherwise>
                     <c:set var="nodeToDisplay" value=""/>
-                    <c:forEach items="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}" var="variant">
-                        <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variant}"/>
+                    <c:set var="successFilterNodes" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
+                    <c:forEach items="${successFilterNodes}" var="variant">
+                        <c:if test="${fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
+                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variant}"/>
+                        </c:if>
                     </c:forEach>
-
-                    <c:if test="${hasIdealNumber and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
-                        <c:forEach items="${carouselItems}" var="carouselItem">
-                            <c:if test="${carouselItem.properties['isFallback'].boolean and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems and not functions:contains(nodeToDisplay, carouselItem.identifier)}">
-                                <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
-                            </c:if>
-                        </c:forEach>
-                    </c:if>
 
                     <div id="${elementID}" class="carousel slide" data-ride="carousel">
                         <%-- Indicators --%>
@@ -219,7 +204,7 @@
         </c:when>
         <c:otherwise>
             <c:set var="nodeToDisplay" value=""/>
-            <c:if test="${hasIdealNumber and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
+            <c:if test="${hasMaxNumber and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
                 <c:forEach items="${carouselItems}" var="carouselItem">
                     <c:if test="${carouselItem.properties['isFallback'].boolean and fn:length(fn:split(nodeToDisplay, ' ')) lt idealNumberOfItems}">
                         <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>

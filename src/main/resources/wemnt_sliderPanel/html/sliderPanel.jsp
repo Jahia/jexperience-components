@@ -24,20 +24,15 @@
 <c:set var="linkText" value="${currentNode.properties.linkText.string}"/>
 <c:set var="background" value="${currentNode.properties.backgroundImg.node}"/>
 
-<c:choose>
-    <c:when test="${empty background}">
-        <c:url var="backgroundUrl" value="${url.currentModule}/img/background.jpg"/>
-    </c:when>
-    <c:otherwise>
-        <template:module path='${background.path}' editable='false' view='hidden.contentURL' var="backgroundUrl"/>
-    </c:otherwise>
-</c:choose>
-
 <li id="sliderPanel${currentNode.identifier}" class="ism-img-${layout}">
-    ${backgroundUrl}
+    <jcr:nodeProperty var="image" node="${currentNode}" name="backgroundImg"/>
+    <c:if test="${! empty image.node.url}">
+        <c:url var="imageUrl" value="${image.node.url}" context="/"/>
+    </c:if>
+    <img src="${imageUrl}" alt="${fn:escapeXml(image.node.displayableName)}"/>
     <div class="ism-caption ism-caption-0">
-        <c:if test="${not empty subtitle}">
-            <div class="ms-layer ms-promo-subtitle" style="left:${textLayout};"
+        <c:if test="${not empty title}">
+            <div class="ms-layer ms-promo-title"
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="700"
@@ -46,8 +41,8 @@
         </c:if>
     </div>
     <div class="ism-caption ism-caption-1">
-        <c:if test="${not empty title}">
-            <div class="ms-layer ms-promo-info-in ms-promo-info" style="left:${textLayout};"
+        <c:if test="${not empty subtitle}">
+            <div class="ms-layer ms-promo-info-in ms-promo-info ms-promo-subtitle"
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="1000"
@@ -65,12 +60,12 @@
             >${summary}</div>
         </c:if>
         <c:if test="${not empty link}">
-            <div class="ctaWrapper"><a class="ms-layer btn-u" href="<template:module node="${link}" view="hidden.contentURL"/>"
+            <div class="ctaWrapper"><a class="ms-layer" href="<template:module node="${link}" view="hidden.contentURL"/>"
                data-effect="bottom(40)"
                data-duration="2000"
                data-delay="1300"
                data-ease="easeOutExpo"
-               alt="${title}" style="margin-top: 15px;"
+               alt="${title}"
             >${linkText}</a></div>
         </c:if>
     </div>

@@ -7,7 +7,6 @@
 [wemnt:carouselItem] > jnt:content, mix:title, wemmix:editItem
  - image (weakreference, picker[type='image']) i18n mandatory < jnt:file
  - caption (string,textarea) i18n
- - isFallback (boolean) = false autocreated
 
 [wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:variantsNode, wemmix:customEditEngine, wemmix:wemContainer orderable
  - useIndicators (boolean) = false autocreated indexed=no
@@ -16,7 +15,7 @@
  - wem:ajaxRender (boolean) = true autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)
- - wem:idealNumberOfItems (long) = '4' autocreated indexed=no
+ - wem:maxNumberOfItems (long) = '4' autocreated indexed=no
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
 [wemnt:privacySettingsModal] > jnt:content, wemmix:wemComponents
@@ -39,15 +38,13 @@
  - internalLink (weakreference, picker[type='editoriallink']) < 'jmix:droppableContent', 'jnt:page', 'jnt:contentFolder', 'jnt:folder'
  - linkText (string) internationalized
  - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
- - isFallback (boolean) = false autocreated
 
 [wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:list orderable
  - transition (string, choicelist[resourceBundle]) < 'slide', 'fade', 'zoom'
  - layout (string, choicelist[resourceBundle]) < 'autofill', 'partialview'
  - autoplay (string, choicelist[resourceBundle]) < 'false', 'true'
- - editview (string, choicelist[resourceBundle]) < 'edit','edit.collapsible'
+ - editview (string, choicelist[resourceBundle]) < 'edit'
  - wem:active (boolean) = true autocreated
- - wem:idealNumberOfPanels (long) = '3' autocreated indexed=no
  - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
  - wem:startsOn (date)
  - wem:endsOn (date)

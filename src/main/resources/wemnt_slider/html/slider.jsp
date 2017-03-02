@@ -66,7 +66,6 @@
         <c:if test="${currentNode.properties['wem:active'].boolean}">
         <script type="text/javascript">
             function sliderPanelCallback${fn:replace(currentNode.identifier, '-', '')}(successfulFilters) {
-                var idealNumberOfPanels = ${currentNode.properties["wem:idealNumberOfPanels"].long};
                 var maxNumberOfPanels = ${currentNode.properties["wem:maxNumberOfPanels"].long};
                 var displayedNumberOfPanels = 0;
                 console.log(successfulFilters);
@@ -84,15 +83,16 @@
                         }
                     }
                     console.log(successFilterFound);
-                    if (!successFilterFound && maxNumberOfPanels > 0 && displayedNumberOfPanels < maxNumberOfPanels) {
-                        if(sliderFilters[i].isFallback && displayedNumberOfPanels < idealNumberOfPanels) {
+                    if (!successFilterFound && maxNumberOfPanels > 0) {
+                        if(sliderFilters[i].filter.filters.length == 0 && displayedNumberOfPanels < maxNumberOfPanels) {
                             displayedNumberOfPanels++;
                         } else {
-                            if(sliderFilters[i].filter.filters.length > 0) {
-                                document.getElementById("sliderPanel" + sliderFilters[i].filter.filterid).remove();
-                            }
+                            document.getElementById("sliderPanel" + sliderFilters[i].filter.filterid).remove();
                         }
                     }
+                }
+                if (displayedNumberOfPanels == 0) {
+                    document.getElementById('mainSlider${id}').remove();
                 }
                 window.ISM.instances[0].deinit();
                 new window.ISM.Slider('mainSlider${id}', {play_type: '${autoplay? "loop" : "manual"}', transition_type: '${not empty transition ? transition : "slide"}'})
@@ -113,7 +113,6 @@
                             "filterid": "${sliderPanel.identifier}",
                             "filters": [${sliderPanelFilter}]
                         },
-                        "isFallback": ${sliderPanel.properties['isFallback'].boolean},
                         "priority": -${varStatus.index + 1}
                     }${!varStatus.last ? ',' : ''}
                     </c:forEach>

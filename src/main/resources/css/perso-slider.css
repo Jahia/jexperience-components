@@ -49,13 +49,17 @@
   text-align: center;
 }
 
-.ms-layer.ms-promo-subtitle {
+.ms-layer.ms-promo-title {
     background: rgba(156, 39, 176, 0.67);
     padding: 0 16px !important;
     color: #fff !important;
     font-size: 42px;
     line-height: 54px;
     text-transform: uppercase;
+}
+
+.ms-layer.ms-promo-subtitle {
+    font-size: 28px;
 }
 
 .ism-slider .ism-frame .ism-caption-1 {
