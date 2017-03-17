@@ -15,7 +15,7 @@
  - wem:ajaxRender (boolean) = true autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)
- - wem:maxNumberOfItems (long) = '4' autocreated indexed=no
+ - wem:maxNumberOfItems (long) = '0' autocreated indexed=no
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
 [wemnt:privacySettingsModal] > jnt:content, wemmix:wemComponents
@@ -40,10 +40,9 @@
  - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
 
 [wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:list orderable
- - transition (string, choicelist[resourceBundle]) < 'slide', 'fade', 'zoom'
- - layout (string, choicelist[resourceBundle]) < 'autofill', 'partialview'
- - autoplay (string, choicelist[resourceBundle]) < 'false', 'true'
- - editview (string, choicelist[resourceBundle]) < 'edit'
+ - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
+ - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
+ - autoplay (string, choicelist[resourceBundle]) = 'false' < 'false', 'true'
  - wem:active (boolean) = true autocreated
  - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
  - wem:startsOn (date)

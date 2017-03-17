@@ -1,4 +1,4 @@
-function customEditComponentPersoEngineGetAngularScope () {
+function customEditComponentPersoEngineGetAngularScope() {
     var frm = document.getElementById("conditionFrame");
     if (!frm) {
         return;
@@ -23,18 +23,17 @@ function componentPersonalizationConditionsInit(data) {
 
 function componentPersonalizationConditionsDoSave(node) {
     var angularScope = customEditComponentPersoEngineGetAngularScope();
-    if(angularScope) {
-        angularScope.save(node)
+    if (angularScope) {
+        angularScope.save(node);
     }
 }
 
 function componentPersonalizationConditionsDoValidate(validation) {
     var angularScope = customEditComponentPersoEngineGetAngularScope();
-    if(angularScope) {
-        angularScope.validate(validation)
+    if (angularScope) {
+        angularScope.validate(validation);
     }
 }
 
-function componentPersonalizationConditionsLanguageChange(data) {
-}
+function componentPersonalizationConditionsLanguageChange(data) { }
 

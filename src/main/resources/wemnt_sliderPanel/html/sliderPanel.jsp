@@ -36,8 +36,9 @@
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="700"
-                 data-ease="easeOutExpo"
-            >${title}</div>
+                 data-ease="easeOutExpo">
+                 ${title}
+            </div>
         </c:if>
     </div>
     <div class="ism-caption ism-caption-1">
@@ -46,8 +47,9 @@
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="1000"
-                 data-ease="easeOutExpo"
-            ><span class="color-theme">${subtitle}</span></div>
+                 data-ease="easeOutExpo">
+                <span class="color-theme">${subtitle}</span>
+            </div>
         </c:if>
     </div>
     <div class="ism-caption ism-caption-2" style="text-align: left">
@@ -56,8 +58,9 @@
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="1300"
-                 data-ease="easeOutExpo"
-            >${summary}</div>
+                 data-ease="easeOutExpo">
+                 ${summary}
+            </div>
         </c:if>
         <c:if test="${not empty link}">
             <div class="ctaWrapper"><a class="ms-layer" href="<template:module node="${link}" view="hidden.contentURL"/>"
@@ -65,8 +68,9 @@
                data-duration="2000"
                data-delay="1300"
                data-ease="easeOutExpo"
-               alt="${title}"
-            >${linkText}</a></div>
+               alt="${title}">
+               ${linkText}
+            </a></div>
         </c:if>
     </div>
 </li>

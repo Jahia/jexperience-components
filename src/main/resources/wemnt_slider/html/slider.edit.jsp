@@ -54,7 +54,8 @@
 
         <div id="tab-1-${componentId}" class="slider-tab-content empty">
             <!-- Placeholder image -->
-            <img src="${url.currentModule}/img/placeholder-1000x1000.jpg" height="400px" width="400px">
+            <c:url var="placeholderUrl" value="${url.currentModule}/img/placeholder-1000x1000.jpg"/>
+            <img src="${placeholderUrl}" height="400px" width="400px">
         </div>
     </c:if>
 
