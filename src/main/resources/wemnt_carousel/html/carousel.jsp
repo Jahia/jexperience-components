@@ -82,15 +82,17 @@
 
                                     // if we have successful result or fallback then we can built our view
                                     if (successfulFilters.length > 0 || fallback.length > 0) {
-                                        // remove result if needed
-                                        if (successfulFilters.length > maxNumberOfItems) {
-                                            successfulFilters.slice(0, maxNumberOfItems);
-                                        }
-                                        // add fallback to reach max number of items
-                                        if (successfulFilters.length < maxNumberOfItems) {
-                                            for (var i in fallback) {
-                                                if (successfulFilters.length < maxNumberOfItems) {
-                                                    successfulFilters.push(fallback[i]);
+                                        if (maxNumberOfItems > 0) {
+                                            // remove result if needed
+                                            if (successfulFilters.length > maxNumberOfItems) {
+                                                successfulFilters.slice(0, maxNumberOfItems);
+                                            }
+                                            // add fallback to reach max number of items
+                                            if (successfulFilters.length < maxNumberOfItems) {
+                                                for (var i in fallback) {
+                                                    if (successfulFilters.length < maxNumberOfItems) {
+                                                        successfulFilters.push(fallback[i]);
+                                                    }
                                                 }
                                             }
                                         }
@@ -138,14 +140,21 @@
 
                 <c:otherwise>
                     <c:set var="nodeToDisplay" value=""/>
-                    <c:set var="successFilterNodes" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
-                    <c:forEach items="${successFilterNodes}" var="variant">
-                        <c:if test="${fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
-                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variant}"/>
-                        </c:if>
+                    <c:set var="successFilterIdentifier" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
+                    <c:forEach items="${successFilterIdentifier}" var="variantIdentifier">
+                        <c:choose>
+                            <c:when test="${maxNumberOfItems gt 0}">
+                                <c:if test="${fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
+                                    <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variantIdentifier}"/>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variantIdentifier}"/>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
 
-                    <c:if test="${fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
+                    <c:if test="${maxNumberOfItems gt 0 and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
                         <c:forEach items="${carouselItems}" var="carouselItem">
                             <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
                                               and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
@@ -195,10 +204,19 @@
         <c:otherwise>
             <c:set var="nodeToDisplay" value=""/>
             <c:forEach items="${carouselItems}" var="carouselItem">
-                <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
+                <c:choose>
+                    <c:when test="${maxNumberOfItems gt 0}">
+                        <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
                                   and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
-                    <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
-                </c:if>
+                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
+                        </c:if>
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string}">
+                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
 
             <c:if test="${not empty nodeToDisplay}">
