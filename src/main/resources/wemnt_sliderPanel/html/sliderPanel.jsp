@@ -20,8 +20,6 @@
 <c:set var="title" value="${currentNode.properties['jcr:title'].string}"/>
 <c:set var="subtitle" value="${currentNode.properties.subtitle.string}"/>
 <c:set var="summary" value="${currentNode.properties.body.string}"/>
-<c:set var="link" value="${currentNode.properties.internalLink.node}"/>
-<c:set var="linkText" value="${currentNode.properties.linkText.string}"/>
 <c:set var="background" value="${currentNode.properties.backgroundImg.node}"/>
 
 <li id="sliderPanel${currentNode.identifier}" class="ism-img-${layout}">
@@ -62,15 +60,18 @@
                  ${summary}
             </div>
         </c:if>
-        <c:if test="${not empty link}">
-            <div class="ctaWrapper"><a class="ms-layer" href="<template:module node="${link}" view="hidden.contentURL"/>"
-               data-effect="bottom(40)"
-               data-duration="2000"
-               data-delay="1300"
-               data-ease="easeOutExpo"
-               alt="${title}">
-               ${linkText}
-            </a></div>
+        <c:if test="${not empty currentNode.properties.internalLink.node}">
+            <c:url var="linkUrl" value="${currentNode.properties.internalLink.node.url}" context="/"/>
+            <div class="ctaWrapper">
+                <a class="ms-layer" href=""
+                   data-effect="bottom(40)"
+                   data-duration="2000"
+                   data-delay="1300"
+                   data-ease="easeOutExpo"
+                   alt="${title}">
+                    ${currentNode.properties.linkText.string}
+                </a>
+            </div>
         </c:if>
     </div>
 </li>
