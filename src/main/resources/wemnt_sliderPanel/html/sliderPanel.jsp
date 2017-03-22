@@ -63,7 +63,7 @@
         <c:if test="${not empty currentNode.properties.internalLink.node}">
             <c:url var="linkUrl" value="${currentNode.properties.internalLink.node.url}" context="/"/>
             <div class="ctaWrapper">
-                <a class="ms-layer" href=""
+                <a class="ms-layer" href="${linkUrl}"
                    data-effect="bottom(40)"
                    data-duration="2000"
                    data-delay="1300"
