@@ -20,12 +20,13 @@
 </c:if>
 <img src="${imageUrl}" alt="${fn:escapeXml(image.node.displayableName)}" style="<c:if test="${renderContext.editMode}">height:500px; </c:if> width: 100%;"/>
 <c:if test="${not empty title or not empty caption}">
-    <div class="carousel-caption" style="top: 325px;background-color: rgba(0, 0, 0, 0.4);">
+    <div class="carousel-caption">
         <c:if test="${not empty title}">
-            <h3 style="color: #fff">${title}</h3>
+            <h3>${title}</h3>
         </c:if>
+        <br />
         <c:if test="${not empty caption}">
-            <p style="color: #fff">${caption}</p>
+            <p>${caption}</p>
         </c:if>
     </div>
 </c:if>

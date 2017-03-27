@@ -24,7 +24,7 @@
         <c:set var="elementID" value="smartCarousel-${currentNode.identifier}" />
         <c:set var="parsedId" value="${fn:replace(currentNode.identifier,'-','_')}"/>
 
-        <div id="${elementID}" class="carousel slide" data-ride="carousel" style="height: 500px;">
+        <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                     <fmt:message key="wemnt_carousel.editToolbar.label.selectImage"/>
@@ -39,9 +39,9 @@
                 </ul>
             </div>
 
-            <div class="carousel-inner" role="listbox" style="height: 500px;">
+            <div class="carousel-inner" role="listbox">
                 <c:forEach items="${carouselItems}" var="carouselItem" varStatus="status">
-                    <div class="item <c:if test='${status.first}'>active</c:if>" style="height: 500px;">
+                    <div class="item <c:if test='${status.first}'>active</c:if>">
                         <template:module node="${carouselItem}" nodeTypes="wemnt:carouselItem" editable="${!resourceReadOnly}"/>
                     </div>
                 </c:forEach>

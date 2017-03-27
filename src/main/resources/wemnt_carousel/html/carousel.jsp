@@ -15,6 +15,7 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <c:set var="editableVariants" scope="request" value="${editableModule}"/>
+<template:addResources type="css" resources="personalized-carousel.css"/>
 
 <template:include view="editToolbar"/>
 
@@ -40,14 +41,14 @@
 
                     <c:set var="useIndicators" value="${currentNode.properties['useIndicators'].boolean}"/>
 
-                    <div id="${elementID}" class="carousel slide" data-ride="carousel">
+                    <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
                         <%-- Indicators --%>
                         <c:if test="${useIndicators}">
                             <ol id="carouselIndicators_${currentNode.identifier}" class="carousel-indicators"></ol>
                         </c:if>
 
                         <%-- Wrapper for slides --%>
-                        <div id="carouselInner_${currentNode.identifier}" class="carousel-inner" role="listbox" style="height: 500px;"></div>
+                        <div id="carouselInner_${currentNode.identifier}" class="carousel-inner" role="listbox"></div>
 
                         <%-- Controls --%>
                         <c:if test="${currentNode.properties['useLeftAndRightControls'].boolean}">
@@ -164,7 +165,7 @@
                     </c:if>
 
                     <c:if test="${not empty nodeToDisplay}">
-                        <div id="${elementID}" class="carousel slide" data-ride="carousel">
+                        <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
                             <%-- Indicators --%>
                             <c:if test="${currentNode.properties['useIndicators'].boolean}">
                                 <ol class="carousel-indicators">
@@ -176,7 +177,7 @@
                             </c:if>
 
                             <%-- Wrapper for slides --%>
-                            <div class="carousel-inner" role="listbox" style="height: 500px;">
+                            <div class="carousel-inner" role="listbox">
                                 <c:forEach items="${fn:split(nodeToDisplay, ' ')}" var="variantIdentifier" varStatus="status">
                                     <jcr:node var="currentVariant" uuid="${variantIdentifier}"/>
                                     <div class="item <c:if test='${status.first}'>active</c:if>">
@@ -220,7 +221,7 @@
             </c:forEach>
 
             <c:if test="${not empty nodeToDisplay}">
-                <div id="${elementID}" class="carousel slide" data-ride="carousel">
+                <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
                         <%-- Indicators --%>
                     <c:if test="${currentNode.properties['useIndicators'].boolean}">
                         <ol class="carousel-indicators">
@@ -232,7 +233,7 @@
                     </c:if>
 
                         <%-- Wrapper for slides --%>
-                    <div class="carousel-inner" role="listbox" style="height: 500px;">
+                    <div class="carousel-inner" role="listbox">
                         <c:forEach items="${fn:split(nodeToDisplay, ' ')}" var="variantIdentifier" varStatus="status">
                             <jcr:node var="currentVariant" uuid="${variantIdentifier}"/>
                             <div class="item <c:if test='${status.first}'>active</c:if>">
