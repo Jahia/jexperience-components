@@ -185,12 +185,17 @@ a.ism-caption:hover {
   z-index: 5;
 }
 
+li[class*="ism-radio-"] {
+    pointer-events: all;
+}
+
 .ism-radios {
   margin: 0;
   padding: 0;
   list-style: none;
   color: #fff;
   font-size: 1px;
+    pointer-events: none;
 }
 
 .ism-slider .ism-radios {
@@ -571,3 +576,16 @@ p.ism-badge a.ism-link:hover {
     border: none;
 }
 
+@media screen and (max-width: 1199px) {
+    .ism-slider {
+        height: 240px;
+    }
+
+    .ism-button, .ism-caption, .ism-radios {
+        -moz-transform: scale(0.7);
+        -webkit-transform: scale(0.7);
+        -o-transform: scale(0.7);
+        -ms-transform: scale(0.7);
+        transform: scale(0.7);
+    }
+}

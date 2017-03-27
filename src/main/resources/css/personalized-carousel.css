@@ -1,5 +1,5 @@
 .personalized-carousel .carousel-inner {
-    height: 500px;
+    height: 380px;
 }
 
 .personalized-carousel .carousel-inner .item {
@@ -21,4 +21,22 @@
     padding: 2px 16px;
     margin: 0;
     height: 33px;
+}
+
+@media screen and (max-width: 980px) {
+    .personalized-carousel .carousel-inner {
+        height: 320px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .personalized-carousel .carousel-inner {
+        height: 260px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .personalized-carousel .carousel-inner {
+        height: 220px;
+    }
 }
