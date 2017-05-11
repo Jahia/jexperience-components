@@ -115,11 +115,11 @@
 
                                 // reload the slider
                                 window.ISM.instances[0].deinit();
-                                new window.ISM.Slider('mainSlider${id}', {play_type: '${autoplay ? "loop" : "manual"}', transition_type: '${not empty transition ? transition : "slide"}'});
+                                new window.ISM.Slider('personalizedSlider_${id}', {play_type: '${autoplay ? "loop" : "manual"}', transition_type: '${not empty transition ? transition : "slide"}'});
                             } else {
                                 // nothing to display remove the slider from the page
                                 window.ISM.instances[0].deinit();
-                                document.getElementById('mainSlider${id}').remove();
+                                document.getElementById('personalizedSlider_${id}').remove();
                             }
                         },
                         filters: {
@@ -150,8 +150,8 @@
 
         <%-- get the child sliderPanels --%>
         <c:set var="panels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
-        <div class='container'>
-            <div class="ism-slider" id="mainSlider${id}">
+        <div class="container">
+            <div class="ism-slider" id="personalizedSlider_${id}">
                 <ol>
                     <c:forEach items="${panels}" var="panel" varStatus="item">
                         <template:module node="${panel}" nodeTypes="wemnt:sliderPanel" editable="true">

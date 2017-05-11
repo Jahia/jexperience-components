@@ -30,7 +30,7 @@
     <img src="${imageUrl}" alt="${fn:escapeXml(image.node.displayableName)}"/>
     <div class="ism-caption ism-caption-0">
         <c:if test="${not empty title}">
-            <div class="ms-layer ms-promo-title"
+            <div class="ms-layer ms-promo-title color-theme"
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="700"
@@ -46,13 +46,13 @@
                  data-duration="2000"
                  data-delay="1000"
                  data-ease="easeOutExpo">
-                <span class="color-theme">${subtitle}</span>
+                <span>${subtitle}</span>
             </div>
         </c:if>
     </div>
-    <div class="ism-caption ism-caption-2" style="text-align: left">
+    <div class="ism-caption ism-caption-2">
         <c:if test="${not empty summary}">
-            <div class="ms-layer ms-promo-sub" style="left:${textLayout};"
+            <div class="ms-layer ms-promo-sub"
                  data-effect="bottom(40)"
                  data-duration="2000"
                  data-delay="1300"
@@ -62,16 +62,14 @@
         </c:if>
         <c:if test="${not empty currentNode.properties.internalLink.node}">
             <c:url var="linkUrl" value="${currentNode.properties.internalLink.node.url}" context="/"/>
-            <div class="ctaWrapper">
-                <a class="ms-layer" href="${linkUrl}"
-                   data-effect="bottom(40)"
-                   data-duration="2000"
-                   data-delay="1300"
-                   data-ease="easeOutExpo"
-                   alt="${title}">
-                    ${currentNode.properties.linkText.string}
-                </a>
-            </div>
+            <a class="btn-u" href="${linkUrl}"
+               data-effect="bottom(40)"
+               data-duration="2000"
+               data-delay="1300"
+               data-ease="easeOutExpo"
+               alt="${title}">
+                ${currentNode.properties.linkText.string}
+            </a>
         </c:if>
     </div>
 </li>

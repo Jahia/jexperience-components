@@ -50,35 +50,25 @@
     </c:otherwise>
 </c:choose>
 
-<%-- get pixel layout for text and image --%>
-<c:set var="layout" value="${currentNode.properties.layout.string}"/>
-
-<c:if test="${layout == 'right'}">
-    <c:set var="textLayout" value="-right"/>
-</c:if>
-
-
 <div id="slidertab-${currentNode.identifier}" class="slider-tab-content tab-selector-edit tab-selector-${currentNode.parent.identifier}"
      style="background: url('${backgroundUrl}')">
-    <div class="edit-slider-cont${textLayout}">
+    <div class="edit-slider-cont">
 
         <c:if test="${not empty subtitle}">
-            <div class="first-layer-editslider ${textColorClass}">${title}</div>
+            <div class="first-layer-edit-perso-slider ${textColorClass}">${title}</div>
         </c:if>
         <c:if test="${not empty title}">
-            <div class="second-layer-editslider">
-                <span class="color-theme">${subtitle}</span>
+            <div class="second-layer-edit-perso-slider">
+                <span>${subtitle}</span>
             </div>
         </c:if>
 
         <c:if test="${not empty summary}">
-            <div class="text-layer-editslider ${textColorClass}">${summary}</div>
+            <div class="text-layer-edit-perso-slider ${textColorClass}">${summary}</div>
         </c:if>
 
         <c:if test="${not empty link}">
-        <div class="ctaWrapper">
-            <a class="but-layer-editslider" href="<c:url value="${link.url}" context="/"/>" alt="${title}">${linkText}</a>
-        </div>
+        <a class="but-layer-edit-perso-slider but-layer-editslider" href="<c:url value="${link.url}" context="/"/>" alt="${title}">${linkText}</a>
         </c:if>
     </div>
     <%-- second image if exists --%>

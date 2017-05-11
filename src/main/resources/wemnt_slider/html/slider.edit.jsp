@@ -20,6 +20,7 @@
 
 <!-- Main style -->
 <template:addResources type="css" resources="perso-slider-edit.css"/>
+
 <template:include view="hidden.header"/>
 <!-- Main container -->
 <c:set var="componentId" value="${currentNode.identifier}"/>
