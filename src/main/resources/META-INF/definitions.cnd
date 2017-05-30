@@ -31,6 +31,11 @@
  - wem:anonymizeProfile (boolean) = true autocreated
  - wem:anonymizeProfileButtonLabel (string) i18n
 
+[wemnt:notYouButton] > jnt:content, wemmix:wemComponents
+ - wem:notYouButtonLabel (string) i18n
+ - wem:notYouButtonCssClass (string) = 'btn btn-primary' indexed=no nofulltext
+ - wem:notYouButtonHtmlId (string) indexed=no nofulltext
+
 [wemnt:sliderPanel] > jnt:content, mix:title, wemmix:editItem
  - jcr:title (string) internationalized
  - subtitle (string) internationalized
