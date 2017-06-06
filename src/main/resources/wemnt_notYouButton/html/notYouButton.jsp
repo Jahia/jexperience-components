@@ -12,14 +12,15 @@
 <%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
-
+<c:url value="${url.context}/cms/logout?redirect=${url.mainResource}" var="logoutUrl"/>
 <template:addResources>
     <script type="text/javascript">
         function switchToNewSession(){
             //Invalidate the current session
             wem.invalidateSessionAndProfile();
-            //Load the new session
-            wem.loadContext();
+            //Reload context after the clear
+            wem.loadContext(false,true, true);
+            document.getElementById("wem_notYou_feedbackMessage").style.display="block";
         }
     </script>
 </template:addResources>
@@ -33,8 +34,10 @@
 <c:if test="${not empty currentNode.properties['wem:notYouButtonLabel']}">
     <c:set var="notYouButtonLabel" value="${currentNode.properties['wem:notYouButtonLabel'].string}"/>
 </c:if>
-
-<button type="button" class="${cssClass}" <c:if test="${not empty htmlId}"> id="${htmlId}"</c:if>
-        onclick="switchToNewSession()">
-    ${notYouButtonLabel}
-</button>
+<c:if test="${renderContext.user.username eq 'guest' or renderContext.editMode}">
+    <button type="button" class="${cssClass}" <c:if test="${not empty htmlId}"> id="${htmlId}"</c:if>
+            onclick="switchToNewSession()" <c:if test="${renderContext.editMode}">disabled="disabled"</c:if>>
+        ${notYouButtonLabel}
+    </button>
+    <div id="wem_notYou_feedbackMessage" style="display:none"><fmt:message key="wemnt_notYouButton.feedback"/></div>
+</c:if>
