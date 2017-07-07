@@ -53,7 +53,7 @@
   </parent>
 
   <artifactId>marketing-factory-components</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Marketing Factory Components</name>
   <description>This is the custom module (Marketing Factory Components) for running on a Digital Experience Manager server.</description>
@@ -62,7 +62,7 @@
     <connection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</connection>
     <developerConnection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</developerConnection>
     <url>https://github.com/Jahia/Marketing-Factory-Components</url>
-    <tag>1_1_0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
@@ -84,13 +84,13 @@
     <dependency>
       <groupId>org.jahia.modules</groupId>
       <artifactId>marketing-factory-core</artifactId>
-      <version>1.7.0</version>
+      <version>1.7.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.unomi</groupId>
       <artifactId>unomi-api</artifactId>
-      <version>1.1.2-jahia</version>
+      <version>1.2.0-incubating-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
