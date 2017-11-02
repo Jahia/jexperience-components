@@ -113,6 +113,11 @@
                             ${privacyModalInfo}
                         </p>
 
+                        <button type="button" class="btn btn-default"
+                                onclick="wem.downloadMyProfile()">
+                                Download my profile
+                        </button>
+
                         <c:if test="${currentNode.properties['wem:anonymizeProfile'].boolean and not renderContext.loggedIn}">
                             <fmt:message var="anonymizeProfileButtonLabel" key="wemnt_privacySettingsModal.wem_anonymizeProfile.button"/>
                             <c:if test="${not empty currentNode.properties['wem:anonymizeProfileButtonLabel']}">
