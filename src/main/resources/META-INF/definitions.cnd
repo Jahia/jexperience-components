@@ -30,6 +30,7 @@
  - wem:stopPrivateBrowsingButtonLabel (string) i18n
  - wem:anonymizeProfile (boolean) = true autocreated
  - wem:anonymizeProfileButtonLabel (string) i18n
+ - wem:downloadMyProfileButtonLabel (string) i18n
 
 [wemnt:notYouButton] > jnt:content, wemmix:wemComponents
  - wem:notYouButtonLabel (string) i18n
