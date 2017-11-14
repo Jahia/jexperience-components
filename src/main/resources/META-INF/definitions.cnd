@@ -31,6 +31,7 @@
  - wem:anonymizeProfile (boolean) = true autocreated
  - wem:anonymizeProfileButtonLabel (string) i18n
  - wem:downloadMyProfileButtonLabel (string) i18n
+ - wem:captiveModal (boolean) = true autocreated
 
 [wemnt:notYouButton] > jnt:content, wemmix:wemComponents
  - wem:notYouButtonLabel (string) i18n

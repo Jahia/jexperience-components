@@ -13,10 +13,15 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
+
 <c:choose>
     <c:when test="${currentNode.properties['wem:anonymizeProfile'].boolean or currentNode.properties['wem:activatePrivateBrowsing'].boolean}">
         <template:addResources type="css" resources="bootstrap.min.css"/>
+        <template:addResources type="css" resources="bootstrap-switch.min.css"/>
+        <template:addResources type="css" resources="wem-privacy-manager.css"/>
         <template:addResources type="javascript" resources="jquery.min.js,bootstrap.min.js"/>
+        <template:addResources type="javascript" resources="bootstrap-switch.min.js"/>
+        <template:addResources type="javascript" resources="marketing-factory-components/wem-manage-privacy.js"/>
 
         <c:set var="cssClass" value="${currentNode.properties['wem:buttonCssClass'].string}"/>
         <c:set var="htmlId" value="${currentNode.properties['wem:buttonHtmlId'].string}"/>
@@ -30,34 +35,28 @@
             <c:set var="stopPrivateBrowsingButton" value="${currentNode.properties['wem:stopPrivateBrowsingButtonLabel'].string}"/>
         </c:if>
 
+        <fmt:message var="switchOnText" key="wem.label.yes"/>
+        <fmt:message var="switchOffText" key="wem.label.no"/>
         <template:addResources>
             <script>
-                var manageWemPrivacy = {
-                    init: function() {
-                        $('body').append($('#privacyModal_${currentNode.identifier}'));
-                    },
-                    initPrivacyButton: function () {
-                        <c:if test="${currentNode.properties['wem:activatePrivateBrowsing'].boolean and not renderContext.editMode}">
-                            $('#privateBrowsingError_${currentNode.identifier}').hide();
-                            if (cxs.anonymousBrowsing) {
-                                $('#privateBrowsing_${currentNode.identifier}').addClass('btn-success');
-                                $('#privateBrowsing_${currentNode.identifier}').html('${functions:escapeJavaScript(stopPrivateBrowsingButton)}');
-                            } else {
-                                $('#privateBrowsing_${currentNode.identifier}').addClass('btn-danger');
-                                $('#privateBrowsing_${currentNode.identifier}').html('${functions:escapeJavaScript(startPrivateBrowsingButton)}');
-                            }
-                        </c:if>
-                        <c:if test="${currentNode.properties['wem:anonymizeProfile'].boolean}">
-                            $('#anonymizeError_${currentNode.identifier}').hide();
-                        </c:if>
-                    },
-                    onSuccess: function() {
-                        location.reload();
-                    }
-                };
-
                 $(document).ready(function () {
-                    manageWemPrivacy.init();
+                    window.manageWemPrivacyInstances = window.manageWemPrivacyInstances || {};
+                    window.manageWemPrivacyInstances['${currentNode.identifier}'] = manageWemPrivacy.createInstance('${currentNode.identifier}',
+                        {
+                            <c:if test="${currentNode.properties['wem:activatePrivateBrowsing'].boolean and not renderContext.editMode}">
+                              activatePrivateBrowsing: true,
+                            </c:if>
+                            <c:if test="${currentNode.properties['wem:anonymizeProfile'].boolean}">
+                              anonymizeProfile: true,
+                            </c:if>
+                            stopPrivateBrowsingButton : '${functions:escapeJavaScript(stopPrivateBrowsingButton)}',
+                            startPrivateBrowsingButton : '${functions:escapeJavaScript(startPrivateBrowsingButton)}',
+                            switchOffText : '${fn:toUpperCase(switchOffText)}',
+                            switchOnText : '${fn:toUpperCase(switchOnText)}',
+                            <c:if test="${currentNode.properties['wem:captiveModal'].boolean}">
+                                captiveModal: true,
+                            </c:if>
+                        });
                 });
             </script>
         </template:addResources>
@@ -70,26 +69,26 @@
         <c:choose>
             <c:when test="${currentNode.properties['wem:buttonType'].string eq 'tagButton'}">
                 <button type="button" class="${cssClass}" <c:if test="${not empty htmlId}"> id="${htmlId}"</c:if>
-                        data-toggle="modal" data-target="#privacyModal_${currentNode.identifier}"
-                        onclick="manageWemPrivacy.initPrivacyButton()">
+                        data-target="#privacyModal_${currentNode.identifier}"
+                        onclick="manageWemPrivacyInstances['${currentNode.identifier}'].openModal(true)">
                     ${privacyModalButtonLabel}
                 </button>
             </c:when>
             <c:otherwise>
                 <a href="#privacyModal_${currentNode.identifier}" <c:if test="${not empty htmlId}"> id="${htmlId}"</c:if>
-                   data-toggle="modal" role="button" class="${cssClass}"
-                   onclick="manageWemPrivacy.initPrivacyButton()">
+                   role="button" class="${cssClass}"
+                   onclick="manageWemPrivacyInstances['${currentNode.identifier}'].openModal(true)">
                     ${privacyModalButtonLabel}
                 </a>
             </c:otherwise>
         </c:choose>
 
 
-        <div id="privacyModal_${currentNode.identifier}" class="modal fade" role="dialog">
-            <div class="modal-dialog" role="document">
+        <div id="privacyModal_${currentNode.identifier}" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog wem-privacy-manager" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" id="closeDialogTopButton_${currentNode.identifier}" hidden="true" onclick="manageWemPrivacyInstances['${currentNode.identifier}'].closeModal()" aria-hidden="true">&times;</button>
 
                         <fmt:message var="privacyModalTitle" key="wemnt_privacySettingsModal.title.privacy"/>
                         <c:if test="${not empty currentNode.properties['wem:privacyModalTitle']}">
@@ -99,64 +98,89 @@
                     </div>
 
                     <div class="modal-body">
-                        <c:if test="${renderContext.editMode}">
-                            <div class="alert alert-info">
-                                <fmt:message key="wemnt_privacySettingsModal.info.buttonDisabled"/>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#consents_${currentNode.identifier}" aria-controls="home" role="tab" data-toggle="tab">
+                                    <fmt:message key="wemnt_privacySettingsModal.label.consents"/>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#settings_${currentNode.identifier}" aria-controls="settings" role="tab" data-toggle="tab">
+                                    <fmt:message key="wemnt_privacySettingsModal.label.settings"/>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="consents_${currentNode.identifier}">
+                                <div id="consents_list_${currentNode.identifier}">
+                                </div>
                             </div>
-                        </c:if>
-
-                        <p>
-                            <fmt:message var="privacyModalInfo" key="wemnt_privacySettingsModal.info"/>
-                            <c:if test="${not empty currentNode.properties['wem:privacyModalInfo']}">
-                                <c:set var="privacyModalInfo" value="${currentNode.properties['wem:privacyModalInfo'].string}"/>
-                            </c:if>
-                            ${privacyModalInfo}
-                        </p>
-
-                        <fmt:message var="downloadMyProfileButtonLabel" key="wemnt_privacySettingsModal.wem_downloadMyProfile.button"/>
-                        <c:if test="${not empty currentNode.properties['wem:downloadMyProfileButtonLabel']}">
-                            <c:set var="downloadMyProfileButtonLabel" value="${currentNode.properties['wem:downloadMyProfileButtonLabel'].string}"/>
-                        </c:if>
-                        <button type="button" class="btn btn-default"
-                                onclick="wem.downloadMyProfile()"
-                                <c:if test="${renderContext.editMode}">disabled</c:if>>
-                                ${downloadMyProfileButtonLabel}
-                        </button>
-
-                        <c:if test="${currentNode.properties['wem:anonymizeProfile'].boolean and not renderContext.loggedIn}">
-                            <fmt:message var="anonymizeProfileButtonLabel" key="wemnt_privacySettingsModal.wem_anonymizeProfile.button"/>
-                            <c:if test="${not empty currentNode.properties['wem:anonymizeProfileButtonLabel']}">
-                                <c:set var="anonymizeProfileButtonLabel" value="${currentNode.properties['wem:anonymizeProfileButtonLabel'].string}"/>
-                            </c:if>
-                            <button type="button" class="btn btn-default"
-                                    onclick="wem.anonymizeProfile(manageWemPrivacy.onSuccess, function(xhr) {$('#anonymizeError_${currentNode.identifier}').show(); console.error(xhr.responseText)})"
-                                    <c:if test="${renderContext.editMode}">disabled</c:if>>
-                                ${anonymizeProfileButtonLabel}
-                            </button>
-                            <div id="anonymizeError_${currentNode.identifier}" class="alert alert-danger">
-                                <fmt:message key="wemnt_privacySettingsModal.wem_anonymizeProfile.error"/>
-                            </div>
-                        </c:if>
-
-                        <c:if test="${currentNode.properties['wem:activatePrivateBrowsing'].boolean}">
-                            <button id="privateBrowsing_${currentNode.identifier}"
-                                    type="button" class="btn"
-                                    onclick="wem.togglePrivateBrowsing(manageWemPrivacy.onSuccess, function(xhr) {$('#privateBrowsingError_${currentNode.identifier}').show(); console.error(xhr.responseText)})"
-                                    <c:if test="${renderContext.editMode}">disabled</c:if>>
+                            <div role="tabpanel" class="tab-pane" id="settings_${currentNode.identifier}">
                                 <c:if test="${renderContext.editMode}">
-                                    ${startPrivateBrowsingButton}
+                                    <div class="alert alert-info">
+                                        <fmt:message key="wemnt_privacySettingsModal.info.buttonDisabled"/>
+                                    </div>
                                 </c:if>
-                            </button>
-                            <div id="privateBrowsingError_${currentNode.identifier}" class="alert alert-danger">
-                                <fmt:message key="wemnt_privacySettingsModal.wem_activatePrivateBrowsing.error"/>
+
+                                <p>
+                                    <fmt:message var="privacyModalInfo" key="wemnt_privacySettingsModal.info"/>
+                                    <c:if test="${not empty currentNode.properties['wem:privacyModalInfo']}">
+                                        <c:set var="privacyModalInfo" value="${currentNode.properties['wem:privacyModalInfo'].string}"/>
+                                    </c:if>
+                                        ${privacyModalInfo}
+                                </p>
+
+                                <fmt:message var="downloadMyProfileButtonLabel" key="wemnt_privacySettingsModal.wem_downloadMyProfile.button"/>
+                                <c:if test="${not empty currentNode.properties['wem:downloadMyProfileButtonLabel']}">
+                                    <c:set var="downloadMyProfileButtonLabel" value="${currentNode.properties['wem:downloadMyProfileButtonLabel'].string}"/>
+                                </c:if>
+                                <button type="button" class="btn btn-default"
+                                        onclick="wem.downloadMyProfile()"
+                                        <c:if test="${renderContext.editMode}">disabled</c:if>>
+                                        ${downloadMyProfileButtonLabel}
+                                </button>
+
+                                <c:if test="${currentNode.properties['wem:anonymizeProfile'].boolean and not renderContext.loggedIn}">
+                                    <fmt:message var="anonymizeProfileButtonLabel" key="wemnt_privacySettingsModal.wem_anonymizeProfile.button"/>
+                                    <c:if test="${not empty currentNode.properties['wem:anonymizeProfileButtonLabel']}">
+                                        <c:set var="anonymizeProfileButtonLabel" value="${currentNode.properties['wem:anonymizeProfileButtonLabel'].string}"/>
+                                    </c:if>
+                                    <button type="button" class="btn btn-default"
+                                            onclick="wem.anonymizeProfile(manageWemPrivacyInstances['${currentNode.identifier}'].onSuccess, function(xhr) {$('#anonymizeError').show(); console.error(xhr.responseText)})"
+                                            <c:if test="${renderContext.editMode}">disabled</c:if>>
+                                            ${anonymizeProfileButtonLabel}
+                                    </button>
+                                    <div id="anonymizeError_${currentNode.identifier}" class="alert alert-danger">
+                                        <fmt:message key="wemnt_privacySettingsModal.wem_anonymizeProfile.error"/>
+                                    </div>
+                                </c:if>
+
+                                <c:if test="${currentNode.properties['wem:activatePrivateBrowsing'].boolean}">
+                                    <button id="privateBrowsing_${currentNode.identifier}"
+                                            type="button" class="btn"
+                                            onclick="wem.togglePrivateBrowsing(manageWemPrivacyInstances['${currentNode.identifier}'].onSuccess, function(xhr) {$('#privateBrowsingError').show(); console.error(xhr.responseText)})"
+                                            <c:if test="${renderContext.editMode}">disabled</c:if>>
+                                        <c:if test="${renderContext.editMode}">
+                                            ${startPrivateBrowsingButton}
+                                        </c:if>
+                                    </button>
+                                    <div id="privateBrowsingError_${currentNode.identifier}" class="alert alert-danger">
+                                        <fmt:message key="wemnt_privacySettingsModal.wem_activatePrivateBrowsing.error"/>
+                                    </div>
+                                </c:if>
                             </div>
-                        </c:if>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                        <button type="button" class="btn btn-default" id="closeDialogLowerButton_${currentNode.identifier}" hidden="true" onclick="manageWemPrivacyInstances['${currentNode.identifier}'].closeModal()" aria-hidden="true">
                             <fmt:message key="label.close"/>
                         </button>
+                        <p class="text-danger" hidden="true" id="incompleteConsentsWarning_${currentNode.identifier}"><fmt:message key="wemnt_privacySettingsModal.error.incompleteConsents"/></p>
                     </div>
                 </div>
             </div>
