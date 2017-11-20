@@ -1,4 +1,5 @@
 var manageWemPrivacy = {
+    networkError : false,
     modelAlreadyOpen : false,
     createInstance: function(nodeIdentifier, config) {
         $('body').append($('#privacyModal_' + nodeIdentifier));
@@ -35,9 +36,14 @@ var manageWemPrivacy = {
                     console.info("privacyManager: CXS object not yet available, registering callback");
                     if (window.wem) {
                         window.wem.registerCallbacks(function (digitalData) {
-                            console.info("privacyManager: wemProfile=", window.cxs);
-                            vm.consents = window.cxs.consents;
-                            vm.displayConsents();
+                            console.info("privacyManager: loadCallback wemProfile=", window.cxs, " digitalData=", digitalData);
+                            if (digitalData) {
+                                vm.consents = window.cxs.consents;
+                                vm.displayConsents();
+                            } else {
+                                console.error("privacyManager: error loading digitalData, using fallback and not displaying consent popup !");
+                                manageWemPrivacy.networkError = true;
+                            }
                         });
                     }
                 } else {
@@ -68,7 +74,7 @@ var manageWemPrivacy = {
                 var vm = this;
                 if (vm.captiveModal) {
                     console.info("privacyManager: captive modal is activated");
-                    if (vm.consentsComplete()) {
+                    if (vm.consentsComplete() || manageWemPrivacy.networkError) {
                         console.info("privacyManager: consents are complete, we can activated the close buttons");
                         $('#closeDialogTopButton_' + vm.nodeIdentifier).show();
                         $('#incompleteConsentsWarning_' + vm.nodeIdentifier).hide();
