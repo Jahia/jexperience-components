@@ -10,7 +10,7 @@
 
 .wem-privacy-manager .tab-content .switch-label {
     float: right;
-    width: calc(100% - 60px);
+    width: calc(100% - 110px);
     padding: 0 8px;
     margin-bottom: 30px;
 }
@@ -18,4 +18,16 @@
 .wem-privacy-manager .tab-content .switch-label .switch-title {
     font-style: oblique;
     font-weight: bold;
+}
+
+.wem-privacy-manager .consent-switch-container .consent-switch-on.active {
+    font-weight: bold;
+    color : white;
+    background-color: green;
+}
+
+.wem-privacy-manager .consent-switch-container .consent-switch-off.active {
+    font-weight: bold;
+    color : white;
+    background-color: red;
 }

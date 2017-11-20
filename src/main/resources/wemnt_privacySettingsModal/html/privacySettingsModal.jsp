@@ -17,10 +17,8 @@
 <c:choose>
     <c:when test="${currentNode.properties['wem:anonymizeProfile'].boolean or currentNode.properties['wem:activatePrivateBrowsing'].boolean}">
         <template:addResources type="css" resources="bootstrap.min.css"/>
-        <template:addResources type="css" resources="bootstrap-switch.min.css"/>
         <template:addResources type="css" resources="wem-privacy-manager.css"/>
         <template:addResources type="javascript" resources="jquery.min.js,bootstrap.min.js"/>
-        <template:addResources type="javascript" resources="bootstrap-switch.min.js"/>
         <template:addResources type="javascript" resources="marketing-factory-components/wem-manage-privacy.js"/>
 
         <c:set var="cssClass" value="${currentNode.properties['wem:buttonCssClass'].string}"/>
@@ -115,6 +113,9 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="consents_${currentNode.identifier}">
+                                <div id="consentLoadNetworkError_${currentNode.identifier}" class="alert alert-danger">
+                                    <fmt:message key="wemnt_privacySettingsModal.error.consentLoadNetworkError"/>
+                                </div>
                                 <div id="consents_list_${currentNode.identifier}">
                                 </div>
                             </div>

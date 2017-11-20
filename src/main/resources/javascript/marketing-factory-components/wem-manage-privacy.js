@@ -47,7 +47,7 @@ var manageWemPrivacy = {
                         });
                     }
                 } else {
-                    console.info("privacyManager: wemProfile already available=", window.cxs);
+                    console.info("privacyManager: wemProfile already available=", window.cxs, " networkError=", manageWemPrivacy.networkError);
                     vm.consents = window.cxs.consents;
                     vm.displayConsents();
                 }
@@ -112,20 +112,16 @@ var manageWemPrivacy = {
             displayConsents : function () {
                 var vm=this;
                 vm.consentTypes=window.digitalData.page.consentTypes;
+                if (manageWemPrivacy.networkError) {
+                    $("#consentLoadNetworkError_" + vm.nodeIdentifier).show();
+                    return;
+                } else {
+                    $("#consentLoadNetworkError_" + vm.nodeIdentifier).hide();
+                }
                 console.info("privacyManager: building UI for wemConsentTypes=", vm.consentTypes);
                 $("#consents_list_" + vm.nodeIdentifier).empty();
                 $.each(vm.consentTypes, function (i, consentType) {
                     $("#consents_list_" + vm.nodeIdentifier).append(vm.createConsentSwitch(consentType.typeIdentifier, consentType.title, consentType.description));
-                    $("[name='"+consentType.typeIdentifier+"']").bootstrapSwitch({
-                        size : 'mini',
-                        onText : vm.switchOnText,
-                        offText : vm.switchOffText,
-                        labelText : '',
-                        labelWidth : 0,
-                        onSwitchChange : function (event, state) {
-                            manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(consentType.typeIdentifier, state);
-                        }
-                    });
                 });
                 vm.updateCaptiveModal();
                 if (!vm.consentsComplete()) {
@@ -149,19 +145,38 @@ var manageWemPrivacy = {
                         checked = (grant === "GRANT");
                     }
                 }
-                return $("<div/>", {class: 'row'}).append(
-                        $('<input/>', {
-                            id : 'consent_checkbox_' + typeIdentifier + "_" + vm.nodeIdentifier,
-                            type: 'checkbox',
-                            name: typeIdentifier,
-                            "data-indeterminate": dataIndeterminate,
-                            checked: checked
-                        }),
-                        $('<div/>', { class : 'switch-label'}).append(
-                            $('<div/>', { class : 'switch-title' }).append(title),
-                            $('<div/>', { class : 'switch-description'}).append(description)
-                        )
-                    );
+                var switchOnRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: "off"});
+                var switchOnLabelElement = $("<label/>", {"class" : "btn btn-default btn-sm consent-switch-on"}).append(
+                    switchOnRadioElement,
+                    vm.switchOnText
+                );
+                switchOnLabelElement.click(function (event) {
+                    manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(typeIdentifier, true);
+                });
+                if (grant === "GRANT") {
+                    switchOnLabelElement.addClass("active");
+                }
+                var switchOffRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: "off"});
+                var switchOffLabelElement = $("<label/>", {"class" : "btn btn-default btn-sm consent-switch-off"}).append(
+                    switchOffRadioElement,
+                    vm.switchOffText
+                );
+                switchOffLabelElement.click(function (event) {
+                    manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(typeIdentifier, false);
+                });
+                if (grant === "DENY") {
+                    switchOffLabelElement.addClass("active");
+                }
+                return $("<div/>", { "class" : "row"}).append(
+                    $("<div/>", {"class" : "btn-group consent-switch-container", "data-toggle" : "buttons"}).append(
+                        switchOnLabelElement,
+                        switchOffLabelElement
+                    ),
+                    $('<div/>', { "class" : 'switch-label'}).append(
+                        $('<div/>', { "class" : 'switch-title' }).append(title),
+                        $('<div/>', { "class" : 'switch-description'}).append(description)
+                    )
+                );
             },
             updateConsent : function (typeIdentifier, granted) {
                 console.info("privacyManager: Switch state of consent " + typeIdentifier + " granted=" + granted);
