@@ -23,11 +23,11 @@
 .wem-privacy-manager .consent-switch-container .consent-switch-on.active {
     font-weight: bold;
     color : white;
-    background-color: green;
+    background-color: #449d44;
 }
 
 .wem-privacy-manager .consent-switch-container .consent-switch-off.active {
     font-weight: bold;
     color : white;
-    background-color: red;
+    background-color: #d9534f;
 }
