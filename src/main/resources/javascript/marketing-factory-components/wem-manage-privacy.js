@@ -135,14 +135,14 @@ var manageWemPrivacy = {
             },
             createConsentSwitch : function (typeIdentifier, title, description) {
                 var vm = this;
-                var grant = null;
+                var status = null;
                 var checked = false;
                 var dataIndeterminate = true;
                 if (vm.consents && vm.consents[typeIdentifier]) {
-                    grant = vm.consents[typeIdentifier].grant;
-                    dataIndeterminate = grant === null;
+                    status = vm.consents[typeIdentifier].status;
+                    dataIndeterminate = status === null;
                     if (!dataIndeterminate) {
-                        checked = (grant === "GRANT");
+                        checked = (status === "GRANTED");
                     }
                 }
                 var switchOnRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: "off"});
@@ -153,7 +153,7 @@ var manageWemPrivacy = {
                 switchOnLabelElement.click(function (event) {
                     manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(typeIdentifier, true);
                 });
-                if (grant === "GRANT") {
+                if (status === "GRANTED") {
                     switchOnLabelElement.addClass("active");
                 }
                 var switchOffRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: "off"});
@@ -164,7 +164,7 @@ var manageWemPrivacy = {
                 switchOffLabelElement.click(function (event) {
                     manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(typeIdentifier, false);
                 });
-                if (grant === "DENY") {
+                if (status === "DENIED") {
                     switchOffLabelElement.addClass("active");
                 }
                 return $("<div/>", { "class" : "row"}).append(
@@ -198,12 +198,12 @@ var manageWemPrivacy = {
                     var inTwoYearsDate = new Date();
                     inTwoYearsDate.setTime(nowDate.getTime()+2*365*24*60*60*1000); // 2 years expiration by default.
                     if (granted) {
-                        vm.consents[typeIdentifier].grant = "GRANT";
-                        vm.consents[typeIdentifier].grantDate = nowDate.toISOString();
+                        vm.consents[typeIdentifier].status = "GRANTED";
+                        vm.consents[typeIdentifier].statusDate = nowDate.toISOString();
                         vm.consents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
                     } else {
-                        vm.consents[typeIdentifier].grant = "DENY";
-                        vm.consents[typeIdentifier].grantDate = nowDate.toISOString();
+                        vm.consents[typeIdentifier].status = "DENIED";
+                        vm.consents[typeIdentifier].statusDate = nowDate.toISOString();
                         vm.consents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
                     }
                     if (window.wem) {
