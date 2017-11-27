@@ -97,7 +97,7 @@
 
                     <div class="modal-body">
                         <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
+                        <ul class="nav nav-tabs" role="tablist" id="#privacyTabs_${currentNode.identifier}">
                             <li role="presentation" class="active">
                                 <a href="#consents_${currentNode.identifier}" aria-controls="home" role="tab" data-toggle="tab">
                                     <fmt:message key="wemnt_privacySettingsModal.label.consents"/>

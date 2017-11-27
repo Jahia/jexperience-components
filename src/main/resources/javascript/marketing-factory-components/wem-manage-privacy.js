@@ -102,9 +102,11 @@ var manageWemPrivacy = {
                 }
                 var allConsentsHaveValues = true;
                 $.each(vm.consentTypes, function (i, consentType) {
-                    if (!vm.consents[consentType.typeIdentifier]) {
+                    if (consentType.activated && !vm.consents[consentType.typeIdentifier]) {
                         allConsentsHaveValues = false;
                         console.info("Missing a consent value for consent " + consentType.typeIdentifier);
+                    } else {
+                        console.info("Not requiring consent value for consent " + consentType.typeIdentifier + " since it is deactivated.");
                     }
                 });
                 return allConsentsHaveValues;
@@ -119,10 +121,23 @@ var manageWemPrivacy = {
                     $("#consentLoadNetworkError_" + vm.nodeIdentifier).hide();
                 }
                 console.info("privacyManager: building UI for wemConsentTypes=", vm.consentTypes);
-                $("#consents_list_" + vm.nodeIdentifier).empty();
+                var consentsListElement = $("#consents_list_" + vm.nodeIdentifier);
+                consentsListElement.empty();
+                var nbConsentTypesDisplayed = 0;
                 $.each(vm.consentTypes, function (i, consentType) {
-                    $("#consents_list_" + vm.nodeIdentifier).append(vm.createConsentSwitch(consentType.typeIdentifier, consentType.title, consentType.description));
+                    if (consentType.activated) {
+                        consentsListElement.append(vm.createConsentSwitch(consentType.typeIdentifier, consentType.title, consentType.description));
+                        nbConsentTypesDisplayed++;
+                    } else {
+                        console.info("Ignoring deactivated consent type " + consentType.typeIdentifier);
+                    }
                 });
+                if (nbConsentTypesDisplayed == 0) {
+                    // we are not displaying any consent types, let's hide the tab.
+                    console.info("Hiding consent tab since no consent types are available.");
+                    $("a[href=\"#settings_"+ vm.nodeIdentifier + "\"]").tab('show');
+                    $("a[href=\"#consents_"+ vm.nodeIdentifier + "\"]").hide();
+                }
                 vm.updateCaptiveModal();
                 if (!vm.consentsComplete()) {
                     if (!manageWemPrivacy.modelAlreadyOpen) {
