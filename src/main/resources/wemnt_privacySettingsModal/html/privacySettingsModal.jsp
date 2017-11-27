@@ -138,7 +138,7 @@
                                 <c:if test="${not empty currentNode.properties['wem:downloadMyProfileButtonLabel']}">
                                     <c:set var="downloadMyProfileButtonLabel" value="${currentNode.properties['wem:downloadMyProfileButtonLabel'].string}"/>
                                 </c:if>
-                                <button type="button" class="btn btn-default"
+                                <button type="button" class="btn btn-default button-privacy"
                                         onclick="wem.downloadMyProfile()"
                                         <c:if test="${renderContext.editMode}">disabled</c:if>>
                                         ${downloadMyProfileButtonLabel}
@@ -149,7 +149,7 @@
                                     <c:if test="${not empty currentNode.properties['wem:anonymizeProfileButtonLabel']}">
                                         <c:set var="anonymizeProfileButtonLabel" value="${currentNode.properties['wem:anonymizeProfileButtonLabel'].string}"/>
                                     </c:if>
-                                    <button type="button" class="btn btn-default"
+                                    <button type="button" class="btn btn-default button-privacy"
                                             onclick="wem.anonymizeProfile(manageWemPrivacyInstances['${currentNode.identifier}'].onSuccess, function(xhr) {$('#anonymizeError').show(); console.error(xhr.responseText)})"
                                             <c:if test="${renderContext.editMode}">disabled</c:if>>
                                             ${anonymizeProfileButtonLabel}
@@ -161,7 +161,7 @@
 
                                 <c:if test="${currentNode.properties['wem:activatePrivateBrowsing'].boolean}">
                                     <button id="privateBrowsing_${currentNode.identifier}"
-                                            type="button" class="btn"
+                                            type="button" class="btn button-privacy"
                                             onclick="wem.togglePrivateBrowsing(manageWemPrivacyInstances['${currentNode.identifier}'].onSuccess, function(xhr) {$('#privateBrowsingError').show(); console.error(xhr.responseText)})"
                                             <c:if test="${renderContext.editMode}">disabled</c:if>>
                                         <c:if test="${renderContext.editMode}">
