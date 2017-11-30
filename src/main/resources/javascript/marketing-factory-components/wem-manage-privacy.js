@@ -94,6 +94,10 @@ var manageWemPrivacy = {
             },
             consentsComplete : function() {
                 var vm = this;
+                if (vm._storageAvailable('sessionStorage') && sessionStorage.personaId && sessionStorage.personaId != 'none') {
+                    console.info("PersonaId (="+sessionStorage.personaId+") detected, not checking consent completedness.");
+                    return true;
+                }
                 if (vm.consentTypes == null || $(vm.consentTypes).length == 0) {
                     return true;
                 }
@@ -106,7 +110,11 @@ var manageWemPrivacy = {
                         allConsentsHaveValues = false;
                         console.info("Missing a consent value for consent " + consentType.typeIdentifier);
                     } else {
-                        console.info("Not requiring consent value for consent " + consentType.typeIdentifier + " since it is deactivated.");
+                        if (!consentType.activated) {
+                            console.info("Not requiring consent value for consent " + consentType.typeIdentifier + " since it is deactivated.");
+                        } else {
+                            console.info("We already have a value for consent " + consentType.typeIdentifier);
+                        }
                     }
                 });
                 return allConsentsHaveValues;
@@ -250,7 +258,20 @@ var manageWemPrivacy = {
                         });
                     }
                 }
+            },
+            _storageAvailable : function(type) {
+            try {
+                var storage = window[type],
+                    x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
             }
+            catch (e) {
+                return false;
+            }
+        }
+
 
         };
 
