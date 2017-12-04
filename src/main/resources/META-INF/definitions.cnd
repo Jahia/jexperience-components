@@ -17,6 +17,7 @@
  - wem:endsOn (date)
  - wem:maxNumberOfItems (long) = '0' autocreated indexed=no
  - wem:personalizationStrategy (string,choicelist[resourceBundle]) = 'matching-first' autocreated nofulltext hidden < 'matching-first','random','score-sorted'
+ - wem:fallbackVariant (weakreference,choicelist[nodes='.;jmix:droppableContent']) nofulltext hidden
  - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
@@ -57,5 +58,6 @@
  - wem:startsOn (date)
  - wem:endsOn (date)
  - wem:personalizationStrategy (string,choicelist[resourceBundle]) = 'matching-first' autocreated nofulltext hidden < 'matching-first','random','score-sorted'
+ - wem:fallbackVariant (weakreference,choicelist[nodes='.;jmix:droppableContent']) nofulltext hidden
  - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:sliderPanel)

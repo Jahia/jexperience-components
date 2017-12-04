@@ -38,7 +38,6 @@
 
             <c:choose>
                 <c:when test="${ajaxRender}">
-
                     <c:set var="useIndicators" value="${currentNode.properties['useIndicators'].boolean}"/>
 
                     <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
@@ -63,6 +62,7 @@
                         </c:if>
                     </div>
 
+
                     <script type="text/javascript">
                         (function(){
                             var smartCarousel${fn:replace(currentNode.identifier, '-', '')} = {
@@ -72,29 +72,11 @@
                                     $('#carouselIndicators_${currentNode.identifier}').html('');
 
                                     var maxNumberOfItems = ${maxNumberOfItems};
-
-                                    // create an array of fallback = all variants with no conditions
-                                    var fallback = [];
-                                    for (var vi in smartCarousel${fn:replace(currentNode.identifier, '-', '')}.filters) {
-                                        if (smartCarousel${fn:replace(currentNode.identifier, '-', '')}.filters[vi].filter.filters.length == 0) {
-                                            fallback.push(smartCarousel${fn:replace(currentNode.identifier, '-', '')}.filters[vi]);
-                                        }
-                                    }
-
-                                    // if we have successful result or fallback then we can built our view
-                                    if (successfulFilters.length > 0 || fallback.length > 0) {
+                                    if (successfulFilters.length > 0) {
                                         if (maxNumberOfItems > 0) {
                                             // remove result if needed
                                             if (successfulFilters.length > maxNumberOfItems) {
-                                                successfulFilters.slice(0, maxNumberOfItems);
-                                            }
-                                            // add fallback to reach max number of items
-                                            if (successfulFilters.length < maxNumberOfItems) {
-                                                for (var i in fallback) {
-                                                    if (successfulFilters.length < maxNumberOfItems) {
-                                                        successfulFilters.push(fallback[i]);
-                                                    }
-                                                }
+                                                successfulFilters = successfulFilters.slice(0, maxNumberOfItems);
                                             }
                                         }
 
@@ -111,27 +93,11 @@
                                         // nothing to display remove the carousel from the page
                                         document.getElementById('${elementID}').remove();
                                     }
-                                },
-                                filters: {
-                                    <c:forEach items="${carouselItems}" var="carouselItem" varStatus="varStatus">
-                                        <c:set var="carouselItemFilter" value=""/>
-                                        <c:if test="${not empty carouselItem.properties['wem:jsonFilter'].string}">
-                                            <c:set var="carouselItemFilter" value="{\"appliesOn\":[{}],\"condition\":${carouselItem.properties['wem:jsonFilter'].string}}"/>
-                                        </c:if>
-                                        '${carouselItem.identifier}' : {
-                                            "filter": {
-                                                "filterid": "${carouselItem.identifier}",
-                                                "filters": [${carouselItemFilter}]
-                                            },
-                                            "content": "<c:url value="${url.base}${functions:escapePath(carouselItem.path)}.${functions:default(carouselItem.properties['j:view'].string, 'default')}.html.ajax"/>",
-                                            "priority": -${varStatus.index + 1}
-                                        }${!varStatus.last ? ',' : ''}
-                                    </c:forEach>
                                 }
                             };
 
                             if(window.wem) {
-                                window.wem.registerPersonalization(smartCarousel${fn:replace(currentNode.identifier, '-', '')}.filters, null, '${elementID}', null, null, smartCarousel${fn:replace(currentNode.identifier, '-', '')}.callback);
+                                window.wem.registerPersonalizationObject(${wem:getWemPersonalizationRequest(currentNode)}, ${wem:getVariants(currentNode, pageContext)}, null, smartCarousel${fn:replace(currentNode.identifier, '-', '')}.callback);
                             } else {
                                 console.log("No wem available in page, can't register personalization.")
                             }
@@ -143,27 +109,10 @@
                     <c:set var="nodeToDisplay" value=""/>
                     <c:set var="successFilterIdentifier" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
                     <c:forEach items="${successFilterIdentifier}" var="variantIdentifier">
-                        <c:choose>
-                            <c:when test="${maxNumberOfItems gt 0}">
-                                <c:if test="${fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
-                                    <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variantIdentifier}"/>
-                                </c:if>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variantIdentifier}"/>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:if test="${maxNumberOfItems eq 0 || (maxNumberOfItems gt 0 and (fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems) || nodeToDisplay eq '')}">
+                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${variantIdentifier}"/>
+                        </c:if>
                     </c:forEach>
-
-                    <c:if test="${maxNumberOfItems gt 0 and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
-                        <c:forEach items="${carouselItems}" var="carouselItem">
-                            <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
-                                              and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
-                                <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
-                            </c:if>
-                        </c:forEach>
-                    </c:if>
-
                     <c:if test="${not empty nodeToDisplay}">
                         <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
                             <%-- Indicators --%>

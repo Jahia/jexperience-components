@@ -17,18 +17,6 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
-<%-- TODO this is a hack we should use a test on the commonCustomEditEngine to display or not the fallback options --%>
-<template:addResources>
-    <style type="text/css">
-        div.group.variants-table .selectModCont .fixLabelPos:last-child {
-            display: none;
-        }
-        div.group.variants-table .sortableListContainer li.fallback-container {
-            display: none;
-        }
-    </style>
-</template:addResources>
-
 <template:include view="commonCustomEditEngine">
     <template:param name="variantsType" value="wemnt:carouselItem"/>
 </template:include>

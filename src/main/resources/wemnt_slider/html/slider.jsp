@@ -9,6 +9,7 @@
 <%@ taglib prefix="query" uri="http://www.jahia.org/tags/queryLib" %>
 <%@ taglib prefix="utility" uri="http://www.jahia.org/tags/utilityLib" %>
 <%@ taglib prefix="s" uri="http://www.jahia.org/tags/search" %>
+<%@ taglib prefix="wem" uri="http://www.jahia.org/tags/wem" %>
 <%--@elvariable id="currentNode" type="org.jahia.services.content.JCRNodeWrapper"--%>
 <%--@elvariable id="out" type="java.io.PrintWriter"--%>
 <%--@elvariable id="script" type="org.jahia.services.render.scripting.Script"--%>
@@ -51,54 +52,34 @@
                 (function () {
                     var sliderPanel${fn:replace(currentNode.identifier, '-', '')} = {
                         callback: function(successfulFilters) {
-                            var maxNumberOfPanels = ${currentNode.properties["wem:maxNumberOfPanels"].long};
-
-                            // create an array of fallback = all variants with no conditions
-                            var fallback = [];
-                            for (var vi in sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters) {
-                                if (sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters[vi].filter.filters.length == 0) {
-                                    fallback.push(vi);
-                                }
-                            }
-
                             // to simplify test and final result we will deal with an array of ID only
                             var successIds = [];
                             for (var i in successfulFilters) {
                                 successIds.push(successfulFilters[i].filterId);
                             }
 
-                            // if we have successful result or fallback then we can built our view
-                            if (successIds.length > 0 || fallback.length > 0) {
+                            if (successIds.length > 0) {
                                 // create an array of panels ID to remove
                                 var panelsToRemove = [];
                                 // to count the number of panels displayed
                                 var totalPanelDisplayed = 0;
 
                                 // iterate on all the variants
-                                for (var variantIdentifier in sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters) {
-                                    // if current variant is not part of success or fallback we add it to the remove array
-                                    if (successIds.indexOf(sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters[variantIdentifier].filter.filterid) == -1
-                                        && fallback.indexOf(sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters[variantIdentifier].filter.filterid) == -1) {
-                                        panelsToRemove.push(sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters[variantIdentifier].filter.filterid);
+                                for (var variantIdentifier in sliderPanel${fn:replace(currentNode.identifier, '-', '')}.variants) {
+                                    if (successIds.indexOf(variantIdentifier) === -1) {
+                                        // if current variant is not part of success we add it to the remove array
+                                        panelsToRemove.push(variantIdentifier);
                                     } else {
                                         // otherwise we increment the number of panel being displayed
                                         totalPanelDisplayed++;
                                     }
                                 }
 
+                                var maxNumberOfPanels = ${currentNode.properties["wem:maxNumberOfPanels"].long};
                                 // if there is a maximum number of panel to display we check if the total is not superior
                                 if (maxNumberOfPanels > 0 && totalPanelDisplayed > maxNumberOfPanels) {
                                     // total is superior to maximum so we reverse the array to start by the last one
-                                    fallback.reverse();
                                     successIds.reverse();
-                                    // then we remove the fallback first until we reach the limit
-                                    for (var fallbackID in fallback) {
-                                        if (totalPanelDisplayed > maxNumberOfPanels) {
-                                            panelsToRemove.push(fallback[fallbackID]);
-                                            totalPanelDisplayed--;
-                                        }
-                                    }
-
                                     // in case we didn't reach the limit we remove some of the success
                                     for (var successID in successIds) {
                                         if (totalPanelDisplayed > maxNumberOfPanels) {
@@ -110,7 +91,7 @@
 
                                 // execute the remove
                                 for (var panel in panelsToRemove) {
-                                    document.getElementById("sliderPanel" + panelsToRemove[panel]).remove();
+                                    document.getElementById('sliderPanel' + panelsToRemove[panel]).remove();
                                 }
 
                                 // reload the slider
@@ -122,25 +103,11 @@
                                 document.getElementById('personalizedSlider_${id}').remove();
                             }
                         },
-                        filters: {
-                            <c:forEach items="${sliderPanels}" var="panel" varStatus="varStatus">
-                                <c:set var="panelFilters" value=""/>
-                                <c:if test="${not empty panel.properties['wem:jsonFilter'].string}">
-                                    <c:set var="panelFilters" value="{\"appliesOn\":[{}],\"condition\":${panel.properties['wem:jsonFilter'].string}}"/>
-                                </c:if>
-                                '${panel.identifier}': {
-                                    "filter": {
-                                        "filterid": "${panel.identifier}",
-                                        "filters": [${panelFilters}]
-                                    },
-                                    "priority": -${varStatus.index + 1}
-                                }${!varStatus.last ? ',' : ''}
-                            </c:forEach>
-                        }
+                        variants: ${wem:getVariants(currentNode, pageContext)}
                     };
 
                     if (window.wem) {
-                        window.wem.registerPersonalization(sliderPanel${fn:replace(currentNode.identifier, '-', '')}.filters, null, '${elementID}', null, null, sliderPanel${fn:replace(currentNode.identifier, '-', '')}.callback);
+                        window.wem.registerPersonalizationObject(${wem:getWemPersonalizationRequest(currentNode)}, sliderPanel${fn:replace(currentNode.identifier, '-', '')}.variants, null, sliderPanel${fn:replace(currentNode.identifier, '-', '')}.callback);
                     } else {
                         console.log("No wem available in page, can't register personalization.")
                     }
