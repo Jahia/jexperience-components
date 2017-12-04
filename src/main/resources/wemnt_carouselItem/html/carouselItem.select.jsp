@@ -18,6 +18,6 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
-<li role="presentation" data-target="#${elementID}" data-slide-to="${currentIndex}">
-    <a href="#" onclick="return false;">${currentNode.displayableName}</a>
+<li role="presentation" <c:if test="${isFirst}">class="active"</c:if> data-target="#${elementID}" data-slide-to="${currentIndex}">
+    <a href="#" onclick="selectCarouselItem(this);return false;">${currentNode.displayableName}</a>
 </li>

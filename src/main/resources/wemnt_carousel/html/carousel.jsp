@@ -154,19 +154,10 @@
         <c:otherwise>
             <c:set var="nodeToDisplay" value=""/>
             <c:forEach items="${carouselItems}" var="carouselItem">
-                <c:choose>
-                    <c:when test="${maxNumberOfItems gt 0}">
-                        <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
-                                  and fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems}">
-                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
-                        </c:if>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string}">
-                            <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
+                <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
+                              and (maxNumberOfItems eq 0 || (maxNumberOfItems gt 0 and (fn:length(fn:split(nodeToDisplay, ' ')) lt maxNumberOfItems) || nodeToDisplay eq ''))}">
+                    <c:set var="nodeToDisplay" value="${nodeToDisplay} ${carouselItem.identifier}"/>
+                </c:if>
             </c:forEach>
 
             <c:if test="${not empty nodeToDisplay}">

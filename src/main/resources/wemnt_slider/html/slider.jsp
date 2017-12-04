@@ -22,9 +22,7 @@
 <c:if test="${!renderContext.editMode}">
     <template:addResources type="javascript" resources="ism-2.2.min.js"/>
 </c:if>
-<c:set var="sliderPanels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
-<c:set var="uuid" value="${currentNode.identifier}"/>
-<c:set var="id" value="${fn:replace(uuid,'-', '')}"/>
+<c:set var="escapedId" value="${fn:replace(currentNode.identifier, '-', '')}"/>
 <c:set var="transition" value="${currentNode.properties.transition.string}"/>
 <c:set var="layout" value="${currentNode.properties.layout.string}"/>
 <c:set var="autoplay" value="${currentNode.properties.autoplay.string}"/>
@@ -40,6 +38,10 @@
 <c:if test="${empty autoplay}">
     <c:set var="autoplay" value="false"/>
 </c:if>
+<c:set var="maxNumberOfPanels" value="0"/>
+<c:if test="${not empty currentNode.properties['wem:maxNumberOfPanels']}">
+    <c:set var="maxNumberOfPanels" value="${currentNode.properties['wem:maxNumberOfPanels'].long}"/>
+</c:if>
 
 <c:choose>
     <c:when test="${renderContext.editMode}">
@@ -47,81 +49,34 @@
         <template:module path="*" nodeTypes="wemnt:sliderPanel"/>
     </c:when>
     <c:otherwise>
-        <c:if test="${currentNode.properties['wem:active'].boolean}">
-            <script type="text/javascript">
-                (function () {
-                    var sliderPanel${fn:replace(currentNode.identifier, '-', '')} = {
-                        callback: function(successfulFilters) {
-                            // to simplify test and final result we will deal with an array of ID only
-                            var successIds = [];
-                            for (var i in successfulFilters) {
-                                successIds.push(successfulFilters[i].filterId);
-                            }
-
-                            if (successIds.length > 0) {
-                                // create an array of panels ID to remove
-                                var panelsToRemove = [];
-                                // to count the number of panels displayed
-                                var totalPanelDisplayed = 0;
-
-                                // iterate on all the variants
-                                for (var variantIdentifier in sliderPanel${fn:replace(currentNode.identifier, '-', '')}.variants) {
-                                    if (successIds.indexOf(variantIdentifier) === -1) {
-                                        // if current variant is not part of success we add it to the remove array
-                                        panelsToRemove.push(variantIdentifier);
-                                    } else {
-                                        // otherwise we increment the number of panel being displayed
-                                        totalPanelDisplayed++;
-                                    }
-                                }
-
-                                var maxNumberOfPanels = ${currentNode.properties["wem:maxNumberOfPanels"].long};
-                                // if there is a maximum number of panel to display we check if the total is not superior
-                                if (maxNumberOfPanels > 0 && totalPanelDisplayed > maxNumberOfPanels) {
-                                    // total is superior to maximum so we reverse the array to start by the last one
-                                    successIds.reverse();
-                                    // in case we didn't reach the limit we remove some of the success
-                                    for (var successID in successIds) {
-                                        if (totalPanelDisplayed > maxNumberOfPanels) {
-                                            panelsToRemove.push(successIds[successID]);
-                                            totalPanelDisplayed--;
-                                        }
-                                    }
-                                }
-
-                                // execute the remove
-                                for (var panel in panelsToRemove) {
-                                    document.getElementById('sliderPanel' + panelsToRemove[panel]).remove();
-                                }
-
-                                // reload the slider
-                                window.ISM.instances[0].deinit();
-                                new window.ISM.Slider('personalizedSlider_${id}', {play_type: '${autoplay ? "loop" : "manual"}', transition_type: '${not empty transition ? transition : "slide"}'});
-                            } else {
-                                // nothing to display remove the slider from the page
-                                window.ISM.instances[0].deinit();
-                                document.getElementById('personalizedSlider_${id}').remove();
-                            }
-                        },
-                        variants: ${wem:getVariants(currentNode, pageContext)}
-                    };
-
-                    if (window.wem) {
-                        window.wem.registerPersonalizationObject(${wem:getWemPersonalizationRequest(currentNode)}, sliderPanel${fn:replace(currentNode.identifier, '-', '')}.variants, null, sliderPanel${fn:replace(currentNode.identifier, '-', '')}.callback);
-                    } else {
-                        console.log("No wem available in page, can't register personalization.")
-                    }
-                })();
-            </script>
-        </c:if>
-
-        <%-- get the child sliderPanels --%>
-        <c:set var="panels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
+        <c:set var="panels" value=""/>
+        <c:choose>
+            <c:when test="${currentNode.properties['wem:active'].boolean}">
+                <c:set var="successFilterIdentifier" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
+                <c:forEach items="${successFilterIdentifier}" var="variantIdentifier">
+                    <c:if test="${maxNumberOfPanels eq 0 || (maxNumberOfPanels gt 0 and (fn:length(fn:split(panels, ' ')) lt maxNumberOfPanels) || panels eq '')}">
+                        <c:set var="panels" value="${panels} ${variantIdentifier}"/>
+                    </c:if>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <c:set var="sliderPanels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
+                <c:forEach items="${sliderPanels}" var="variantIdentifier">
+                    <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
+                                    and (maxNumberOfPanels eq 0 || (maxNumberOfPanels gt 0 and (fn:length(fn:split(panels, ' ')) lt maxNumberOfPanels) || panels eq ''))}">
+                        <c:set var="panels" value="${panels} ${variantIdentifier}"/>
+                    </c:if>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
         <div class="container">
-            <div class="ism-slider" id="personalizedSlider_${id}">
+            <div class="ism-slider" id="personalizedSlider_${escapedId}"
+                 <c:if test="${autoplay}"> data-play_type="loop"</c:if>
+                 <c:if test="${transition ne ''}">data-transition_type="${transition}"</c:if> >
                 <ol>
-                    <c:forEach items="${panels}" var="panel" varStatus="item">
-                        <template:module node="${panel}" nodeTypes="wemnt:sliderPanel" editable="true">
+                    <c:forEach items="${fn:split(panels, ' ')}" var="panel" varStatus="item">
+                        <jcr:node var="currentVariant" uuid="${panel}"/>
+                        <template:module node="${currentVariant}" nodeTypes="wemnt:sliderPanel" editable="true">
                             <template:param name="layout" value="${layout}"/>
                         </template:module>
                     </c:forEach>

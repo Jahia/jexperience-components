@@ -25,6 +25,8 @@
         function selectSliderPanel(element){
             var $this = $(element);
             var sliderPanel = "#" + $this.parent().attr("tab");
+            $this.parent().siblings().removeClass('active');
+            $this.parent().addClass('active');
             // First hide all tabs again when a new option is selected
             $this.closest('.slider-tab-container').find('.tab-selector-edit').hide();
             // Then show the tab content of whatever option value was selected
@@ -42,8 +44,10 @@
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select slider
                 <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                <c:forEach items="${moduleMap.currentList}" var="subchild">
-                    <template:module node="${subchild}" view="select" editable="false"/>
+                <c:forEach items="${moduleMap.currentList}" var="subchild" varStatus="status">
+                    <template:module node="${subchild}" view="select" editable="false">
+                        <template:param name="isFirst" value="${status.first}"/>
+                    </template:module>
                 </c:forEach>
             </ul>
 

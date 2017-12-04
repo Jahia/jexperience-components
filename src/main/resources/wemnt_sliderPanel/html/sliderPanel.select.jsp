@@ -18,7 +18,7 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
-<li role="presentation" class="sliderSelect" tab="slidertab-${currentNode.identifier}"
-    id="sliderselect-${currentNode.identifier}" href="#">
-    <a role="menuitem" class="sliderSelectItem" tabindex="-1" href="#" onclick="selectSliderPanel(this)">${currentNode.displayableName}</a>
+<li role="presentation" class="sliderSelect <c:if test="${isFirst}">active</c:if>" tab="slidertab-${currentNode.identifier}"
+    id="sliderselect-${currentNode.identifier}">
+    <a role="menuitem" class="sliderSelectItem" tabindex="-1" href="#" onclick="selectSliderPanel(this);return false;">${currentNode.displayableName}</a>
 </li>

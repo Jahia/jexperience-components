@@ -18,6 +18,16 @@
 <template:addCacheDependency flushOnPathMatchingRegexp="\\\\Q${currentNode.path}\\\\E/[^/]*" />
 
 <c:if test="${renderContext.editMode}">
+    <template:addResources>
+        <script type="text/javascript">
+            function selectCarouselItem(element){
+                var $this = $(element);
+                $this.parent().siblings().removeClass('active');
+                $this.parent().addClass('active');
+            }
+        </script>
+    </template:addResources>
+
     <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
 
     <c:if test="${not empty carouselItems}">
@@ -34,6 +44,7 @@
                         <template:module node="${carouselItem}" view="select" editable="false">
                             <template:param name="currentIndex" value="${status.index}"/>
                             <template:param name="elementID" value="${elementID}"/>
+                            <template:param name="isFirst" value="${status.first}"/>
                         </template:module>
                     </c:forEach>
                 </ul>
