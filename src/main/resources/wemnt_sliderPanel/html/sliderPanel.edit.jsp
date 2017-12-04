@@ -51,7 +51,7 @@
 </c:choose>
 
 <div id="slidertab-${currentNode.identifier}" class="slider-tab-content tab-selector-edit tab-selector-${currentNode.parent.identifier}"
-     style="background: url('${backgroundUrl}')">
+     style="background: url('${backgroundUrl}'); <c:if test="${isNotFirst}">display: none;</c:if>">
     <div class="edit-slider-cont">
 
         <c:if test="${not empty subtitle}">

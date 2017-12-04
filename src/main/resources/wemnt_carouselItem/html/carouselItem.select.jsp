@@ -17,7 +17,6 @@
 <%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
-<template:addResources type="javascript"  resources="custom/slider.edit.js"/>
 
 <li role="presentation" data-target="#${elementID}" data-slide-to="${currentIndex}">
     <a href="#" onclick="return false;">${currentNode.displayableName}</a>

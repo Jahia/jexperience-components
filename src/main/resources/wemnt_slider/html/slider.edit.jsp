@@ -20,6 +20,18 @@
 
 <!-- Main style -->
 <template:addResources type="css" resources="perso-slider-edit.css"/>
+<template:addResources>
+    <script type="text/javascript">
+        function selectSliderPanel(element){
+            var $this = $(element);
+            var sliderPanel = "#" + $this.parent().attr("tab");
+            // First hide all tabs again when a new option is selected
+            $this.closest('.slider-tab-container').find('.tab-selector-edit').hide();
+            // Then show the tab content of whatever option value was selected
+            $(sliderPanel).show();
+        }
+    </script>
+</template:addResources>
 
 <template:include view="hidden.header"/>
 <!-- Main container -->
@@ -45,7 +57,9 @@
     <c:forEach items="${moduleMap.currentList}" var="subchild" begin="${moduleMap.begin}" end="${moduleMap.end}"
                varStatus="item">
         <template:module node="${subchild}" view="edit"
-                         editable="${moduleMap.editable && !resourceReadOnly}"/>
+                         editable="${moduleMap.editable && !resourceReadOnly}">
+            <template:param name="isNotFirst" value="${not item.first}"/>
+        </template:module>
         <c:set var="isEmpty" value="false"/>
     </c:forEach>
 
