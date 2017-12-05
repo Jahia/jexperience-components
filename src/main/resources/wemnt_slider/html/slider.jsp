@@ -53,18 +53,18 @@
         <c:choose>
             <c:when test="${currentNode.properties['wem:active'].boolean}">
                 <c:set var="successFilterIdentifier" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
-                <c:forEach items="${successFilterIdentifier}" var="variantIdentifier">
+                <c:forEach items="${successFilterIdentifier}" var="sliderPanel">
                     <c:if test="${maxNumberOfPanels eq 0 || (maxNumberOfPanels gt 0 and (fn:length(fn:split(panels, ' ')) lt maxNumberOfPanels) || panels eq '')}">
-                        <c:set var="panels" value="${panels} ${variantIdentifier}"/>
+                        <c:set var="panels" value="${panels} ${sliderPanel}"/>
                     </c:if>
                 </c:forEach>
             </c:when>
             <c:otherwise>
                 <c:set var="sliderPanels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
-                <c:forEach items="${sliderPanels}" var="variantIdentifier">
-                    <c:if test="${empty carouselItem.properties['wem:jsonFilter'].string
+                <c:forEach items="${sliderPanels}" var="sliderPanel">
+                    <c:if test="${empty sliderPanel.properties['wem:jsonFilter'].string
                                     and (maxNumberOfPanels eq 0 || (maxNumberOfPanels gt 0 and (fn:length(fn:split(panels, ' ')) lt maxNumberOfPanels) || panels eq ''))}">
-                        <c:set var="panels" value="${panels} ${variantIdentifier}"/>
+                        <c:set var="panels" value="${panels} ${sliderPanel}"/>
                     </c:if>
                 </c:forEach>
             </c:otherwise>
