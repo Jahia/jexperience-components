@@ -35,7 +35,7 @@ var manageWemPrivacy = {
                 if (!window.cxs) {
                     console.info("privacyManager: CXS object not yet available, registering callback");
                     if (window.wem) {
-                        window.wem.registerCallbacks(function (digitalData) {
+                        window.wem._registerCallback(function (digitalData) {
                             console.info("privacyManager: loadCallback wemProfile=", window.cxs, " digitalData=", digitalData);
                             if (digitalData) {
                                 vm.consents = window.cxs.consents;
