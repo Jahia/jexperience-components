@@ -19,7 +19,7 @@
             //Invalidate the current session
             wem.invalidateSessionAndProfile();
             //Reload context after the clear
-            wem.loadContext(false,true, true);
+            wem.loadContext(false, true);
             document.getElementById("wem_notYou_feedbackMessage").style.display="block";
         }
     </script>
