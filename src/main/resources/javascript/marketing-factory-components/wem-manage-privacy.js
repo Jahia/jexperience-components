@@ -13,6 +13,7 @@ var manageWemPrivacy = {
             switchOnText : config.switchOnText,
             switchOffText : config.switchOffText,
             captiveModal : config.captiveModal,
+            consentTypesUrl : config.consentTypesUrl,
             initPrivacyModal: function () {
                 var vm = this;
                 if (vm.activatePrivateBrowsing) {
@@ -33,22 +34,22 @@ var manageWemPrivacy = {
             initConsents : function() {
                 var vm = this;
                 if (!window.cxs) {
-                    console.info("privacyManager: CXS object not yet available, registering callback");
+                    console.info("wem-manage-privacy.initConsents: CXS object not yet available, registering callback");
                     if (window.wem) {
                         window.wem._registerCallback(function (digitalData) {
-                            console.info("privacyManager: loadCallback wemProfile=", window.cxs, " digitalData=", digitalData);
+                            console.info("wem-manage-privacy.initConsents: loadCallback wemProfile=", window.cxs, " digitalData=", digitalData);
                             if (digitalData) {
-                                vm.consents = window.cxs.consents;
+                                vm.profileConsents = window.cxs.consents;
                                 vm.displayConsents();
                             } else {
-                                console.error("privacyManager: error loading digitalData, using fallback and not displaying consent popup !");
+                                console.error("wem-manage-privacy.initConsents: error loading digitalData, using fallback and not displaying consent popup !");
                                 manageWemPrivacy.networkError = true;
                             }
                         });
                     }
                 } else {
-                    console.info("privacyManager: wemProfile already available=", window.cxs, " networkError=", manageWemPrivacy.networkError);
-                    vm.consents = window.cxs.consents;
+                    console.info("wem-manage-privacy.initConsents: wemProfile already available=", window.cxs, " networkError=", manageWemPrivacy.networkError);
+                    vm.profileConsents = window.cxs.consents;
                     vm.displayConsents();
                 }
             },
@@ -57,7 +58,7 @@ var manageWemPrivacy = {
             },
             closeModal : function () {
                 var vm = this;
-                console.info("privacyManager: Closing modal.");
+                console.info("wem-manage-privacy.closeModal: Closing modal.");
                 $('#privacyModal_' + vm.nodeIdentifier).modal('hide');
                 manageWemPrivacy.modelAlreadyOpen = false;
             },
@@ -73,20 +74,20 @@ var manageWemPrivacy = {
             updateCaptiveModal : function () {
                 var vm = this;
                 if (vm.captiveModal) {
-                    console.info("privacyManager: captive modal is activated");
+                    console.info("wem-manage-privacy.updateCaptiveModal: captive modal is activated");
                     if (vm.consentsComplete() || manageWemPrivacy.networkError) {
                         console.info("privacyManager: consents are complete, we can activated the close buttons");
                         $('#closeDialogTopButton_' + vm.nodeIdentifier).show();
                         $('#incompleteConsentsWarning_' + vm.nodeIdentifier).hide();
                         $('#closeDialogLowerButton_' + vm.nodeIdentifier).show();
                     } else {
-                        console.info("privacyManager: consents are not complete, we deactivate the close buttons");
+                        console.info("wem-manage-privacy.updateCaptiveModal: consents are not complete, we deactivate the close buttons");
                         $('#closeDialogLowerButton_' + vm.nodeIdentifier).hide();
                         $('#incompleteConsentsWarning_' + vm.nodeIdentifier).show();
                         $('#closeDialogTopButton_' + vm.nodeIdentifier).hide();
                     }
                 } else {
-                    console.info("privacyManager: captive modal is not activated");
+                    console.info("wem-manage-privacy.updateCaptiveModal: captive modal is not activated");
                     $('#closeDialogTopButton_' + vm.nodeIdentifier).show();
                     $('#incompleteConsentsWarning_' + vm.nodeIdentifier).hide();
                     $('#closeDialogLowerButton_' + vm.nodeIdentifier).show();
@@ -95,25 +96,25 @@ var manageWemPrivacy = {
             consentsComplete : function() {
                 var vm = this;
                 if (vm._storageAvailable('sessionStorage') && sessionStorage.personaId && sessionStorage.personaId != 'none') {
-                    console.info("PersonaId (="+sessionStorage.personaId+") detected, not checking consent completedness.");
+                    console.info("wem-manage-privacy.consentsComplete: PersonaId (="+sessionStorage.personaId+") detected, not checking consent completedness.");
                     return true;
                 }
-                if (vm.consentTypes == null || $(vm.consentTypes).length == 0) {
+                if (vm.pageConsentTypes == null || $(vm.pageConsentTypes).length == 0) {
                     return true;
                 }
-                if ((vm.consents == null) || ($(vm.consents).length == 0)) {
+                if ((vm.profileConsents == null) || ($(vm.profileConsents).length == 0)) {
                     return false;
                 }
                 var allConsentsHaveValues = true;
-                $.each(vm.consentTypes, function (i, consentType) {
-                    if (consentType.activated && !vm.consents[consentType.typeIdentifier]) {
+                $.each(vm.pageConsentTypes, function (i, consentType) {
+                    if (consentType.activated && !vm.profileConsents[consentType.typeIdentifier]) {
                         allConsentsHaveValues = false;
-                        console.info("Missing a consent value for consent " + consentType.typeIdentifier);
+                        console.info("wem-manage-privacy.consentsComplete: Missing a consent value for consent " + consentType.typeIdentifier);
                     } else {
                         if (!consentType.activated) {
-                            console.info("Not requiring consent value for consent " + consentType.typeIdentifier + " since it is deactivated.");
+                            console.info("wem-manage-privacy.consentsComplete: Not requiring consent value for consent " + consentType.typeIdentifier + " since it is deactivated.");
                         } else {
-                            console.info("We already have a value for consent " + consentType.typeIdentifier);
+                            console.info("wem-manage-privacy.consentsComplete: We already have a value for consent " + consentType.typeIdentifier);
                         }
                     }
                 });
@@ -121,38 +122,76 @@ var manageWemPrivacy = {
             },
             displayConsents : function () {
                 var vm=this;
-                vm.consentTypes=window.digitalData.page.consentTypes;
+                vm.pageConsentTypes=window.digitalData.page.consentTypes;
                 if (manageWemPrivacy.networkError) {
                     $("#consentLoadNetworkError_" + vm.nodeIdentifier).show();
                     return;
                 } else {
                     $("#consentLoadNetworkError_" + vm.nodeIdentifier).hide();
                 }
-                console.info("privacyManager: building UI for wemConsentTypes=", vm.consentTypes);
+                console.info("wem-manage-privacy.displayConsents: building UI for wemConsentTypes=", vm.pageConsentTypes);
                 var consentsListElement = $("#consents_list_" + vm.nodeIdentifier);
                 consentsListElement.empty();
                 var nbConsentTypesDisplayed = 0;
-                $.each(vm.consentTypes, function (i, consentType) {
+                var processedConsentTypes = {};
+                $.each(vm.pageConsentTypes, function (i, consentType) {
                     if (consentType.activated) {
                         consentsListElement.append(vm.createConsentSwitch(consentType.typeIdentifier, consentType.title, consentType.description));
                         nbConsentTypesDisplayed++;
                     } else {
-                        console.info("Ignoring deactivated consent type " + consentType.typeIdentifier);
+                        console.info("wem-manage-privacy.displayConsents: Ignoring deactivated consent type " + consentType.typeIdentifier);
+                    }
+                    processedConsentTypes[consentType.typeIdentifier] = true;
+                });
+                // we must now calculate if we have any left over consents that were not coming from the page consents,
+                // that might be consents coming from other UIs such as Form Factory forms.
+                var nonPageConsents = [];
+                $.each(vm.profileConsents, function (key, consent) {
+                    if (!processedConsentTypes[key]) {
+                        nonPageConsents.push(consent);
                     }
                 });
+                if (nonPageConsents.length > 0) {
+                    console.debug("wem-manage-privacy.displayConsents: Found non page consents, loading consent types...");
+                    $.getJSON(vm.consentTypesUrl)
+                        .done(function (data, textStatus, jqXHR) {
+                            console.info("wem-manage-privacy.displayConsents: Consent types loaded successfully.", data, textStatus, jqXHR);
+                            vm.definedConsentTypes = data.consentTypes;
+                            vm.activeContentLanguage = data.activeContentLanguage;
+                            $.each(nonPageConsents, function (i, consent) {
+                                var consentType = vm._getConsentType(vm.definedConsentTypes, consent.typeIdentifier);
+                                if (consentType && consentType.activated) {
+                                    consentsListElement.append(vm.createConsentSwitch(consentType.identifier, consentType.title[vm.activeContentLanguage.key], consentType.description[vm.activeContentLanguage.key]));
+                                    nbConsentTypesDisplayed++;
+                                } else {
+                                    console.debug("wem-manage-privacy.displayConsents: Couldn't find defined consent type for consent with type ", consent.typeIdentifier);
+                                }
+                            });
+                            vm._finishDisplayConsents(nbConsentTypesDisplayed);
+                        })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            console.error("wem-manage-privacy.displayConsents: Error loading consent types.", jqXHR, textStatus, errorThrown);
+                        })
+                } else {
+                    // we have only page consents, we can continue processing normally
+                    vm._finishDisplayConsents(nbConsentTypesDisplayed);
+                }
+            },
+            _finishDisplayConsents : function (nbConsentTypesDisplayed) {
+                var vm = this;
                 if (nbConsentTypesDisplayed == 0) {
                     // we are not displaying any consent types, let's hide the tab.
-                    console.info("Hiding consent tab since no consent types are available.");
+                    console.info("wem-manage-privacy._finishDisplayConsents: Hiding consent tab since no consent types are available.");
                     $("a[href=\"#settings_"+ vm.nodeIdentifier + "\"]").tab('show');
                     $("a[href=\"#consents_"+ vm.nodeIdentifier + "\"]").hide();
                 }
                 vm.updateCaptiveModal();
                 if (!vm.consentsComplete()) {
                     if (!manageWemPrivacy.modelAlreadyOpen) {
-                        console.info("privacyManager: Incomplete profile consents, displaying popup modal for nodeIdentifier=" + vm.nodeIdentifier);
+                        console.info("wem-manage-privacy._finishDisplayConsents: Incomplete profile consents, displaying popup modal for nodeIdentifier=" + vm.nodeIdentifier);
                         vm.openModal(false);
                     } else {
-                        console.info("privacyManager: detected an already open modal, will not open this one.");
+                        console.info("wem-manage-privacy._finishDisplayConsents: detected an already open modal, will not open this one.");
                     }
                 }
             },
@@ -161,8 +200,8 @@ var manageWemPrivacy = {
                 var status = null;
                 var checked = false;
                 var dataIndeterminate = true;
-                if (vm.consents && vm.consents[typeIdentifier]) {
-                    status = vm.consents[typeIdentifier].status;
+                if (vm.profileConsents && vm.profileConsents[typeIdentifier]) {
+                    status = vm.profileConsents[typeIdentifier].status;
                     dataIndeterminate = status === null;
                     if (!dataIndeterminate) {
                         checked = (status === "GRANTED");
@@ -202,18 +241,21 @@ var manageWemPrivacy = {
                 );
             },
             updateConsent : function (typeIdentifier, granted) {
-                console.info("privacyManager: Switch state of consent " + typeIdentifier + " granted=" + granted);
+                console.info("wem-manage-privacy.updateConsent: Switch state of consent " + typeIdentifier + " granted=" + granted);
                 var vm = this;
                 var foundConsentType = null;
-                $.each(vm.consentTypes, function (i, consentType) {
+                $.each(vm.pageConsentTypes, function (i, consentType) {
                     if (consentType.typeIdentifier == typeIdentifier) {
                         foundConsentType = consentType;
                     }
                 });
+                if (!foundConsentType && vm.definedConsentTypes) {
+                    foundConsentType = vm._getConsentType(vm.definedConsentTypes, typeIdentifier);
+                }
                 if (foundConsentType) {
-                    vm.consents = vm.consents || {};
-                    if (!vm.consents[typeIdentifier]) {
-                        vm.consents[typeIdentifier] = {
+                    vm.profileConsents = vm.profileConsents || {};
+                    if (!vm.profileConsents[typeIdentifier]) {
+                        vm.profileConsents[typeIdentifier] = {
                             typeIdentifier : typeIdentifier
                         }
                     }
@@ -221,13 +263,13 @@ var manageWemPrivacy = {
                     var inTwoYearsDate = new Date();
                     inTwoYearsDate.setTime(nowDate.getTime()+2*365*24*60*60*1000); // 2 years expiration by default.
                     if (granted) {
-                        vm.consents[typeIdentifier].status = "GRANTED";
-                        vm.consents[typeIdentifier].statusDate = nowDate.toISOString();
-                        vm.consents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
+                        vm.profileConsents[typeIdentifier].status = "GRANTED";
+                        vm.profileConsents[typeIdentifier].statusDate = nowDate.toISOString();
+                        vm.profileConsents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
                     } else {
-                        vm.consents[typeIdentifier].status = "DENIED";
-                        vm.consents[typeIdentifier].statusDate = nowDate.toISOString();
-                        vm.consents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
+                        vm.profileConsents[typeIdentifier].status = "DENIED";
+                        vm.profileConsents[typeIdentifier].statusDate = nowDate.toISOString();
+                        vm.profileConsents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
                     }
                     if (window.wem) {
                         var consentTypeEvent = {
@@ -245,34 +287,47 @@ var manageWemPrivacy = {
                                 itemId:typeIdentifier
                             },
                             properties: {
-                                consent : vm.consents[typeIdentifier]
+                                consent : vm.profileConsents[typeIdentifier]
                             }
                         };
                         window.wem.collectEvent(consentTypeEvent, function success(xhr) {
-                            console.info("privacyManager: Consents are now:", vm.consents);
-                            window.cxs.consents = vm.consents;
+                            console.info("wem-manage-privacy.updateConsent: Consents are now:", vm.profileConsents);
+                            window.cxs.consents = vm.profileConsents;
                             vm.updateCaptiveModal();
-                            console.info("privacyManager: Consent event successfully sent.")
+                            console.info("wem-manage-privacy.updateConsent: Consent event successfully sent.")
                         }, function error(xhr) {
-                            console.error("privacyManager: Error while sending consent event.");
+                            console.error("wem-manage-privacy.updateConsent: Error while sending consent event.");
                         });
                     }
                 }
             },
-            _storageAvailable : function(type) {
-            try {
-                var storage = window[type],
-                    x = '__storage_test__';
-                storage.setItem(x, x);
-                storage.removeItem(x);
-                return true;
+            _storageAvailable : function(storageType) {
+                try {
+                    var storage = window[storageType],
+                        x = '__storage_test__';
+                    storage.setItem(x, x);
+                    storage.removeItem(x);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            },
+            _getConsentType : function (consentTypes, consentTypeId) {
+                if (!consentTypes) {
+                    return null;
+                }
+                if (!consentTypeId) {
+                    return null;
+                }
+                var foundConsentType = null;
+                $.each(consentTypes, function (i, consentType) {
+                    if (consentType.identifier == consentTypeId) {
+                        console.debug("wem-manage-privacy._getConsentType: : Found consent type",consentType," definition for id=", consentTypeId);
+                        foundConsentType = consentType;
+                    }
+                });
+                return foundConsentType;
             }
-            catch (e) {
-                return false;
-            }
-        }
-
-
         };
 
         manageWemPrivacyInstance.initConsents();
