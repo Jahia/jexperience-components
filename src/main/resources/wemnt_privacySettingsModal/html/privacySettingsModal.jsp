@@ -54,6 +54,7 @@
                             <c:if test="${currentNode.properties['wem:captiveModal'].boolean}">
                                 captiveModal: true,
                             </c:if>
+                            consentTypesUrl : '${url.context}${url.baseLive}${renderContext.site.path}.getConsentTypes.do'
                         });
                 });
             </script>
