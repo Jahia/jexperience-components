@@ -13,7 +13,7 @@
             <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
                 <files jcr:primaryType="jnt:folder"/>
                 <contents jcr:primaryType="jnt:contentFolder"/>
-                <wem-edit-engine-cpmnt-perso j:applyOn="wemnt:carousel wemnt:slider"
+                <wem-edit-engine-cpmnt-perso j:applyOn="wemnt:carousel wemnt:slider wemnt:list"
                                                 j:defaultTemplate="false"
                                                 j:hiddenTemplate="true"
                                                 j:view="wemSettings"

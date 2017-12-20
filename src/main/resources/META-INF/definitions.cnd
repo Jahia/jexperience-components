@@ -1,43 +1,43 @@
-<jnt = 'http://www.jahia.org/jahia/nt/1.0'>
 <jmix = 'http://www.jahia.org/jahia/mix/1.0'>
-<wemnt = 'http://www.jahia.org/jahia/wem/nt/1.0'>
-<wemmix = 'http://www.jahia.org/jahia/wem/mix/1.0'>
+<jnt = 'http://www.jahia.org/jahia/nt/1.0'>
 <mix = 'http://www.jcp.org/jcr/mix/1.0'>
+<wemmix = 'http://www.jahia.org/jahia/wem/mix/1.0'>
+<wemnt = 'http://www.jahia.org/jahia/wem/nt/1.0'>
 
-[wemnt:carouselItem] > jnt:content, mix:title, wemmix:editItem
- - image (weakreference, picker[type='image']) i18n mandatory < jnt:file
- - caption (string,textarea) i18n
+[wemnt:carouselItem] > mix:title, wemmix:editItem, mix:referenceable
+ - image (weakreference, picker[type='image']) mandatory internationalized < 'jnt:file'
+ - caption (string, textarea) internationalized
 
 [wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:variantsNode, wemmix:customEditEngine, wemmix:wemContainer orderable
- - useIndicators (boolean) = false autocreated indexed=no
- - useLeftAndRightControls (boolean) = false autocreated indexed=no
- - wem:active (boolean) = true autocreated
- - wem:ajaxRender (boolean) = true autocreated
+ - useIndicators (boolean) = 'false' autocreated indexed=no
+ - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
+ - wem:active (boolean) = 'true' autocreated
+ - wem:ajaxRender (boolean) = 'true' autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)
  - wem:maxNumberOfItems (long) = '0' autocreated indexed=no
- - wem:personalizationStrategy (string,choicelist[resourceBundle]) = 'matching-first' autocreated nofulltext hidden < 'matching-first','random','score-sorted'
- - wem:fallbackVariant (weakreference,choicelist[nodes='.;jmix:droppableContent']) nofulltext hidden
+ - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
+ - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
 [wemnt:privacySettingsModal] > jnt:content, wemmix:wemComponents
- - wem:privacyModalButtonLabel (string) i18n
+ - wem:privacyModalButtonLabel (string) internationalized
  - wem:buttonType (string, choicelist[resourceBundle]) = 'tagButton' autocreated indexed=no nofulltext < 'tagButton', 'tagA'
  - wem:buttonCssClass (string) = 'btn btn-primary' indexed=no nofulltext
  - wem:buttonHtmlId (string) indexed=no nofulltext
- - wem:privacyModalTitle (string) i18n
- - wem:privacyModalInfo (string) i18n
- - wem:activatePrivateBrowsing (boolean) = true autocreated
- - wem:startPrivateBrowsingButtonLabel (string) i18n
- - wem:stopPrivateBrowsingButtonLabel (string) i18n
- - wem:anonymizeProfile (boolean) = true autocreated
- - wem:anonymizeProfileButtonLabel (string) i18n
- - wem:downloadMyProfileButtonLabel (string) i18n
- - wem:captiveModal (boolean) = true autocreated
+ - wem:privacyModalTitle (string) internationalized
+ - wem:privacyModalInfo (string) internationalized
+ - wem:activatePrivateBrowsing (boolean) = 'true' autocreated
+ - wem:startPrivateBrowsingButtonLabel (string) internationalized
+ - wem:stopPrivateBrowsingButtonLabel (string) internationalized
+ - wem:anonymizeProfile (boolean) = 'true' autocreated
+ - wem:anonymizeProfileButtonLabel (string) internationalized
+ - wem:downloadMyProfileButtonLabel (string) internationalized
+ - wem:captiveModal (boolean) = 'true' autocreated
 
 [wemnt:notYouButton] > jnt:content, wemmix:wemComponents
- - wem:notYouButtonLabel (string) i18n
+ - wem:notYouButtonLabel (string) internationalized
  - wem:notYouButtonCssClass (string) = 'btn btn-primary' indexed=no nofulltext
  - wem:notYouButtonHtmlId (string) indexed=no nofulltext
 
@@ -53,11 +53,26 @@
  - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
  - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
  - autoplay (string, choicelist[resourceBundle]) = 'false' < 'false', 'true'
- - wem:active (boolean) = true autocreated
+ - wem:active (boolean) = 'true' autocreated
  - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
  - wem:startsOn (date)
  - wem:endsOn (date)
- - wem:personalizationStrategy (string,choicelist[resourceBundle]) = 'matching-first' autocreated nofulltext hidden < 'matching-first','random','score-sorted'
- - wem:fallbackVariant (weakreference,choicelist[nodes='.;jmix:droppableContent']) nofulltext hidden
+ - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
+ - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:sliderPanel)
+
+[wemnt:listItem] > jnt:content, mix:title, wemmix:editItem
+ - jcr:title (string) internationalized
+ - description (string, richtext) internationalized
+
+[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine,wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:list, mix:title orderable
+ - jcr:title (string) internationalized
+ - wem:active (boolean) = 'true' autocreated
+ - wem:ajaxRender (boolean) = 'true' autocreated
+ - wem:startsOn (date)
+ - wem:endsOn (date)
+ - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
+ - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
+ - wem:jsonStrategyOptions (string) hidden indexed=no
+ + * (wemnt:listItem) = wemnt:listItem

@@ -87,6 +87,48 @@
         <property name="parent" ref="editmode"/>
     </bean>
 
+    <bean class="org.jahia.services.uicomponents.bean.editmode.EngineConfiguration">
+        <property name="key" value="wemnt:list"/>
+        <property name="engineTabs">
+            <list>
+                <ref bean="Engine.Tab.Content"/>
+                <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
+                    <property name="id" value="dmfListConditions"/>
+                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>
+                    <property name="tabItem">
+                        <bean class="org.jahia.ajax.gwt.client.widget.contentengine.CustomEditEngineTabItem">
+                            <property name="onInitMethodName" value="componentPersonalizationConditionsInit"/>
+                            <property name="onLanguageChangeMethodName" value="componentPersonalizationConditionsLanguageChange"/>
+                            <property name="doSaveMethodName" value="componentPersonalizationConditionsDoSave"/>
+                            <property name="doValidateMethodName" value="componentPersonalizationConditionsDoValidate"/>
+                            <property name="handleCreate" value="true"/>
+                            <property name="handleMultipleSelection" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="creationButtons">
+            <list>
+                <ref bean="Engine.Button.WorkInProgress"/>
+                <ref bean="Engine.Button.Create"/>
+                <ref bean="Engine.Button.CreateAndNew"/>
+            </list>
+        </property>
+        <property name="editionButtons">
+            <list>
+                <ref bean="Engine.Button.WorkInProgress"/>
+                <ref bean="Engine.Button.Update"/>
+            </list>
+        </property>
+        <property name="commonButtons">
+            <list>
+                <ref bean="Engine.Button.Cancel"/>
+            </list>
+        </property>
+        <property name="parent" ref="editmode"/>
+    </bean>
+
     <bean class="org.jahia.ajax.gwt.helper.ModuleGWTResources">
         <property name="javascriptResources">
             <list>
