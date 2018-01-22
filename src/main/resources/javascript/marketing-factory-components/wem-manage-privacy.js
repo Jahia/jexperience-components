@@ -40,6 +40,7 @@ var manageWemPrivacy = {
                             console.info("wem-manage-privacy.initConsents: loadCallback wemProfile=", window.cxs, " digitalData=", digitalData);
                             if (digitalData) {
                                 vm.profileConsents = window.cxs.consents;
+                                console.debug("wem-manage-privacy.initConsents: loadCallback vm.profileConsents=", vm.profileConsents);
                                 vm.displayConsents();
                             } else {
                                 console.error("wem-manage-privacy.initConsents: error loading digitalData, using fallback and not displaying consent popup !");
@@ -107,9 +108,9 @@ var manageWemPrivacy = {
                 }
                 var allConsentsHaveValues = true;
                 $.each(vm.pageConsentTypes, function (i, consentType) {
-                    if (consentType.activated && !vm.profileConsents[consentType.typeIdentifier]) {
+                    if (consentType.activated && !vm.profileConsents[window.digitalData.scope + "/" + consentType.typeIdentifier]) {
                         allConsentsHaveValues = false;
-                        console.info("wem-manage-privacy.consentsComplete: Missing a consent value for consent " + consentType.typeIdentifier);
+                        console.info("wem-manage-privacy.consentsComplete: Missing a consent value for consent " + consentType.typeIdentifier + " in scope " + window.digitalData.scope);
                     } else {
                         if (!consentType.activated) {
                             console.info("wem-manage-privacy.consentsComplete: Not requiring consent value for consent " + consentType.typeIdentifier + " since it is deactivated.");
@@ -136,12 +137,12 @@ var manageWemPrivacy = {
                 var processedConsentTypes = {};
                 $.each(vm.pageConsentTypes, function (i, consentType) {
                     if (consentType.activated) {
-                        consentsListElement.append(vm.createConsentSwitch(consentType.typeIdentifier, consentType.title, consentType.description));
+                        consentsListElement.append(vm.createConsentSwitch(window.digitalData.scope, consentType.typeIdentifier, consentType.title, consentType.description));
                         nbConsentTypesDisplayed++;
                     } else {
                         console.info("wem-manage-privacy.displayConsents: Ignoring deactivated consent type " + consentType.typeIdentifier);
                     }
-                    processedConsentTypes[consentType.typeIdentifier] = true;
+                    processedConsentTypes[window.digitalData.scope + "/" + consentType.typeIdentifier] = true;
                 });
                 // we must now calculate if we have any left over consents that were not coming from the page consents,
                 // that might be consents coming from other UIs such as Form Factory forms.
@@ -159,12 +160,17 @@ var manageWemPrivacy = {
                             vm.definedConsentTypes = data.consentTypes;
                             vm.activeContentLanguage = data.activeContentLanguage;
                             $.each(nonPageConsents, function (i, consent) {
-                                var consentType = vm._getConsentType(vm.definedConsentTypes, consent.typeIdentifier);
-                                if (consentType && consentType.activated) {
-                                    consentsListElement.append(vm.createConsentSwitch(consentType.identifier, consentType.title[vm.activeContentLanguage.key], consentType.description[vm.activeContentLanguage.key]));
-                                    nbConsentTypesDisplayed++;
+                                if (consent.scope != window.digitalData.scope) {
+                                    console.debug("wem-manage-privacy.displayConsents: Ignoring consent from scope " + consent.scope + " type:" + consent.typeIdentifier);
+
                                 } else {
-                                    console.debug("wem-manage-privacy.displayConsents: Couldn't find defined consent type for consent with type ", consent.typeIdentifier);
+                                    var consentType = vm._getConsentType(vm.definedConsentTypes, consent.typeIdentifier);
+                                    if (consentType && consentType.activated) {
+                                        consentsListElement.append(vm.createConsentSwitch(window.digitalData.scope, consentType.identifier, consentType.title[vm.activeContentLanguage.key], consentType.description[vm.activeContentLanguage.key]));
+                                        nbConsentTypesDisplayed++;
+                                    } else {
+                                        console.debug("wem-manage-privacy.displayConsents: Couldn't find defined consent type for consent with type ", consent.typeIdentifier);
+                                    }
                                 }
                             });
                             vm._finishDisplayConsents(nbConsentTypesDisplayed);
@@ -195,13 +201,13 @@ var manageWemPrivacy = {
                     }
                 }
             },
-            createConsentSwitch : function (typeIdentifier, title, description) {
+            createConsentSwitch : function (scope, typeIdentifier, title, description) {
                 var vm = this;
                 var status = null;
                 var checked = false;
                 var dataIndeterminate = true;
-                if (vm.profileConsents && vm.profileConsents[typeIdentifier]) {
-                    status = vm.profileConsents[typeIdentifier].status;
+                if (vm.profileConsents && vm.profileConsents[scope + "/" + typeIdentifier]) {
+                    status = vm.profileConsents[scope + "/" + typeIdentifier].status;
                     dataIndeterminate = status === null;
                     if (!dataIndeterminate) {
                         checked = (status === "GRANTED");
@@ -213,7 +219,7 @@ var manageWemPrivacy = {
                     vm.switchOnText
                 );
                 switchOnLabelElement.click(function (event) {
-                    manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(typeIdentifier, true);
+                    manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(scope, typeIdentifier, true);
                 });
                 if (status === "GRANTED") {
                     switchOnLabelElement.addClass("active");
@@ -224,7 +230,7 @@ var manageWemPrivacy = {
                     vm.switchOffText
                 );
                 switchOffLabelElement.click(function (event) {
-                    manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(typeIdentifier, false);
+                    manageWemPrivacyInstances[vm.nodeIdentifier].updateConsent(scope, typeIdentifier, false);
                 });
                 if (status === "DENIED") {
                     switchOffLabelElement.addClass("active");
@@ -240,8 +246,9 @@ var manageWemPrivacy = {
                     )
                 );
             },
-            updateConsent : function (typeIdentifier, granted) {
-                console.info("wem-manage-privacy.updateConsent: Switch state of consent " + typeIdentifier + " granted=" + granted);
+            updateConsent : function (scope, typeIdentifier, granted) {
+                var fqConsent = scope + "/" + typeIdentifier;
+                console.info("wem-manage-privacy.updateConsent: Switch state of consent " + fqConsent + " granted=" + granted);
                 var vm = this;
                 var foundConsentType = null;
                 $.each(vm.pageConsentTypes, function (i, consentType) {
@@ -254,22 +261,23 @@ var manageWemPrivacy = {
                 }
                 if (foundConsentType) {
                     vm.profileConsents = vm.profileConsents || {};
-                    if (!vm.profileConsents[typeIdentifier]) {
-                        vm.profileConsents[typeIdentifier] = {
-                            typeIdentifier : typeIdentifier
+                    if (!vm.profileConsents[fqConsent]) {
+                        vm.profileConsents[fqConsent] = {
+                            typeIdentifier : typeIdentifier,
+                            scope: scope
                         }
                     }
                     var nowDate = new Date();
                     var inTwoYearsDate = new Date();
                     inTwoYearsDate.setTime(nowDate.getTime()+2*365*24*60*60*1000); // 2 years expiration by default.
                     if (granted) {
-                        vm.profileConsents[typeIdentifier].status = "GRANTED";
-                        vm.profileConsents[typeIdentifier].statusDate = nowDate.toISOString();
-                        vm.profileConsents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
+                        vm.profileConsents[fqConsent].status = "GRANTED";
+                        vm.profileConsents[fqConsent].statusDate = nowDate.toISOString();
+                        vm.profileConsents[fqConsent].revokeDate = inTwoYearsDate.toISOString();
                     } else {
-                        vm.profileConsents[typeIdentifier].status = "DENIED";
-                        vm.profileConsents[typeIdentifier].statusDate = nowDate.toISOString();
-                        vm.profileConsents[typeIdentifier].revokeDate = inTwoYearsDate.toISOString();
+                        vm.profileConsents[fqConsent].status = "DENIED";
+                        vm.profileConsents[fqConsent].statusDate = nowDate.toISOString();
+                        vm.profileConsents[fqConsent].revokeDate = inTwoYearsDate.toISOString();
                     }
                     if (window.wem) {
                         var consentTypeEvent = {
@@ -287,7 +295,7 @@ var manageWemPrivacy = {
                                 itemId:typeIdentifier
                             },
                             properties: {
-                                consent : vm.profileConsents[typeIdentifier]
+                                consent : vm.profileConsents[fqConsent]
                             }
                         };
                         window.wem.collectEvent(consentTypeEvent, function success(xhr) {
