@@ -58,6 +58,11 @@
                         <c:set var="panels" value="${panels} ${sliderPanel}"/>
                     </c:if>
                 </c:forEach>
+                <c:if test="${renderContext.previewMode}">
+                    <script type="text/javascript">
+                        wemHasServerSideRendering = true;
+                    </script>
+                </c:if>
             </c:when>
             <c:otherwise>
                 <c:set var="sliderPanels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
