@@ -62,11 +62,7 @@
  - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:sliderPanel)
 
-[wemnt:listItem] > jnt:content, mix:title, wemmix:editItem
- - jcr:title (string) internationalized
- - description (string, richtext) internationalized
-
-[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine,wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:list, mix:title orderable
+[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:siteContent, jmix:list, mix:title orderable
  - jcr:title (string) internationalized
  - wem:active (boolean) = 'true' autocreated
  - wem:ajaxRender (boolean) = 'true' autocreated
@@ -75,4 +71,4 @@
  - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  - wem:jsonStrategyOptions (string) hidden indexed=no
- + * (wemnt:listItem) = wemnt:listItem
+ + * (jmix:droppableContent) = jmix:droppableContent
