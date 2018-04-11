@@ -69,7 +69,7 @@
 [wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemContainer, jmix:list, mix:title orderable
  - jcr:title (string) internationalized
  - wem:active (boolean) = 'true' autocreated
- - wem:ajaxRender (boolean) = 'true' autocreated
+ - wem:ajaxRender (boolean) = 'true' hidden autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)
  - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
