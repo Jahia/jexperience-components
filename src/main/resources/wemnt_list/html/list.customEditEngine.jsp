@@ -18,5 +18,5 @@
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
 <template:include view="commonCustomEditEngine">
-    <template:param name="variantsType" value="wemnt:listItem"/>
+    <template:param name="variantsType" value="jmix:droppableContent"/>
 </template:include>

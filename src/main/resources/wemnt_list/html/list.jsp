@@ -38,15 +38,15 @@
                 <ol id="listItem_${currentNode.identifier}">
                     <c:forEach items="${fn:split(listItems, ' ')}" var="listItem" varStatus="item">
                         <jcr:node var="currentVariant" uuid="${listItem}"/>
-                        <template:module node="${currentVariant}" nodeTypes="wemnt:listItem" editable="true">
+                        <template:module node="${currentVariant}" nodeTypes="jmix:droppableContent" editable="true">
                         </template:module>
                     </c:forEach>
                 </ol>
             </c:when>
             <c:otherwise>
                 <ol id="listItem_${currentNode.identifier}">
-                    <c:forEach items="${jcr:getChildrenOfType(currentNode, 'wemnt:listItem')}" var="listItem">
-                        <template:module node="${listItem}" view="default"/>
+                    <c:forEach items="${jcr:getChildrenOfType(currentNode, 'jmix:droppableContent')}" var="droppableContent">
+                        <template:module node="${droppableContent}" view="default"/>
                     </c:forEach>
                 </ol>
 
