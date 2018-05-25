@@ -213,7 +213,7 @@ var manageWemPrivacy = {
                         checked = (status === "GRANTED");
                     }
                 }
-                var switchOnRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: "off"});
+                var switchOnRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: false});
                 var switchOnLabelElement = $("<label/>", {"class" : "btn btn-default btn-sm consent-switch-on"}).append(
                     switchOnRadioElement,
                     vm.switchOnText
@@ -224,7 +224,7 @@ var manageWemPrivacy = {
                 if (status === "GRANTED") {
                     switchOnLabelElement.addClass("active");
                 }
-                var switchOffRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: "off"});
+                var switchOffRadioElement = $("<input/>", {type : "radio", name : typeIdentifier, id : typeIdentifier, autocomplete: false});
                 var switchOffLabelElement = $("<label/>", {"class" : "btn btn-default btn-sm consent-switch-off"}).append(
                     switchOffRadioElement,
                     vm.switchOffText
