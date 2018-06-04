@@ -75,3 +75,6 @@
  - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  - wem:jsonStrategyOptions (string) hidden indexed=no
+
+[wemnt:tagsAggregation] > jnt:content, wemmix:wemComponents, mix:title
+ - jcr:title (string) internationalized
