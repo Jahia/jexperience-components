@@ -77,4 +77,4 @@
  - wem:jsonStrategyOptions (string) hidden indexed=no
 
 [wemnt:tagsAggregation] > jnt:content, wemmix:wemComponents, mix:title
- - jcr:title (string) internationalized
+ - jcr:title (string) mandatory internationalized
