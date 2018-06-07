@@ -78,3 +78,4 @@
 
 [wemnt:tagsAggregation] > jnt:content, wemmix:wemComponents, mix:title
  - jcr:title (string) mandatory internationalized
+ - wem:numberOfPastDays (long) = '30' autocreated

@@ -20,7 +20,7 @@
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <template:addResources type="css" resources="tags-aggregation.css"/>
 
-<c:set var="tags" value="${wem:getTagsAggregation(renderContext.request, renderContext.site.siteKey)}"/>
+<c:set var="tags" value="${wem:getTagsAggregation(renderContext.request, renderContext.site.siteKey, currentNode.properties['wem:numberOfPastDays'].long)}"/>
 <c:set var="title" value="${currentNode.properties['jcr:title'].string}"/>
 
 <div class="headline">
