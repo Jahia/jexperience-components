@@ -1,8 +1,10 @@
+<jcr = 'http://www.jcp.org/jcr/1.0'>
 <jmix = 'http://www.jahia.org/jahia/mix/1.0'>
 <jnt = 'http://www.jahia.org/jahia/nt/1.0'>
 <mix = 'http://www.jcp.org/jcr/mix/1.0'>
 <wemmix = 'http://www.jahia.org/jahia/wem/mix/1.0'>
 <wemnt = 'http://www.jahia.org/jahia/wem/nt/1.0'>
+<wem = 'http://www.jahia.org/jahia/wem/1.0'>
 
 [wemnt:carouselItem] > jnt:content, mix:title
  - image (weakreference, picker[type='image']) mandatory internationalized < 'jnt:file'
