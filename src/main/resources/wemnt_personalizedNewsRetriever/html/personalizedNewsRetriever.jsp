@@ -9,6 +9,7 @@
 <%@ taglib prefix="query" uri="http://www.jahia.org/tags/queryLib" %>
 <%@ taglib prefix="utility" uri="http://www.jahia.org/tags/utilityLib" %>
 <%@ taglib prefix="s" uri="http://www.jahia.org/tags/search" %>
+<%@ taglib prefix="wem" uri="http://www.jahia.org/tags/wem" %>
 <%--@elvariable id="currentNode" type="org.jahia.services.content.JCRNodeWrapper"--%>
 <%--@elvariable id="out" type="java.io.PrintWriter"--%>
 <%--@elvariable id="script" type="org.jahia.services.render.scripting.Script"--%>
@@ -19,3 +20,10 @@
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
 ${currentNode.properties['jcr:title'].string}
+
+<c:set var="lastNews" value="${wem:retrieveLastContent(renderContext, renderContext.site.siteKey, 30, 'jnt:news', 'date')}"/>
+
+<c:forEach items="${lastNews}" var="variant">
+    <jcr:node var="currentVariant" uuid="${variant}"/>
+    <template:module node="${currentVariant}"/>
+</c:forEach>
