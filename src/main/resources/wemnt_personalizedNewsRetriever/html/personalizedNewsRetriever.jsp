@@ -21,7 +21,7 @@
 
 ${currentNode.properties['jcr:title'].string}
 
-<c:set var="lastNews" value="${wem:retrieveLastContent(renderContext, renderContext.site.siteKey, 30, 'jnt:news', 'date')}"/>
+<c:set var="lastNews" value="${wem:retrieveLastContents(renderContext, renderContext.site.siteKey, 30, 'jnt:news', 'date')}"/>
 
 <c:forEach items="${lastNews}" var="variant">
     <jcr:node var="currentVariant" uuid="${variant}"/>
