@@ -19,6 +19,7 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
+<c:set var="maxNews" value="${currentNode.properties['maxNews'].long}"/>
 <c:set var="newsDateLastDays" value="${currentNode.properties['newsDateLastDays'].long}"/>
 <c:set var="lastNews" value="${wem:retrieveLastContents(renderContext, renderContext.site.siteKey, newsDateLastDays, 'jnt:news', 'date')}"/>
 
@@ -26,7 +27,7 @@
 
 <c:choose>
     <c:when test="${functions:length(lastNews) != 0}">
-        <c:forEach items="${lastNews}" var="variant">
+        <c:forEach items="${lastNews}" var="variant" end="${maxNews - 1}">
             <jcr:node var="currentVariant" uuid="${variant}"/>
             <template:module node="${currentVariant}"/>
         </c:forEach>
