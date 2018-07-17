@@ -19,11 +19,19 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
-${currentNode.properties['jcr:title'].string}
+<c:set var="newsDateLastDays" value="${currentNode.properties['newsDateLastDays'].long}"/>
+<c:set var="lastNews" value="${wem:retrieveLastContents(renderContext, renderContext.site.siteKey, newsDateLastDays, 'jnt:news', 'date')}"/>
 
-<c:set var="lastNews" value="${wem:retrieveLastContents(renderContext, renderContext.site.siteKey, 30, 'jnt:news', 'date')}"/>
+<h2>${currentNode.properties['jcr:title'].string}</h2>
 
-<c:forEach items="${lastNews}" var="variant">
-    <jcr:node var="currentVariant" uuid="${variant}"/>
-    <template:module node="${currentVariant}"/>
-</c:forEach>
+<c:choose>
+    <c:when test="${functions:length(lastNews) != 0}">
+        <c:forEach items="${lastNews}" var="variant">
+            <jcr:node var="currentVariant" uuid="${variant}"/>
+            <template:module node="${currentVariant}"/>
+        </c:forEach>
+    </c:when>
+    <c:otherwise>
+        <span><fmt:message key="personalizedNewsRetriever.upToDate.label"/></span>
+    </c:otherwise>
+</c:choose>
