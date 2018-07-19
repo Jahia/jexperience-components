@@ -2,31 +2,21 @@
 
 This project contains all the Marketing Factory components
 
+## Minimal requirements
+
+* DX 7.1.2.0
+* Marketing Factory 1.10.0
+
 ## Build and deploy
 
 Simply use the following command to build the project and deploy to Jahia
 
 ```
-mvn clean install jahia:deploy -P jahia-7.0-tomcat
+mvn clean install jahia:deploy
 ```
 
-where the jahia-7.0-tomcat is a Maven profile pointing to an installed Jahia instance such as in the following example:
-
-```
-<profile>
-    <id>jahia-7.0-tomcat</id>
-    <properties>
-        <jahia.deploy.targetServerType>tomcat</jahia.deploy.targetServerType>
-        <jahia.deploy.targetServerVersion>7</jahia.deploy.targetServerVersion>
-        <jahia.deploy.targetServerDirectory>/Users/loom/java/deployments/jahia-7.0/apache-tomcat-7.0.52
-        </jahia.deploy.targetServerDirectory>
-        <jahia.deploy.war.dirName>ROOT</jahia.deploy.war.dirName>
-        <jahia.deploy.war.contextPath>/</jahia.deploy.war.contextPath>
-        <jahia.deploy.war.servletPath>/cms</jahia.deploy.war.servletPath>
-        <jahia.debug.address>socket:hostname=localhost,port=8000</jahia.debug.address>
-    </properties>
-</profile>
-```
+## Installation
+Download the jar and deploy it on your instance then activate the module on the site you wish to use it.
 
 ## How it works ?
 
@@ -46,4 +36,4 @@ The following diagram show the sequence of interaction between components to ret
 
 ## Found a bug?
 
-Please feel free to [create an issue](https://github.com/Jahia/Marketing-Factory-Components/issues) if you find anything wrong with this component.
+Please feel free to [create an issue](https://support.jahia.com/) if you find anything wrong with this component.
