@@ -32,7 +32,7 @@ The criteria used to retrieve the list of news is:
 
 The following diagram show the sequence of interaction between components to retrieve le latest news.
 
-![sequence diagram of Personalized News Retriever](https://user-images.githubusercontent.com/8075371/42930067-4b4cde50-8b3c-11e8-804f-1e4b76e76a19.png)
+![sequence diagram of Personalized News Retriever](https://user-images.githubusercontent.com/8075371/42956916-7aa945cc-8b81-11e8-88ce-b969c43f2e42.png)
 
 ## Found a bug?
 
