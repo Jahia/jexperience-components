@@ -24,15 +24,15 @@
 <c:if test="${isNotStudio}">
     <c:set var="maxNews" value="${currentNode.properties['maxNews'].long}"/>
     <c:set var="newsDateLastDays" value="${currentNode.properties['newsDateLastDays'].long}"/>
-    <c:set var="lastNews" value="${wem:retrieveLastContents(renderContext, renderContext.site.siteKey, newsDateLastDays, 'jnt:news', 'date')}"/>
+    <c:set var="lastNewsIds" value="${wem:retrieveLastContents(renderContext, renderContext.site.siteKey, newsDateLastDays, 'jnt:news', 'date')}"/>
 
     <h2>${currentNode.properties['jcr:title'].string}</h2>
 
     <c:choose>
-        <c:when test="${functions:length(lastNews) != 0}">
-            <c:forEach items="${lastNews}" var="variant" end="${maxNews - 1}">
-                <jcr:node var="currentVariant" uuid="${variant}"/>
-                <template:module node="${currentVariant}"/>
+        <c:when test="${functions:length(lastNewsIds) != 0}">
+            <c:forEach items="${lastNewsIds}" var="lastNewsId" end="${maxNews - 1}">
+                <jcr:node var="lastNewsNode" uuid="${lastNewsId}"/>
+                <template:module node="${lastNewsNode}"/>
             </c:forEach>
         </c:when>
         <c:otherwise>
