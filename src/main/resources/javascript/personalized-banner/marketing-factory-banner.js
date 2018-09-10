@@ -1,23 +1,5 @@
 mfb = {
     /**
-     * This function is called when the page is loaded.
-     * It initialize a watcher for an injected variable
-     * to update profile properties when value's change.
-     *
-     */
-    init: function () {
-        var watch = WatchJS.watch;
-
-        var dmpJSVariable = document.getElementById('dmpJSVariable').value;
-        watch(window, dmpJSVariable, function () {
-            var dmpJSValue = eval(dmpJSVariable);
-            if (dmpJSValue) {
-                mfb.updateProfileProperties(dmpJSValue);
-            }
-        });
-    },
-
-    /**
      * This function is called by the dropdown selector button to update profile properties.
      *
      * @param {object} object
@@ -32,20 +14,18 @@ mfb = {
             selectionDropDown.textContent = selectedValue;
             ctaButtonText.textContent = object.ctaLabel;
 
-            mfb.updateProfileProperties(null, selectedValue, object);
+            mfb.updateProfileProperties(selectedValue, object);
         }
     },
 
     /**
      * This function update profile properties.
      *
-     * @param {string} dmpJSValue
      * @param {string} universeValue
      * @param {object} object
      */
-    updateProfileProperties: function (dmpJSValue, universeValue, object) {
+    updateProfileProperties: function (universeValue, object) {
         var universeId = document.getElementById('universeId').value;
-        var dmpId = document.getElementById('dmpId').value;
         var pathURL = document.getElementById('pathURL').value;
 
         console.info('[MFB] Call event update profile properties');
@@ -59,9 +39,7 @@ mfb = {
                     'profileId': cxs.profileId,
                     'sessionId': wem.sessionID,
                     'universeId': universeValue ? universeId : '',
-                    'universeValue': universeValue ? universeValue : '',
-                    'dmpId': dmpJSValue ? dmpId : '',
-                    'dmpValue': dmpJSValue ? dmpJSValue : ''
+                    'universeValue': universeValue ? universeValue : ''
                 }
             ),
             success: function (data) {
@@ -82,8 +60,6 @@ mfb = {
                         object.ctaTextColor,
                         object.callToActionURL,
                         object.ctaLabel);
-                } else if (result.status === 'update-dmp-property') {
-                    location.reload();
                 } else {
                     console.error('[MFB] Could not update profile properties');
                 }

@@ -66,7 +66,6 @@ import java.util.*;
  * call with a POST method contains the json object
  * <p>
  * The updated profile properties:
- * - DMP Segment
  * - Universe
  *
  * @author MF-TEAM
@@ -88,8 +87,6 @@ public class UpdateProfile extends Action {
         final String sessionId = jsonOject.optString("sessionId");
         final String universeId = jsonOject.optString("universeId");
         final String universeValue = jsonOject.optString("universeValue");
-        final String dmpId = jsonOject.optString("dmpId");
-        final String dmpValue = jsonOject.optString("dmpValue");
 
         final JahiaUser jahiaUser = renderContext.getUser();
 
@@ -130,19 +127,8 @@ public class UpdateProfile extends Action {
                                 new Date());
 
                         Map<String, Object> map = new HashMap<>();
-                        if (StringUtils.isNotEmpty(dmpId)) {
-                            try {
-                                JSONArray array = new JSONArray(dmpValue);
-                                String[] values = new String[array.length()];
-                                for (int i = 0; i < array.length(); i++) {
-                                    values[i] = array.getJSONObject(i).optString("_id");
-                                }
 
-                                map.put("properties." + dmpId, values);
-                            } catch (JSONException e) {
-                                logger.error("Error can't create the JSON array", e);
-                            }
-                        } else if (StringUtils.isNotEmpty(universeId)) {
+                        if (StringUtils.isNotEmpty(universeId)) {
                             map.put("properties." + universeId, universeValue);
                         }
                         event.setProperty("update", map);
@@ -176,9 +162,7 @@ public class UpdateProfile extends Action {
                 });
 
         JSONObject jsonResult = new JSONObject();
-        if (StringUtils.isNotEmpty(dmpId)) {
-            jsonResult.put("status", "update-dmp-property");
-        } else if (StringUtils.isNotEmpty(universeId)) {
+        if (StringUtils.isNotEmpty(universeId)) {
             jsonResult.put("status", "update-universe-property");
         } else {
             jsonResult.put("status", "error");

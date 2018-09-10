@@ -30,8 +30,6 @@
 <c:set var="secondaryText" value="${currentNode.properties['secondaryText'].string}"/>
 <c:set var="universeSelectorLabel" value="${currentNode.properties['universeSelectorLabel'].string}"/>
 <c:set var="universeId" value="${currentNode.properties['universeId'].string}"/>
-<c:set var="dmpId" value="${currentNode.properties['dmpId'].string}"/>
-<c:set var="dmpJSVariable" value="${currentNode.properties['dmpJSVariable'].string}"/>
 <c:url var="pathURL" value="${url.base}${currentNode.parent.parent.path}"/>
 
 <c:set target="${moduleMap}" property="variants" value="${jcr:getChildrenOfType(currentNode, 'wemnt:personalizedBannerItem')}"/>
@@ -39,8 +37,6 @@
 <c:set target="${moduleMap}" property="secondaryText" value="${secondaryText}"/>
 <c:set target="${moduleMap}" property="universeSelectorLabel" value="${universeSelectorLabel}"/>
 <c:set target="${moduleMap}" property="universeId" value="${universeId}"/>
-<c:set target="${moduleMap}" property="dmpId" value="${dmpId}"/>
-<c:set target="${moduleMap}" property="dmpJSVariable" value="${dmpJSVariable}"/>
 
 <c:choose>
     <c:when test="${renderContext.editMode}">
@@ -55,15 +51,7 @@
             <template:option nodetype="wemnt:personalizedBannerItem" node="${currentVariant}" view="default"/>
         </c:if>
 
-        <input id="dmpJSVariable" value="${moduleMap.dmpJSVariable}" type="hidden">
         <input id="universeId" value="${universeId}" type="hidden">
-        <input id="dmpId" value="${dmpId}" type="hidden">
         <input id="pathURL" value="${pathURL}" type="hidden">
     </c:otherwise>
 </c:choose>
-
-<c:if test="${renderContext.liveMode}">
-    <script type="text/javascript">
-        mfb.init();
-    </script>
-</c:if>
