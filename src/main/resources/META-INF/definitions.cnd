@@ -86,3 +86,28 @@
  - jcr:title (string) internationalized
  - maxNews (long) = 10 indexed=no
  - newsDateLastDays (long) = 30 indexed=no
+
+[wemnt:personalizedBannerItem] > jnt:content, mix:title
+ - jcr:title (string) primary mandatory indexed=no
+ - backgroundImage (weakreference, picker[type='image']) mandatory indexed=no < 'jmix:image'
+ - callToAction (weakreference, picker[type='editoriallink'])
+ - ctaLabel (string) internationalized
+ - ctaStartColor (string)
+ - ctaEndColor (string)
+ - ctaTextColor (string, choicelist[resourceBundle]) = 'dark' < 'dark', 'light'
+ - webSiteHeaderTopColor (string)
+ - webSiteHeaderBottomColor (string)
+ - webSiteFooterTopColor (string)
+ - webSiteFooterBottomColor (string)
+
+[wemnt:personalizedBanner] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemPersonalizationContainer, mix:title, jmix:list orderable
+ - jcr:title (string) mandatory internationalized
+ - secondaryText (string) internationalized
+ - universeSelectorLabel (string) internationalized
+ - dmpJSVariable (string)
+ - universeId (string, choicelist[mfPropertiesInitializer='single']) mandatory
+ - dmpId (string, choicelist[mfPropertiesInitializer='multiple'])
+ - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
+ - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
+ - wem:jsonStrategyOptions (string) hidden indexed=no
+ + * (wemnt:personalizedBannerItem) = wemnt:personalizedBannerItem

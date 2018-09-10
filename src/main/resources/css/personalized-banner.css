@@ -1,0 +1,130 @@
+.main-dd-selector {
+    background-color: #454546;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fcfcfc;
+    max-width: 840px;
+    margin: 30px auto;
+    padding: 6%;
+    border-radius: 4px;
+}
+
+.main-dd-selector-edit {
+    margin: 8px auto;
+}
+
+.main-dd-selector h3 {
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 22px;
+    letter-spacing: 0.7px;
+    margin-bottom: 18px;
+    color: #fcfcfc;
+}
+
+.main-dd-selector h4 {
+    font-size: 24px;
+    font-weight: 200;
+    color: #fcfcfc;
+}
+
+.main-dd-selector h4 span {
+    padding-right: 8px;
+}
+
+.main-dd-selector button.dropdown-toggle {
+    background: transparent !important;
+    color: rgba(245, 245, 245, 0.52);
+    font-size: 24px;
+    padding: 2px 0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px dashed #fcfcfc;
+    margin-top: -2px
+}
+
+.main-dd-selector button.dropdown-toggle span {
+    padding-right: 0;
+    float: left;
+}
+
+.main-dd-selector .btn-group.open .dropdown-toggle,
+.main-dd-selector button.dropdown-toggle:active:focus{
+    color: rgba(255, 255, 255, 0.64);
+    box-shadow: none;
+    border-bottom-color: transparent;
+}
+
+.main-dd-selector button span.material-icons {
+    float: right;
+    margin-left: 10px;
+    margin-top: 6px;
+    margin-right: -8px;
+}
+
+.main-dd-selector a.cta-button,
+.main-dd-selector a.cta-button:active:focus {
+    text-decoration: none;
+    margin: 18px 0;
+    background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+    font-size: 15px;
+    font-weight: 500;
+    min-width: 140px;
+    text-align: left;
+    border: none !important;
+    min-height: 24px;
+    line-height: 23px;
+    border-radius: 4px;
+    -webkit-transition: all 150ms ease-in-out;
+    -moz-transition: all 150ms ease-in-out;
+    -ms-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+}
+
+.main-dd-selector a.cta-button.disabled {
+    cursor: no-drop;
+    pointer-events: all;
+}
+
+.main-dd-selector a.cta-button.cta-text-color-light,
+.main-dd-selector a.cta-button.cta-text-color-light:active:focus {
+    color: #fff;
+}
+
+.main-dd-selector a.cta-button.cta-text-color-dark,
+.main-dd-selector a.cta-button.cta-text-color-dark:active:focus {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.main-dd-selector a.cta-button:hover {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+}
+
+.main-dd-selector a.cta-button:active {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.4);
+}
+
+.main-dd-selector a.cta-button span.material-icons {
+    float: right;
+    margin-left: 8px;
+    margin-right: -4px;
+    margin-top: 0;
+    font-size: 21px;
+    line-height: 24px;
+}
+
+.main-dd-selector a.cta-button span {
+    float: left;
+}
+
+.wem-unomi-error {
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    padding: 8px 4px;
+    background: #F44336;
+    margin-top: 10px;
+    letter-spacing: .2px;
+}

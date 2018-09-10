@@ -2,10 +2,10 @@
 <content xmlns:j="http://www.jahia.org/jahia/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0">
     <modules jcr:primaryType="jnt:modules">
         <marketing-factory-components j:dependencies="bootstrap3-core default marketing-factory-core"
-                                          j:modulePriority="0"
-                                          j:moduleType="module"
-                                          j:title="Marketing Factory Components"
-                                          jcr:primaryType="jnt:module">
+                                      j:modulePriority="0"
+                                      j:moduleType="module"
+                                      j:title="Marketing Factory Components"
+                                      jcr:primaryType="jnt:module">
 
             <portlets jcr:primaryType="jnt:portletFolder"/>
             <files jcr:primaryType="jnt:folder"/>
@@ -13,19 +13,19 @@
             <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
                 <files jcr:primaryType="jnt:folder"/>
                 <contents jcr:primaryType="jnt:contentFolder"/>
-                <wem-edit-engine-cpmnt-perso j:applyOn="wemnt:carousel wemnt:slider wemnt:list"
-                                                j:defaultTemplate="false"
-                                                j:hiddenTemplate="true"
-                                                j:view="wemSettings"
-                                                jcr:mixinTypes="jmix:useUILocale"
-                                                jcr:primaryType="jnt:contentTemplate">
+                <wem-edit-engine-cpmnt-perso j:applyOn="wemnt:carousel wemnt:slider wemnt:list wemnt:personalizedBanner"
+                                             j:defaultTemplate="false"
+                                             j:hiddenTemplate="true"
+                                             j:view="wemSettings"
+                                             jcr:mixinTypes="jmix:useUILocale"
+                                             jcr:primaryType="jnt:contentTemplate">
                     <j:translation_en jcr:language="en"
                                       jcr:mixinTypes="mix:title"
                                       jcr:primaryType="jnt:translation"/>
                     <pagecontent jcr:primaryType="jnt:contentList">
-                            <main-resource-display j:mainResourceView="customEditEngine"
-                                                   jcr:primaryType="jnt:mainResourceDisplay"/>
-                        </pagecontent>
+                        <main-resource-display j:mainResourceView="customEditEngine"
+                                               jcr:primaryType="jnt:mainResourceDisplay"/>
+                    </pagecontent>
                 </wem-edit-engine-cpmnt-perso>
             </templates>
 
