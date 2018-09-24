@@ -10,7 +10,8 @@
  - image (weakreference, picker[type='image']) mandatory internationalized < 'jnt:file'
  - caption (string, textarea) internationalized
 
-[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:variantsNode, wemmix:customEditEngine, wemmix:wemPersonalizationContainer orderable
+[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:variantsNode, wemmix:customEditEngine, wemmix:wemPersonalizationContainer, mix:title orderable
+ - jcr:title (string) mandatory internationalized
  - useIndicators (boolean) = 'false' autocreated indexed=no
  - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
  - wem:active (boolean) = 'true' autocreated
@@ -51,7 +52,8 @@
  - linkText (string) internationalized
  - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
 
-[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, jmix:list, wemmix:wemPersonalizationContainer orderable
+[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
+ - jcr:title (string) mandatory internationalized
  - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
  - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
  - autoplay (string, choicelist[resourceBundle]) = 'false' < 'false', 'true'
