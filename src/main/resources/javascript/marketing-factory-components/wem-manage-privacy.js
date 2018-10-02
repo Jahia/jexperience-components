@@ -195,7 +195,8 @@ var manageWemPrivacy = {
                 if (!vm.consentsComplete()) {
                     if (!manageWemPrivacy.modelAlreadyOpen) {
                         console.info("wem-manage-privacy._finishDisplayConsents: Incomplete profile consents, displaying popup modal for nodeIdentifier=" + vm.nodeIdentifier);
-                        vm.openModal(false);
+                        //show consent when initiate
+                        //vm.openModal(false);
                     } else {
                         console.info("wem-manage-privacy._finishDisplayConsents: detected an already open modal, will not open this one.");
                     }
