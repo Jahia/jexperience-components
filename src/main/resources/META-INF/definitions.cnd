@@ -84,11 +84,6 @@
  - jcr:title (string) mandatory internationalized
  - wem:numberOfPastDays (long) = '30' autocreated
 
-[wemnt:personalizedNewsRetriever] > jnt:content, wemmix:wemComponents, mix:title, jmix:list
- - jcr:title (string) internationalized
- - maxNews (long) = 10 indexed=no
- - newsDateLastDays (long) = 30 indexed=no
-
 [wemnt:personalizedBannerItem] > jnt:content, mix:title
  - jcr:title (string) primary mandatory indexed=no
  - backgroundImage (weakreference, picker[type='image']) mandatory indexed=no < 'jmix:image'
