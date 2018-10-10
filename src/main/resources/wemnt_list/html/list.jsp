@@ -47,13 +47,32 @@
                 </ol>
             </c:when>
             <c:otherwise>
+                <template:addResources type="javascript" resources="marketing-factory/edit-mode/wem-edit-toolbar.js" />
+
                 <ol id="listItem_${currentNode.identifier}">
                     <c:forEach items="${jcr:getChildrenOfType(currentNode, 'jmix:droppableContent')}" var="droppableContent">
                         <template:module node="${droppableContent}" editable="true"/>
                     </c:forEach>
                 </ol>
 
-                <template:module path="*"/>
+                <c:set var="parsedId" value="${fn:replace(currentNode.identifier,'-','_')}"/>
+                <div id="wemToolbarJahiaButtons${parsedId}">
+                    <template:module path="*"/>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        <c:forEach items="${jcr:getChildrenOfType(currentNode, 'jmix:droppableContent')}" var="subchild"  varStatus="st">
+                        wemEditToolbar.addData('${parsedId}','${functions:escapeJavaScript(subchild.unescapedName)}', '${url.context}');
+                        </c:forEach>
+                    });
+
+                    window.top.addEventListener('jahia-copy', function (event) {
+                        if (event.detail && event.detail.nodes) {
+                            wemEditToolbar.handleJahiaCopyEvent('${parsedId}', event.detail.nodes);
+                        }
+                    });
+                </script>
             </c:otherwise>
         </c:choose>
     </div>
