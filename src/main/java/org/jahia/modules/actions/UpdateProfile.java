@@ -40,13 +40,10 @@ import org.jahia.modules.marketingfactory.admin.ContextServerService;
 import org.jahia.services.content.JCRCallback;
 import org.jahia.services.content.JCRSessionWrapper;
 import org.jahia.services.content.JCRTemplate;
-import org.jahia.services.content.decorator.JCRUserNode;
 import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.jahia.services.usermanager.JahiaUser;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,28 +87,18 @@ public class UpdateProfile extends Action {
 
         final JahiaUser jahiaUser = renderContext.getUser();
 
-        jcrTemplate.doExecuteWithSystemSessionAsUser(
-                jahiaUser,
-                Constants.LIVE_WORKSPACE,
-                session.getLocale(),
+        jcrTemplate.doExecuteWithSystemSessionAsUser(jahiaUser, Constants.LIVE_WORKSPACE, session.getLocale(),
                 new JCRCallback() {
                     @Override
                     public Object doInJCR(JCRSessionWrapper session) throws RepositoryException {
-                        JCRUserNode user = session.getRootNode().getUser();
                         String siteKey = renderContext.getSite().getSiteKey();
 
                         final AsyncHttpClient asyncHttpClient = contextServerService
-                                .initAsyncHttpClient(user, siteKey);
+                                .initAsyncHttpClient(siteKey);
 
-                        AsyncHttpClient.BoundRequestBuilder requestBuilder = contextServerService
-                                .initAsyncRequestBuilder(
-                                        user,
-                                        siteKey,
-                                        asyncHttpClient,
-                                        "/eventcollector?sessionId=" + sessionId,
-                                        false,
-                                        true,
-                                        true);
+                        AsyncHttpClient.BoundRequestBuilder requestBuilder = contextServerService.initAsyncRequestBuilder(
+                                        siteKey, asyncHttpClient, "/eventcollector?sessionId=" + sessionId, false,
+                                        true, true);
 
                         Item source = new CustomItem();
                         source.setScope(siteKey);

@@ -80,18 +80,11 @@ public class MFPropertiesInitializer implements ModuleChoiceListInitializer {
                             : context.get("contextNode"));
 
             JCRSiteNode site = node.getResolveSite();
-            final AsyncHttpClient asyncHttpClient = contextServerService
-                    .initAsyncHttpClient(node.getUser(), site.getSiteKey());
+            final AsyncHttpClient asyncHttpClient = contextServerService.initAsyncHttpClient(site.getSiteKey());
 
             if (asyncHttpClient != null) {
-                AsyncHttpClient.BoundRequestBuilder requestBuilder = contextServerService
-                        .initAsyncRequestBuilder(node.getUser(),
-                                site.getSiteKey(),
-                                asyncHttpClient,
-                                "/cxs/profiles/properties",
-                                true,
-                                true,
-                                true);
+                AsyncHttpClient.BoundRequestBuilder requestBuilder = contextServerService.initAsyncRequestBuilder(
+                                site.getSiteKey(), asyncHttpClient, "/cxs/profiles/properties", true, true, true);
 
                 ListenableFuture<Response> future = requestBuilder.execute(new AsyncCompletionHandler<Response>() {
                     @Override
