@@ -37,7 +37,6 @@
                                 wemHasServerSideRendering = true;
                             </script>
 
-                            <c:set var="jsonVariants" value="${wem:getVariants(currentNode, pageContext)}"/>
                             <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
                             <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
