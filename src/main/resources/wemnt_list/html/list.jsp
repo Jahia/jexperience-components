@@ -33,11 +33,14 @@
                 <ol id="listItem_${currentNode.identifier}">
                     <c:choose>
                         <c:when test="${wem:isPersonalizationActive(currentNode)}">
-                            <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
-                            <c:set var="jsonVariants" value="${wem:getVariants(currentNode, pageContext)}"/>
+                            <script type="text/javascript">
+                                wemHasServerSideRendering = true;
+                            </script>
 
-                            <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>"
-                                              personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                            <c:set var="jsonVariants" value="${wem:getVariants(currentNode, pageContext)}"/>
+                            <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
+
+                            <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
                                 <c:forEach items="${variants}" var="variant">
                                     <c:set var="variantIdentifier" value="${variant.identifier}"/>
 
@@ -45,17 +48,6 @@
                                         <template:module node="${variant}"/>
                                     </mf:ssrVariant>
 
-                                    <script type="text/javascript">
-                                        wemHasServerSideRendering = true;
-                                        (function () {
-                                            if (window.wem) {
-                                                var variants = ${jsonVariants};
-                                                window.wem.dispatchVariantJSEvent(variants['${variantIdentifier}'], 'personalization');
-                                            } else {
-                                                console.log("No wem available in page, can't dispatch JS Event for the SSR personalization resolved.")
-                                            }
-                                        })();
-                                    </script>
                                 </c:forEach>
                             </mf:ssrExperience>
                         </c:when>
