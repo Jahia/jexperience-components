@@ -103,6 +103,9 @@
  - secondaryText (string) internationalized
  - universeSelectorLabel (string) internationalized
  - universeId (string, choicelist[mfPropertiesInitializer='single']) mandatory
+ - wem:active (boolean) = 'true' autocreated
+ - wem:startsOn (date)
+ - wem:endsOn (date)
  - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  - wem:jsonStrategyOptions (string) hidden indexed=no
