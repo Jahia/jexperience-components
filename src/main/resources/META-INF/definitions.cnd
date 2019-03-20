@@ -15,7 +15,8 @@
  - useIndicators (boolean) = 'false' autocreated indexed=no
  - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
  - wem:active (boolean) = 'true' autocreated
- - wem:ajaxRender (boolean) = 'true' autocreated
+// wem:ajaxRender deprecated
+ - wem:ajaxRender (boolean) = 'true' hidden autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)
  - wem:maxNumberOfItems (long) = '0' autocreated indexed=no
