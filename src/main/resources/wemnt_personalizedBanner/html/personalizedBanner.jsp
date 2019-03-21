@@ -67,9 +67,7 @@
             <c:otherwise>
                 <c:forEach items="${moduleMap.variants}" var="variant" varStatus="status">
                     <c:if test="${status.first}">
-                        <mf:ssrVariant id="${variant.identifier}">
-                            <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
-                        </mf:ssrVariant>
+                        <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
                     </c:if>
                 </c:forEach>
             </c:otherwise>
