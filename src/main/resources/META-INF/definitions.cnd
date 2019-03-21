@@ -55,9 +55,9 @@
 
 [wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
- - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
- - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
- - autoplay (string, choicelist[resourceBundle]) = 'false' < 'false', 'true'
+ - transition (string, choicelist[resourceBundle]) = 'slide' mandatory < 'slide', 'fade', 'zoom'
+ - layout (string, choicelist[resourceBundle]) = 'autofill' mandatory < 'autofill', 'partialview'
+ - autoplay (string, choicelist[resourceBundle]) = 'false' mandatory < 'false', 'true'
  - wem:active (boolean) = 'true' autocreated
  - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
  - wem:startsOn (date)
