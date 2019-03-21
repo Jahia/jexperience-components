@@ -1,3 +1,4 @@
+<%@ page import="org.jahia.modules.marketingfactory.admin.MFConstants" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -44,14 +45,28 @@
         <template:module path="*" nodeTypes="wemnt:personalizedBannerItem"/>
     </c:when>
     <c:otherwise>
-        <c:set var="mfBannerItem" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
+        <c:choose>
+            <c:when test="${wem:isPersonalizationActive(currentNode)}">
+                <script type="text/javascript">
+                    wemHasServerSideRendering = true;
+                </script>
 
-        <c:if test="${not empty mfBannerItem}">
-            <jcr:node var="currentVariant" uuid="${mfBannerItem[0]}"/>
-            <template:option nodetype="wemnt:personalizedBannerItem" node="${currentVariant}" view="default"/>
-        </c:if>
+                <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-        <input id="universeId" value="${universeId}" type="hidden">
-        <input id="pathURL" value="${pathURL}" type="hidden">
+                <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="false">
+                    <c:forEach items="${moduleMap.variants}" var="variant" varStatus="status">
+                        <mf:ssrVariant id="${variant.identifier}">
+                            <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
+                        </mf:ssrVariant>
+                    </c:forEach>
+                </mf:ssrExperience>
+
+                <input id="universeId" value="${universeId}" type="hidden">
+                <input id="pathURL" value="${pathURL}" type="hidden">
+            </c:when>
+            <c:otherwise>
+                <template:module node="${currentNode.properties['wem:fallbackVariant'].node}"/>
+            </c:otherwise>
+        </c:choose>
     </c:otherwise>
 </c:choose>
