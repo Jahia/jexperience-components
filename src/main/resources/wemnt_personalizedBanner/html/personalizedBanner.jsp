@@ -54,7 +54,7 @@
                 <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
                 <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="false">
-                    <c:forEach items="${moduleMap.variants}" var="variant" varStatus="status">
+                    <c:forEach items="${moduleMap.variants}" var="variant">
                         <mf:ssrVariant id="${variant.identifier}">
                             <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
                         </mf:ssrVariant>
@@ -65,7 +65,13 @@
                 <input id="pathURL" value="${pathURL}" type="hidden">
             </c:when>
             <c:otherwise>
-                <template:module node="${currentNode.properties['wem:fallbackVariant'].node}"/>
+                <c:forEach items="${moduleMap.variants}" var="variant" varStatus="status">
+                    <c:if test="${status.first}">
+                        <mf:ssrVariant id="${variant.identifier}">
+                            <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
+                        </mf:ssrVariant>
+                    </c:if>
+                </c:forEach>
             </c:otherwise>
         </c:choose>
     </c:otherwise>
