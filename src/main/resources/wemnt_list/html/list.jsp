@@ -41,17 +41,16 @@
 
                             <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
                                 <c:forEach items="${variants}" var="variant">
-                                    <c:set var="variantIdentifier" value="${variant.identifier}"/>
-
-                                    <mf:ssrVariant id="${variantIdentifier}">
+                                    <mf:ssrVariant id="${variant.identifier}">
                                         <template:module node="${variant}"/>
                                     </mf:ssrVariant>
-
                                 </c:forEach>
                             </mf:ssrExperience>
                         </c:when>
                         <c:otherwise>
-                            <template:module node="${currentNode.properties['wem:fallbackVariant'].node}"/>
+                            <c:forEach items="${variants}" var="variant">
+                                <template:module node="${variant}"/>
+                            </c:forEach>
                         </c:otherwise>
                     </c:choose>
                 </ol>
