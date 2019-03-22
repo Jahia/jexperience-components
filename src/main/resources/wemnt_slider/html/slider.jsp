@@ -1,3 +1,4 @@
+<%@ page import="org.jahia.modules.marketingfactory.admin.MFConstants" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,7 +23,6 @@
 <c:if test="${!renderContext.editMode}">
     <template:addResources type="javascript" resources="ism-2.2.min.js"/>
 </c:if>
-<c:set var="escapedId" value="${fn:replace(currentNode.identifier, '-', '')}"/>
 <c:set var="transition" value="${currentNode.properties.transition.string}"/>
 <c:set var="layout" value="${currentNode.properties.layout.string}"/>
 <c:set var="autoplay" value="${currentNode.properties.autoplay.string}"/>
@@ -49,46 +49,58 @@
         <template:module path="*" nodeTypes="wemnt:sliderPanel"/>
     </c:when>
     <c:otherwise>
-        <c:set var="panels" value=""/>
-        <c:choose>
-            <c:when test="${currentNode.properties['wem:active'].boolean}">
-                <c:set var="successFilterIdentifier" value="${wem:getWemPersonalizedContents(renderContext.request, renderContext.site.siteKey, currentNode, null)}"/>
-                <c:forEach items="${successFilterIdentifier}" var="sliderPanel">
-                    <c:if test="${maxNumberOfPanels eq 0 || (maxNumberOfPanels gt 0 and (fn:length(fn:split(panels, ' ')) lt maxNumberOfPanels) || panels eq '')}">
-                        <c:set var="panels" value="${panels} ${sliderPanel}"/>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${renderContext.previewMode}">
-                    <script type="text/javascript">
-                        wemHasServerSideRendering = true;
-                    </script>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-                <c:set var="sliderPanels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
-                <c:forEach items="${sliderPanels}" var="sliderPanel">
-                    <c:if test="${empty sliderPanel.properties['wem:jsonFilter'].string
-                                    and (maxNumberOfPanels eq 0 || (maxNumberOfPanels gt 0 and (fn:length(fn:split(panels, ' ')) lt maxNumberOfPanels) || panels eq ''))}">
-                        <c:set var="panels" value="${panels} ${sliderPanel}"/>
-                    </c:if>
-                </c:forEach>
-            </c:otherwise>
-        </c:choose>
+        <c:set var="sliderId" value="personalizedSlider_${currentNode.identifier}"/>
+        <c:set var="sliderPanels" value="${jcr:getChildrenOfType(currentNode, 'wemnt:sliderPanel')}"/>
+        <c:if test="${maxNumberOfPanels eq 0}">
+            <c:set var="maxNumberOfPanels" value="${fn:length(sliderPanels)}"/>
+        </c:if>
+
         <div class="container">
-            <div class="ism-slider" id="personalizedSlider_${escapedId}"
-                 <c:if test="${autoplay}"> data-play_type="loop"</c:if>
-                 <c:if test="${transition ne ''}">data-transition_type="${transition}"</c:if> >
-                <ol>
-                    <c:forEach items="${fn:split(panels, ' ')}" var="panel" varStatus="item">
-                        <jcr:node var="currentVariant" uuid="${panel}"/>
-                        <template:module node="${currentVariant}" nodeTypes="wemnt:sliderPanel" editable="true">
-                            <template:param name="layout" value="${layout}"/>
-                        </template:module>
-                    </c:forEach>
+            <div id="${sliderId}" class="ism-slider"
+                    <c:if test="${autoplay}"> data-play_type="loop"</c:if>
+                    <c:if test="${transition ne ''}">data-transition_type="${transition}"</c:if>>
+
+                <ol class="slider-panel-item">
+                    <c:choose>
+                        <c:when test="${wem:isPersonalizationActive(currentNode)}">
+                            <script type="text/javascript">
+                                wemHasServerSideRendering = true;
+                            </script>
+
+                            <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
+
+                            <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                                <c:forEach items="${sliderPanels}" var="sliderPanel">
+                                    <mf:ssrVariant id="${sliderPanel.identifier}">
+                                        <template:module node="${sliderPanel}" nodeTypes="wemnt:sliderPanel" editable="true">
+                                            <template:param name="layout" value="${layout}"/>
+                                        </template:module>
+                                    </mf:ssrVariant>
+                                </c:forEach>
+                            </mf:ssrExperience>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${sliderPanels}" var="sliderPanel" end="${maxNumberOfPanels}">
+                                <template:module node="${sliderPanel}" nodeTypes="wemnt:sliderPanel" editable="true">
+                                    <template:param name="layout" value="${layout}"/>
+                                </template:module>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </ol>
             </div>
+
+            <script type="text/javascript">
+                (function () {
+                    var maxItems = ${maxNumberOfPanels};
+
+                    $("[id=${sliderId}].ism-slider > ol.slider-panel-item li").each(function (index) {
+                        if (maxItems > 0 && (index + 1) > maxItems) {
+                            $(this).remove();
+                        }
+                    });
+                })();
+            </script>
         </div>
     </c:otherwise>
 </c:choose>
-
-
