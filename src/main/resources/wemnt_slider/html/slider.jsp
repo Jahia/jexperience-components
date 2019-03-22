@@ -23,25 +23,11 @@
 <c:if test="${!renderContext.editMode}">
     <template:addResources type="javascript" resources="ism-2.2.min.js"/>
 </c:if>
-<c:set var="transition" value="${currentNode.properties.transition.string}"/>
-<c:set var="layout" value="${currentNode.properties.layout.string}"/>
-<c:set var="autoplay" value="${currentNode.properties.autoplay.string}"/>
-<c:if test="${transition eq 'basic'}">
-    <c:set var="transition" value=""/>
-</c:if>
-<c:if test="${not empty transition}">
-    <c:set var="transition" value="${fn:toLowerCase(transition)}"/>
-</c:if>
-<c:if test="${empty layout}">
-    <c:set var="layout" value="boxed"/>
-</c:if>
-<c:if test="${empty autoplay}">
-    <c:set var="autoplay" value="false"/>
-</c:if>
-<c:set var="maxNumberOfPanels" value="0"/>
-<c:if test="${not empty currentNode.properties['wem:maxNumberOfPanels']}">
-    <c:set var="maxNumberOfPanels" value="${currentNode.properties['wem:maxNumberOfPanels'].long}"/>
-</c:if>
+
+<c:set var="transition" value="${not empty currentNode.properties.transition.string ? currentNode.properties.transition.string : 'slide'}"/>
+<c:set var="layout" value="${not empty currentNode.properties.layout.string ? currentNode.properties.layout.string : 'boxed'}"/>
+<c:set var="autoplay" value="${not empty currentNode.properties.autoplay.string ? currentNode.properties.autoplay.string : 'false'}"/>
+<c:set var="maxNumberOfPanels" value="${not empty currentNode.properties['wem:maxNumberOfPanels'] ? currentNode.properties['wem:maxNumberOfPanels'].long : 0}"/>
 
 <c:choose>
     <c:when test="${renderContext.editMode}">
