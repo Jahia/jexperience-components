@@ -46,7 +46,7 @@
                     <c:if test="${autoplay}"> data-play_type="loop"</c:if>
                     <c:if test="${transition ne ''}">data-transition_type="${transition}"</c:if>>
 
-                <ol class="slider-panel-item">
+                <ol>
                     <c:choose>
                         <c:when test="${wem:isPersonalizationActive(currentNode)}">
                             <script type="text/javascript">
