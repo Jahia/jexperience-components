@@ -80,7 +80,7 @@
                 (function () {
                     var maxItems = ${maxNumberOfPanels};
 
-                    $("[id=${sliderId}].ism-slider > ol.slider-panel-item li").each(function (index) {
+                    $("#${sliderId} > ol > *").each(function (index) {
                         if (maxItems > 0 && (index + 1) > maxItems) {
                             $(this).remove();
                         }
