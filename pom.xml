@@ -42,7 +42,7 @@
     <connection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</connection>
     <developerConnection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</developerConnection>
     <url>https://github.com/Jahia/Marketing-Factory-Components</url>
-    <tag>HEAD</tag>
+    <tag>1_5_0_RC</tag>
   </scm>
 
   <distributionManagement>
