@@ -33,7 +33,7 @@
   </parent>
 
   <artifactId>marketing-factory-components</artifactId>
-  <version>1.5.0</version>
+  <version>1.5.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Marketing Factory Components</name>
   <description>This is the custom module (Marketing Factory Components) for running on a Digital Experience Manager server.</description>
@@ -42,7 +42,7 @@
     <connection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</connection>
     <developerConnection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</developerConnection>
     <url>https://github.com/Jahia/Marketing-Factory-Components</url>
-    <tag>1_5_0</tag>
+    <tag>1_5_0_RC</tag>
   </scm>
 
   <distributionManagement>
