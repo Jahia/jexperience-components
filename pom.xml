@@ -32,39 +32,39 @@
     <version>7.2.3.2</version>
   </parent>
 
-  <artifactId>marketing-factory-components</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <artifactId>jexperience-components</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
-  <name>Marketing Factory Components</name>
-  <description>This is the custom module (Marketing Factory Components) for running on a Digital Experience Manager server.</description>
+  <name>jExperience Components</name>
+  <description>This is the custom module (jExperience Components) for running on a Digital Experience Manager server.</description>
 
   <scm>
-    <connection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</connection>
-    <developerConnection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</developerConnection>
-    <url>https://github.com/Jahia/Marketing-Factory-Components</url>
+    <connection>scm:git:git@github.com:Jahia/jexperience-Components.git</connection>
+    <developerConnection>scm:git:git@github.com:Jahia/jexperience-Components.git</developerConnection>
+    <url>https://github.com/Jahia/jexperience-Components</url>
     <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
     <repository>
-      <id>marketing-factory-releases</id>
-      <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-releases</url>
+      <id>jexperience-releases</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/jexperience-releases</url>
     </repository>
     <snapshotRepository>
-      <id>marketing-factory-snapshots</id>
-      <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-snapshots</url>
+      <id>jexperience-snapshots</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/jexperience-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 
   <properties>
-    <jahia-depends>bootstrap3-core,default,marketing-factory-core</jahia-depends>
+    <jahia-depends>bootstrap3-core,default,jexperience</jahia-depends>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.jahia.modules</groupId>
-      <artifactId>marketing-factory-core</artifactId>
-      <version>1.10.1</version>
+      <artifactId>jexperience</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

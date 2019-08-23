@@ -36,7 +36,7 @@ import org.jahia.api.Constants;
 import org.jahia.bin.Action;
 import org.jahia.bin.ActionResult;
 import org.jahia.exceptions.JahiaRuntimeException;
-import org.jahia.modules.marketingfactory.admin.ContextServerService;
+import org.jahia.modules.jexperience.admin.ContextServerService;
 import org.jahia.services.content.JCRCallback;
 import org.jahia.services.content.JCRSessionWrapper;
 import org.jahia.services.content.JCRTemplate;

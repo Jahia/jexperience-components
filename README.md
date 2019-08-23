@@ -1,11 +1,11 @@
-# Marketing Factory Components
+# jExperience Components
 
-This project contains all the Marketing Factory components
+This project contains all the jExperience components
 
 ## Minimal requirements
 
 * DX 7.1.2.0
-* Marketing Factory 1.10.0
+* jExperience 1.10.0
 
 ## Build and deploy
 

@@ -1,4 +1,4 @@
-<%@ page import="org.jahia.modules.marketingfactory.admin.MFConstants" %>
+<%@ page import="org.jahia.modules.jexperience.admin.Constants" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -23,7 +23,7 @@
 <template:addResources type="css" resources="vendor/material-icons.css"/>
 <template:addResources type="css" resources="personalized-banner.css"/>
 <c:if test="${renderContext.liveMode}">
-    <template:addResources type="javascript" resources="personalized-banner/marketing-factory-banner.js"/>
+    <template:addResources type="javascript" resources="personalized-banner/jexperience-banner.js"/>
     <template:addResources type="javascript" resources="personalized-banner/lib/watch.js"/>
 </c:if>
 
@@ -53,13 +53,13 @@
 
                 <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="false">
+                <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="false">
                     <c:forEach items="${moduleMap.variants}" var="variant">
-                        <mf:ssrVariant id="${variant.identifier}">
+                        <jx:ssrVariant id="${variant.identifier}">
                             <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
-                        </mf:ssrVariant>
+                        </jx:ssrVariant>
                     </c:forEach>
-                </mf:ssrExperience>
+                </jx:ssrExperience>
 
                 <input id="universeId" value="${universeId}" type="hidden">
                 <input id="pathURL" value="${pathURL}" type="hidden">

@@ -6,10 +6,10 @@
                            http://www.eclipse.org/gemini/blueprint/schema/blueprint http://www.eclipse.org/gemini/blueprint/schema/blueprint/gemini-blueprint.xsd">
 
     <osgi:reference id="contextServerService"
-                    interface="org.jahia.modules.marketingfactory.admin.ContextServerService"
+                    interface="org.jahia.modules.jexperience.admin.ContextServerService"
                     availability="mandatory"/>
 
-    <bean id="mfPropertiesInitializer" class="org.jahia.modules.initializers.MFPropertiesInitializer">
+    <bean id="mfPropertiesInitializer" class="org.jahia.modules.initializers.PropertiesInitializer">
         <property name="key" value="mfPropertiesInitializer"/>
         <property name="contextServerService" ref="contextServerService"/>
     </bean>
@@ -37,7 +37,7 @@
                 <ref bean="Engine.Tab.Content"/>
                 <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
                     <property name="id" value="dmfconditions"/>
-                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>
+                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.jexperience"/>
                     <property name="tabItem">
                         <bean class="org.jahia.ajax.gwt.client.widget.contentengine.CustomEditEngineTabItem">
                             <property name="onInitMethodName" value="componentPersonalizationConditionsInit"/>
@@ -79,7 +79,7 @@
                 <ref bean="Engine.Tab.Content"/>
                 <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
                     <property name="id" value="dmfSliderConditions"/>
-                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>
+                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.jexperience"/>
                     <property name="tabItem">
                         <bean class="org.jahia.ajax.gwt.client.widget.contentengine.CustomEditEngineTabItem">
                             <property name="onInitMethodName" value="componentPersonalizationConditionsInit"/>
@@ -121,7 +121,7 @@
                 <ref bean="Engine.Tab.Content"/>
                 <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
                     <property name="id" value="dmfListConditions"/>
-                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>
+                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.jexperience"/>
                     <property name="tabItem">
                         <bean class="org.jahia.ajax.gwt.client.widget.contentengine.CustomEditEngineTabItem">
                             <property name="onInitMethodName" value="componentPersonalizationConditionsInit"/>
@@ -163,7 +163,7 @@
                 <ref bean="Engine.Tab.Content"/>
                 <bean class="org.jahia.services.uicomponents.bean.editmode.EngineTab">
                     <property name="id" value="dmfBannerConditions"/>
-                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.marketing-factory-core"/>
+                    <property name="titleKey" value="label.engineTab.dmfconditions@resources.jexperience"/>
                     <property name="tabItem">
                         <bean class="org.jahia.ajax.gwt.client.widget.contentengine.CustomEditEngineTabItem">
                             <property name="onInitMethodName" value="componentPersonalizationConditionsInit"/>
@@ -202,7 +202,7 @@
     <bean class="org.jahia.ajax.gwt.helper.ModuleGWTResources">
         <property name="javascriptResources">
             <list>
-                <value>/modules/marketing-factory-components/javascript/marketing-factory-components/wem-edit-cpmnt-personalization.js</value>
+                <value>/modules/jexperience-components/javascript/jexperience-components/wem-edit-cpmnt-personalization.js</value>
             </list>
         </property>
     </bean>

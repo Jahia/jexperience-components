@@ -28,7 +28,7 @@ import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
 import org.apache.jackrabbit.value.StringValue;
-import org.jahia.modules.marketingfactory.admin.ContextServerService;
+import org.jahia.modules.jexperience.admin.ContextServerService;
 import org.jahia.services.content.JCRNodeWrapper;
 import org.jahia.services.content.decorator.JCRSiteNode;
 import org.jahia.services.content.nodetypes.ExtendedPropertyDefinition;
@@ -63,9 +63,9 @@ import java.util.concurrent.ExecutionException;
  *
  * @author MF-TEAM
  */
-public class MFPropertiesInitializer implements ModuleChoiceListInitializer {
+public class PropertiesInitializer implements ModuleChoiceListInitializer {
 
-    private static final Logger logger = LoggerFactory.getLogger(MFPropertiesInitializer.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropertiesInitializer.class);
     private String key;
     private ContextServerService contextServerService;
 

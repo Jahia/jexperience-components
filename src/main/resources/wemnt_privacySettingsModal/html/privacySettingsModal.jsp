@@ -19,7 +19,7 @@
         <template:addResources type="css" resources="bootstrap.min.css"/>
         <template:addResources type="css" resources="wem-privacy-manager.css"/>
         <template:addResources type="javascript" resources="jquery.min.js,bootstrap.min.js"/>
-        <template:addResources type="javascript" resources="marketing-factory-components/wem-manage-privacy.js"/>
+        <template:addResources type="javascript" resources="jexperience-components/wem-manage-privacy.js"/>
 
         <c:set var="cssClass" value="${currentNode.properties['wem:buttonCssClass'].string}"/>
         <c:set var="htmlId" value="${currentNode.properties['wem:buttonHtmlId'].string}"/>

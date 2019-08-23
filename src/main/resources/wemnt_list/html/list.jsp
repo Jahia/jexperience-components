@@ -1,4 +1,4 @@
-<%@ page import="org.jahia.modules.marketingfactory.admin.MFConstants" %>
+<%@ page import="org.jahia.modules.jexperience.admin.Constants" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -39,13 +39,13 @@
 
                             <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                            <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                            <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
                                 <c:forEach items="${variants}" var="variant">
-                                    <mf:ssrVariant id="${variant.identifier}">
+                                    <jx:ssrVariant id="${variant.identifier}">
                                         <template:module node="${variant}"/>
-                                    </mf:ssrVariant>
+                                    </jx:ssrVariant>
                                 </c:forEach>
-                            </mf:ssrExperience>
+                            </jx:ssrExperience>
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${variants}" var="variant">
@@ -56,7 +56,7 @@
                 </ol>
             </c:when>
             <c:otherwise>
-                <template:addResources type="javascript" resources="marketing-factory/edit-mode/wem-edit-toolbar.js"/>
+                <template:addResources type="javascript" resources="jexperience/edit-mode/wem-edit-toolbar.js"/>
 
                 <ol id="listItem_${currentNode.identifier}">
                     <c:forEach items="${variants}" var="droppableContent">

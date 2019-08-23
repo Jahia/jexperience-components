@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <content xmlns:j="http://www.jahia.org/jahia/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0">
     <modules jcr:primaryType="jnt:modules">
-        <marketing-factory-components j:dependencies="bootstrap3-core default marketing-factory-core"
+        <jexperience-components j:dependencies="bootstrap3-core default jexperience"
                                       j:modulePriority="0"
                                       j:moduleType="module"
-                                      j:title="Marketing Factory Components"
+                                      j:title="jExperience Components"
                                       jcr:primaryType="jnt:module">
 
             <portlets jcr:primaryType="jnt:portletFolder"/>
@@ -29,6 +29,6 @@
                 </wem-edit-engine-cpmnt-perso>
             </templates>
 
-        </marketing-factory-components>
+        </jexperience-components>
     </modules>
 </content>

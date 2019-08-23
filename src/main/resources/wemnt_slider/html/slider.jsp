@@ -1,4 +1,4 @@
-<%@ page import="org.jahia.modules.marketingfactory.admin.MFConstants" %>
+<%@ page import="org.jahia.modules.jexperience.admin.Constants" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -55,15 +55,15 @@
 
                             <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                            <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                            <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
                                 <c:forEach items="${sliderPanels}" var="sliderPanel">
-                                    <mf:ssrVariant id="${sliderPanel.identifier}">
+                                    <jx:ssrVariant id="${sliderPanel.identifier}">
                                         <template:module node="${sliderPanel}" nodeTypes="wemnt:sliderPanel" editable="true">
                                             <template:param name="layout" value="${layout}"/>
                                         </template:module>
-                                    </mf:ssrVariant>
+                                    </jx:ssrVariant>
                                 </c:forEach>
-                            </mf:ssrExperience>
+                            </jx:ssrExperience>
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${sliderPanels}" var="sliderPanel" end="${maxNumberOfPanels}">

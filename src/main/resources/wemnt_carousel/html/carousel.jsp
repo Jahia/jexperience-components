@@ -1,4 +1,4 @@
-<%@ page import="org.jahia.modules.marketingfactory.admin.MFConstants" %>
+<%@ page import="org.jahia.modules.jexperience.admin.Constants" %>
 <%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -40,15 +40,15 @@
                 <c:when test="${personalizationActive}">
                     <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                    <mf:ssrExperience type="<%= MFConstants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                    <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
                         <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
-                            <mf:ssrVariant id="${currentVariant.identifier}">
+                            <jx:ssrVariant id="${currentVariant.identifier}">
                                 <div class="item active">
                                     <template:module node="${currentVariant}" nodeTypes="wemnt:carouselItem"/>
                                 </div>
-                            </mf:ssrVariant>
+                            </jx:ssrVariant>
                         </c:forEach>
-                    </mf:ssrExperience>
+                    </jx:ssrExperience>
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
