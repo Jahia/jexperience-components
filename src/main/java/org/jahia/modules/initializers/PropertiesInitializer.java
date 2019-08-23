@@ -49,19 +49,19 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * <h1>MFPropertiesInitializer</h1>
+ * <h1>PropertiesInitializer</h1>
  * <p>
- * The MFPropertiesInitializer class implement a ModuleChoiceListInitializer that simply add a list
- * of values to the field (the field used a choiceList initializer "MFPropertiesInitializer").
- * The MFPropertiesInitializer get the list of profile properties from Unomi and add it to the field
+ * The PropertiesInitializer class implement a ModuleChoiceListInitializer that simply add a list
+ * of values to the field (the field used a choiceList initializer "PropertiesInitializer").
+ * The PropertiesInitializer get the list of profile properties from Unomi and add it to the field
  * choiceList. The initializer has a parameter and according to this parameter we added the required
  * profiles properties to the field choiceList.
  * <p>
- * The MFPropertiesInitializer parameters:
+ * The PropertiesInitializer parameters:
  * - Single: to get only profile properties of type single text
  * - Multiple: to get only profile properties of type multivalued text
  *
- * @author MF-TEAM
+ * @author Jahia
  */
 public class PropertiesInitializer implements ModuleChoiceListInitializer {
 

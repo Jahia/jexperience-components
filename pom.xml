@@ -39,20 +39,20 @@
   <description>This is the custom module (jExperience Components) for running on a Digital Experience Manager server.</description>
 
   <scm>
-    <connection>scm:git:git@github.com:Jahia/jexperience-Components.git</connection>
-    <developerConnection>scm:git:git@github.com:Jahia/jexperience-Components.git</developerConnection>
-    <url>https://github.com/Jahia/jexperience-Components</url>
+    <connection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</connection>
+    <developerConnection>scm:git:git@github.com:Jahia/Marketing-Factory-Components.git</developerConnection>
+    <url>https://github.com/Jahia/Marketing-Factory-Components</url>
     <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
     <repository>
-      <id>jexperience-releases</id>
-      <url>https://devtools.jahia.com/nexus/content/repositories/jexperience-releases</url>
+      <id>marketing-factory-releases</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-releases</url>
     </repository>
     <snapshotRepository>
-      <id>jexperience-snapshots</id>
-      <url>https://devtools.jahia.com/nexus/content/repositories/jexperience-snapshots</url>
+      <id>marketing-factory-snapshots</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 

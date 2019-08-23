@@ -103,7 +103,7 @@
  - jcr:title (string) mandatory internationalized
  - secondaryText (string) internationalized
  - universeSelectorLabel (string) internationalized
- - universeId (string, choicelist[mfPropertiesInitializer='single']) mandatory
+ - universeId (string, choicelist[jExperiencePropertiesInitializer='single']) mandatory
  - wem:active (boolean) = 'true' autocreated
  - wem:startsOn (date)
  - wem:endsOn (date)

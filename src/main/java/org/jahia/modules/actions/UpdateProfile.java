@@ -65,7 +65,7 @@ import java.util.*;
  * The updated profile properties:
  * - Universe
  *
- * @author MF-TEAM
+ * @author Jahia
  */
 public class UpdateProfile extends Action {
     private static Logger logger = LoggerFactory.getLogger(UpdateProfile.class);

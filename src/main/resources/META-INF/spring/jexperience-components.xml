@@ -9,8 +9,8 @@
                     interface="org.jahia.modules.jexperience.admin.ContextServerService"
                     availability="mandatory"/>
 
-    <bean id="mfPropertiesInitializer" class="org.jahia.modules.initializers.PropertiesInitializer">
-        <property name="key" value="mfPropertiesInitializer"/>
+    <bean id="jExperiencePropertiesInitializer" class="org.jahia.modules.initializers.PropertiesInitializer">
+        <property name="key" value="jExperiencePropertiesInitializer"/>
         <property name="contextServerService" ref="contextServerService"/>
     </bean>
 
