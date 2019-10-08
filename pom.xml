@@ -33,7 +33,7 @@
   </parent>
 
   <artifactId>jexperience-components</artifactId>
-  <version>1.11.0-SNAPSHOT</version>
+  <version>1.12.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>jExperience Components</name>
   <description>This is the custom module (jExperience Components) for running on a Jahia server.</description>
@@ -64,13 +64,13 @@
     <dependency>
       <groupId>org.jahia.modules</groupId>
       <artifactId>jexperience</artifactId>
-      <version>1.11.0-SNAPSHOT</version>
+      <version>1.12.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.unomi</groupId>
       <artifactId>unomi-api</artifactId>
-      <version>1.4.0-incubating-SNAPSHOT</version>
+      <version>1.5.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>atg.taglib.json</groupId>
