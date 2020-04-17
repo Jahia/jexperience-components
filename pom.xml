@@ -10,7 +10,7 @@
     JAHIA'S ENTERPRISE DISTRIBUTIONS LICENSING - IMPORTANT INFORMATION
     ==========================================================================================
 
-        Copyright (C) 2002-2019 Jahia Solutions Group. All rights reserved.
+        Copyright (C) 2002-2020 Jahia Solutions Group. All rights reserved.
 
         This file is part of a Jahia's Enterprise Distribution.
 
@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.jahia.modules</groupId>
     <artifactId>jahia-modules</artifactId>
-    <version>7.2.3.2</version>
+    <version>7.5.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>jexperience-components</artifactId>
@@ -57,6 +57,7 @@
   </distributionManagement>
 
   <properties>
+    <jahia-module-signature>MC0CFQCBRj+ItP23m8bQl/B7MehrPiImlgIUPPJloBsPa5hl5wBFub+hrWQksqo=</jahia-module-signature>
     <jahia-depends>bootstrap3-core,default,jexperience</jahia-depends>
   </properties>
 
@@ -120,7 +121,11 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <instructions />
+          <instructions>
+            <Require-Capability>
+              osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"
+            </Require-Capability>
+          </instructions>
         </configuration>
       </plugin>
     </plugins>
