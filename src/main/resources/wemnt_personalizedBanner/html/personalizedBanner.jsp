@@ -41,6 +41,17 @@
 
 <c:choose>
     <c:when test="${renderContext.editMode}">
+        <div class=" button-placeholder x-component" style="overflow: visible;">
+            <span onmouseover="parent.disableGlobalSelection(true)"
+                  onmouseout="parent.disableGlobalSelection(false)"
+                  onclick="window.top.jExperienceHook.open('wem-edit-engine-cpmnt-perso', '${currentNode.path}')"
+            >
+                <img style="width: 16px; height: 16px"
+                     src="<c:url value="/modules/jexperience/images/icons/personalization.svg"/>">
+                <fmt:message key="wem.label.edit.personalization"/>
+            </span>
+        </div>
+
         <template:include view="edit"/>
         <template:module path="*" nodeTypes="wemnt:personalizedBannerItem"/>
     </c:when>
