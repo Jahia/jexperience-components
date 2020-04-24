@@ -24,6 +24,19 @@
 <c:set var="variants" value="${jcr:getChildrenOfType(currentNode, 'jmix:droppableContent')}"/>
 
 <div class="container">
+    <c:if test="${renderContext.editMode}">
+        <div class=" button-placeholder x-component" style="overflow: visible;">
+        <span onmouseover="parent.disableGlobalSelection(true)"
+              onmouseout="parent.disableGlobalSelection(false)"
+              onclick="window.top.jExperienceHook.open('wem-edit-engine-cpmnt-perso', '${currentNode.path}')"
+        >
+            <img style="width: 16px; height: 16px"
+                 src="<c:url value="/modules/jexperience/images/icons/personalization.svg"/>">
+            <fmt:message key="wem.label.edit.personalization"/>
+        </span>
+        </div>
+    </c:if>
+
     <div id="listTitle_${currentNode.identifier}">
         <h2>${title}</h2>
     </div>
@@ -56,8 +69,6 @@
                 </ol>
             </c:when>
             <c:otherwise>
-                <template:addResources type="javascript" resources="jexperience/edit-mode/wem-edit-toolbar.js"/>
-
                 <ol id="listItem_${currentNode.identifier}">
                     <c:forEach items="${variants}" var="droppableContent">
                         <template:module node="${droppableContent}" editable="true"/>
