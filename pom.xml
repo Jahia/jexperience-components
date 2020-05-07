@@ -24,17 +24,16 @@
     ==========================================================================================
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jahia.modules</groupId>
         <artifactId>jahia-modules</artifactId>
-        <version>8.0.0.0-SNAPSHOT</version>
+        <version>8.0.0.0</version>
     </parent>
 
     <artifactId>jexperience-components</artifactId>
-    <version>1.12.0-SNAPSHOT</version>
+    <version>1.12.0</version>
     <packaging>bundle</packaging>
     <name>jExperience Components</name>
     <description>This is the custom module (jExperience Components) for running on a Jahia server.</description>
@@ -43,7 +42,7 @@
         <connection>scm:git:git@github.com:Jahia/jexperience-components.git</connection>
         <developerConnection>scm:git:git@github.com:Jahia/jexperience-components.git</developerConnection>
         <url>https://github.com/Jahia/jexperience-components</url>
-        <tag>HEAD</tag>
+        <tag>1_12_0</tag>
     </scm>
 
     <distributionManagement>
@@ -67,13 +66,13 @@
         <dependency>
             <groupId>org.jahia.modules</groupId>
             <artifactId>jexperience</artifactId>
-            <version>1.12.0-SNAPSHOT</version>
+            <version>1.12.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.unomi</groupId>
             <artifactId>unomi-api</artifactId>
-            <version>1.5.0-SNAPSHOT</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>atg.taglib.json</groupId>
