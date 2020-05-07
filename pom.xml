@@ -33,7 +33,7 @@
     </parent>
 
     <artifactId>jexperience-components</artifactId>
-    <version>1.12.0</version>
+    <version>1.12.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>jExperience Components</name>
     <description>This is the custom module (jExperience Components) for running on a Jahia server.</description>
@@ -42,7 +42,7 @@
         <connection>scm:git:git@github.com:Jahia/jexperience-components.git</connection>
         <developerConnection>scm:git:git@github.com:Jahia/jexperience-components.git</developerConnection>
         <url>https://github.com/Jahia/jexperience-components</url>
-        <tag>1_12_0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
