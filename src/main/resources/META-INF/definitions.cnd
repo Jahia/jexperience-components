@@ -14,15 +14,8 @@
  - jcr:title (string) mandatory internationalized
  - useIndicators (boolean) = 'false' autocreated indexed=no
  - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
- - wem:active (boolean) = 'true' autocreated
-// wem:ajaxRender deprecated
- - wem:ajaxRender (boolean) = 'true' hidden autocreated
- - wem:startsOn (date)
- - wem:endsOn (date)
  - wem:maxNumberOfItems (long) = '0' autocreated indexed=no
- - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
- - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
 [wemnt:privacySettingsModal] > jnt:content, wemmix:wemComponents
@@ -58,13 +51,8 @@
  - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
  - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
  - autoplay (string, choicelist[resourceBundle]) = 'false' < 'false', 'true'
- - wem:active (boolean) = 'true' autocreated
  - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
- - wem:startsOn (date)
- - wem:endsOn (date)
- - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
- - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:sliderPanel)
 
 [wemnt:listItem] > jnt:content, mix:title, jmix:droppableContent, jmix:hiddenType
@@ -73,14 +61,7 @@
 
 [wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
  - jcr:title (string) internationalized
- - wem:active (boolean) = 'true' autocreated
-// wem:ajaxRender deprecated
- - wem:ajaxRender (boolean) = 'true' hidden autocreated
- - wem:startsOn (date)
- - wem:endsOn (date)
- - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
- - wem:jsonStrategyOptions (string) hidden indexed=no
 
 [wemnt:tagsAggregation] > jnt:content, wemmix:wemComponents, mix:title
  - jcr:title (string) mandatory internationalized
@@ -104,10 +85,5 @@
  - secondaryText (string) internationalized
  - universeSelectorLabel (string) internationalized
  - universeId (string, choicelist[jExperiencePropertiesInitializer='single']) mandatory
- - wem:active (boolean) = 'true' autocreated
- - wem:startsOn (date)
- - wem:endsOn (date)
- - wem:personalizationStrategy (string, choicelist[resourceBundle]) = 'matching-first' autocreated hidden nofulltext < 'matching-first', 'random', 'score-sorted'
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
- - wem:jsonStrategyOptions (string) hidden indexed=no
  + * (wemnt:personalizedBannerItem) = wemnt:personalizedBannerItem
