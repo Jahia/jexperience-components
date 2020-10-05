@@ -15,6 +15,7 @@
  - useIndicators (boolean) = 'false' autocreated indexed=no
  - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
  - wem:maxNumberOfItems (long) = '0' autocreated indexed=no
+ // DEPRECATED since 1.13.0 use wem:controlVariant instead (TODO: to be removed in next version)
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
@@ -52,6 +53,7 @@
  - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
  - autoplay (string, choicelist[resourceBundle]) = 'false' < 'false', 'true'
  - wem:maxNumberOfPanels (long) = '0' autocreated indexed=no
+ // DEPRECATED since 1.13.0 use wem:controlVariant instead (TODO: to be removed in next version)
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  + * (wemnt:sliderPanel)
 
@@ -61,6 +63,7 @@
 
 [wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
  - jcr:title (string) internationalized
+ // DEPRECATED since 1.13.0 use wem:controlVariant instead (TODO: to be removed in next version)
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
 
 [wemnt:tagsAggregation] > jnt:content, wemmix:wemComponents, mix:title
@@ -85,5 +88,6 @@
  - secondaryText (string) internationalized
  - universeSelectorLabel (string) internationalized
  - universeId (string, choicelist[jExperiencePropertiesInitializer='single']) mandatory
+ // DEPRECATED since 1.13.0 use wem:controlVariant instead (TODO: to be removed in next version)
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  + * (wemnt:personalizedBannerItem) = wemnt:personalizedBannerItem
