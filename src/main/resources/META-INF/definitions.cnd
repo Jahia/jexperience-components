@@ -10,7 +10,7 @@
  - image (weakreference, picker[type='image']) mandatory internationalized < 'jnt:file'
  - caption (string, textarea) internationalized
 
-[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:variantsNode, wemmix:customEditEngine, wemmix:wemPersonalizationContainer, mix:title orderable
+[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:hasContentVariants, wemmix:customEditEngine, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
  - useIndicators (boolean) = 'false' autocreated indexed=no
  - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
@@ -46,7 +46,7 @@
  - linkText (string) internationalized
  - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
 
-[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
+[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
  - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
  - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
@@ -59,7 +59,7 @@
  - jcr:title (string) internationalized
  - description (string, richtext) internationalized
 
-[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
+[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
  - jcr:title (string) internationalized
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
 
@@ -80,7 +80,7 @@
  - webSiteFooterTopColor (string)
  - webSiteFooterBottomColor (string)
 
-[wemnt:personalizedBanner] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:variantsNode, wemmix:wemPersonalizationContainer, mix:title, jmix:list orderable
+[wemnt:personalizedBanner] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, wemmix:wemPersonalizationContainer, mix:title, jmix:list orderable
  - jcr:title (string) mandatory internationalized
  - secondaryText (string) internationalized
  - universeSelectorLabel (string) internationalized
