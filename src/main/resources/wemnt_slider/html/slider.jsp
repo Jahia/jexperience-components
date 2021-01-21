@@ -55,7 +55,7 @@
 
                             <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                            <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                            <jx:ssrExperience id="${currentNode.identifier}"  multiple="true">
                                 <c:forEach items="${sliderPanels}" var="sliderPanel">
                                     <jx:ssrVariant id="${sliderPanel.identifier}">
                                         <template:module node="${sliderPanel}" nodeTypes="wemnt:sliderPanel" editable="true">

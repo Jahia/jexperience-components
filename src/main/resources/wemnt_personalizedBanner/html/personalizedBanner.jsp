@@ -53,7 +53,7 @@
 
                 <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="false">
+                <jx:ssrExperience id="${currentNode.identifier}"  multiple="false">
                     <c:forEach items="${moduleMap.variants}" var="variant">
                         <jx:ssrVariant id="${variant.identifier}">
                             <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>

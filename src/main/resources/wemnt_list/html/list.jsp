@@ -39,7 +39,7 @@
 
                             <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                            <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                            <jx:ssrExperience id="${currentNode.identifier}"  multiple="true">
                                 <c:forEach items="${variants}" var="variant">
                                     <jx:ssrVariant id="${variant.identifier}">
                                         <template:module node="${variant}"/>
