@@ -4,11 +4,10 @@ on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
     branches:
-      - 'master'
-      - 'feature-.*'
-      - '[0-9]*-[0-9]*-X-BRANCH'
-      - '[0-9]*_[0-9]*_x'
-      - '[0-9]_x'
+      - master
+      - feature-*
+      - '**-X-BRANCH'
+      - '**_x'
 
 jobs:
   trigger_circle_ci:
