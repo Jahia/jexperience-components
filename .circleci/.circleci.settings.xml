@@ -52,14 +52,14 @@
             <password>${env.NEXUS_PASSWORD}</password>
         </server>
         <server>
-            <id>oauth-snapshots</id>
+            <id>marketing-factory-releases</id>
             <username>${env.NEXUS_USERNAME}</username>
             <password>${env.NEXUS_PASSWORD}</password>
         </server>
         <server>
-            <id>oauth-releases</id>
+            <id>marketing-factory-snapshots</id>
             <username>${env.NEXUS_USERNAME}</username>
             <password>${env.NEXUS_PASSWORD}</password>
-        </server>        
+        </server>
     </servers>
 </settings>
