@@ -5,7 +5,7 @@ on:
     types: [opened, edited, reopened, synchronize]
     branches:
       - master
-      - feature-*
+      - 'feature-**'
       - '**-X-BRANCH'
       - '**_x'
 
