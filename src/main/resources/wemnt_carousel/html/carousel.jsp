@@ -40,7 +40,7 @@
                 <c:when test="${personalizationActive}">
                     <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-                    <jx:ssrExperience type="<%= Constants.PERSONALIZATION %>" personalization="${fn:escapeXml(jsonPersonalization)}" multiple="true">
+                    <jx:ssrExperience id="${currentNode.identifier}" multiple="true">
                         <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
                             <jx:ssrVariant id="${currentVariant.identifier}">
                                 <div class="item active">
