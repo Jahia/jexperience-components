@@ -196,6 +196,11 @@ jobs:
           fingerprints:
             - "9b:1c:a7:f2:28:a3:fa:c7:c6:0b:a5:d3:e8:58:6c:15"
       - run:
+          name: Getting latest changes from the remote branch
+          command: |
+            git fetch --all
+            git pull origin $CIRCLE_BRANCH --quiet
+      - run:
           name: Delete github tag <<pipeline.parameters.RELEASE_VERSION>>
           command: |
             mkdir -p ~/.ssh
@@ -373,10 +378,6 @@ workflows:
             branches:
               only:
                 - << pipeline.parameters.PRIMARY_RELEASE_BRANCH >>
-                - /feature-.*/
-                - /[0-9]*_x/
-                - /[0-9]*_[0-9]*_x/
-                - /[0-9]*-[0-9]*-X-BRANCH/
 
   # The on-release workflow was created to handle the full release lifecycle after creating a release using GitHub
   # https://github.com/Jahia/sandbox/releases
