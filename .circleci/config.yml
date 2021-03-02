@@ -16,7 +16,7 @@ parameters:
     default: "jexperience-components"
   PRIMARY_RELEASE_BRANCH:
     type: string
-    default: "master"
+    default: "1-12-X-BRANCH"
   RELEASE_ID:
     type: string
     default: ""
