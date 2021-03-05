@@ -57,7 +57,7 @@
     </distributionManagement>
 
     <properties>
-        <jahia-module-signature>MC0CFQCPXCRToE6HBlqBRvqXDmC/QydJMgIULKKelshLbXEpM/aj3fqw5JvYXn4=</jahia-module-signature>
+        <jahia-module-signature>MCwCFGrN9d9sHgZQ2wNzkvDrmJBN3xrAAhQxLcz0VC5M+DWa3e4kR3Sa4yJj7Q==</jahia-module-signature>
         <jahia-depends>bootstrap3-core,default,jexperience</jahia-depends>
         <jahia.nexus.staging.repository.id>1b7030912bcbea1</jahia.nexus.staging.repository.id>
     </properties>
