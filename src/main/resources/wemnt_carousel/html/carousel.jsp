@@ -18,84 +18,87 @@
 <c:set var="editableVariants" scope="request" value="${editableModule}"/>
 <template:addResources type="css" resources="bootstrap.min.css,personalized-carousel.css"/>
 <template:addResources type="javascript" resources="jquery.min.js,bootstrap.min.js"/>
+<c:choose>
+    <c:when test="${not renderContext.editMode or not editableVariants}">
+        <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
+        <c:set var="personalizationActive" value="${wem:isPersonalizationActive(currentNode)}"/>
+        <c:set var="maxNumberOfItems"
+               value="${not empty currentNode.properties['wem:maxNumberOfItems'] ? currentNode.properties['wem:maxNumberOfItems'].long : 0}"/>
+        <c:set var="useIndicators" value="${currentNode.properties['useIndicators'].boolean}"/>
+        <c:set var="elementID" value="smartCarousel-${currentNode.identifier}"/>
 
-<template:include view="editToolbar"/>
+        <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
+                <%-- Indicators --%>
+            <c:if test="${useIndicators}">
+                <ol class="carousel-indicators"></ol>
+            </c:if>
 
-<c:if test="${not renderContext.editMode or not editableVariants}">
-    <c:set var="carouselItems" value="${jcr:getChildrenOfType(currentNode, 'wemnt:carouselItem')}"/>
-    <c:set var="personalizationActive" value="${wem:isPersonalizationActive(currentNode)}"/>
-    <c:set var="maxNumberOfItems" value="${not empty currentNode.properties['wem:maxNumberOfItems'] ? currentNode.properties['wem:maxNumberOfItems'].long : 0}"/>
-    <c:set var="useIndicators" value="${currentNode.properties['useIndicators'].boolean}"/>
-    <c:set var="elementID" value="smartCarousel-${currentNode.identifier}" />
+                <%-- Wrapper for slides --%>
+            <div class="carousel-inner" role="listbox">
+                <c:choose>
+                    <c:when test="${personalizationActive}">
+                        <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
 
-    <div id="${elementID}" class="personalized-carousel carousel slide" data-ride="carousel">
-        <%-- Indicators --%>
-        <c:if test="${useIndicators}">
-            <ol class="carousel-indicators"></ol>
-        </c:if>
-
-        <%-- Wrapper for slides --%>
-        <div class="carousel-inner" role="listbox">
-            <c:choose>
-                <c:when test="${personalizationActive}">
-                    <c:set var="jsonPersonalization" value="${wem:getWemPersonalizationRequest(currentNode)}"/>
-
-                    <jx:ssrExperience id="${currentNode.identifier}" multiple="true">
+                        <jx:ssrExperience id="${currentNode.identifier}" multiple="true">
+                            <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
+                                <jx:ssrVariant id="${currentVariant.identifier}">
+                                    <div class="item active">
+                                        <template:module node="${currentVariant}" nodeTypes="wemnt:carouselItem"/>
+                                    </div>
+                                </jx:ssrVariant>
+                            </c:forEach>
+                        </jx:ssrExperience>
+                    </c:when>
+                    <c:otherwise>
                         <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
-                            <jx:ssrVariant id="${currentVariant.identifier}">
-                                <div class="item active">
-                                    <template:module node="${currentVariant}" nodeTypes="wemnt:carouselItem"/>
-                                </div>
-                            </jx:ssrVariant>
+                            <div class="item active">
+                                <template:module node="${currentVariant}" nodeTypes="wemnt:carouselItem"/>
+                            </div>
                         </c:forEach>
-                    </jx:ssrExperience>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
-                        <div class="item active">
-                            <template:module node="${currentVariant}" nodeTypes="wemnt:carouselItem"/>
-                        </div>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+                <%-- Controls --%>
+            <c:if test="${currentNode.properties['useLeftAndRightControls'].boolean}">
+                <a class="left carousel-control" href="#${elementID}" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only"><fmt:message key="wemnt_carousel.label.previous"/></span>
+                </a>
+                <a class="right carousel-control" href="#${elementID}" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only"><fmt:message key="wemnt_carousel.label.next"/></span>
+                </a>
+            </c:if>
         </div>
 
-        <%-- Controls --%>
-        <c:if test="${currentNode.properties['useLeftAndRightControls'].boolean}">
-            <a class="left carousel-control" href="#${elementID}" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only"><fmt:message key="wemnt_carousel.label.previous"/></span>
-            </a>
-            <a class="right carousel-control" href="#${elementID}" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span class="sr-only"><fmt:message key="wemnt_carousel.label.next"/></span>
-            </a>
-        </c:if>
-    </div>
+        <script type="text/javascript">
+            wemHasServerSideRendering = true;
+            (function () {
+                var useIndicators = ${useIndicators};
+                var maxItems = ${maxNumberOfItems};
 
-    <script type="text/javascript">
-        wemHasServerSideRendering = true;
-        (function(){
-            var useIndicators = ${useIndicators};
-            var maxItems = ${maxNumberOfItems};
-
-            $("#${elementID} .carousel-inner > div.item").each(function(index) {
-                if (maxItems > 0 && (index + 1) > maxItems) {
-                    // remove item in excess
-                    $(this).remove();
-                } else {
-                    if (index > 0) {
-                        // keep only first item activate when displayed
-                        $(this).removeClass("active");
+                $("#${elementID} .carousel-inner > div.item").each(function (index) {
+                    if (maxItems > 0 && (index + 1) > maxItems) {
+                        // remove item in excess
+                        $(this).remove();
+                    } else {
+                        if (index > 0) {
+                            // keep only first item activate when displayed
+                            $(this).removeClass("active");
+                        }
+                        if (useIndicators) {
+                            // add indicator
+                            $("#${elementID} .carousel-indicators")
+                                .append("<li data-target='#${elementID}' data-slide-to='" + index + "' " +
+                                    (index === 0 ? "class='active'" : "") + "></li>")
+                        }
                     }
-                    if (useIndicators) {
-                        // add indicator
-                        $("#${elementID} .carousel-indicators")
-                            .append("<li data-target='#${elementID}' data-slide-to='" + index + "' " +
-                                (index === 0 ? "class='active'" : "") + "></li>")
-                    }
-                }
-            });
-        })();
-    </script>
-</c:if>
+                });
+            })();
+        </script>
+    </c:when>
+    <c:otherwise>
+        <template:include view="editToolbar"/>
+    </c:otherwise>
+</c:choose>
