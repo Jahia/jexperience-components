@@ -10,6 +10,7 @@
  - image (weakreference, picker[type='image']) mandatory internationalized < 'jnt:file'
  - caption (string, textarea) internationalized
 
+// DEPRECATED since 1.13.0 add wemmix:personalizedList on the content to personalize instead
 [wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:hasContentVariants, wemmix:customEditEngine, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
  - useIndicators (boolean) = 'false' autocreated indexed=no
@@ -47,6 +48,7 @@
  - linkText (string) internationalized
  - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
 
+// DEPRECATED since 1.13.0 add wemmix:personalizedList on the content to personalize instead
 [wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
  - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
@@ -61,6 +63,7 @@
  - jcr:title (string) internationalized
  - description (string, richtext) internationalized
 
+// DEPRECATED since 1.13.0 add wemmix:personalizedList on the content to personalize instead
 [wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
  - jcr:title (string) internationalized
  // DEPRECATED since 1.13.0 use wem:controlVariant instead (TODO: to be removed in next version)
