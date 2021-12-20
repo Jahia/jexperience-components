@@ -41,7 +41,7 @@
 
                         <jx:ssrExperience id="${currentNode.identifier}" multiple="true">
                             <c:forEach items="${carouselItems}" var="currentVariant" varStatus="status">
-                                <jx:ssrVariant id="${currentVariant.identifier}">
+                                <jx:ssrVariant id="${currentVariant.identifier}" variant-experience="${currentNode.identifier}">
                                     <div class="item active">
                                         <template:module node="${currentVariant}" nodeTypes="wemnt:carouselItem"/>
                                     </div>
