@@ -41,7 +41,7 @@
 
                             <jx:ssrExperience id="${currentNode.identifier}"  multiple="true">
                                 <c:forEach items="${variants}" var="variant">
-                                    <jx:ssrVariant id="${variant.identifier}">
+                                    <jx:ssrVariant id="${variant.identifier}" variant-experience="${currentNode.identifier}">
                                         <template:module node="${variant}"/>
                                     </jx:ssrVariant>
                                 </c:forEach>
