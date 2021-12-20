@@ -57,7 +57,7 @@
 
                             <jx:ssrExperience id="${currentNode.identifier}"  multiple="true">
                                 <c:forEach items="${sliderPanels}" var="sliderPanel">
-                                    <jx:ssrVariant id="${sliderPanel.identifier}">
+                                    <jx:ssrVariant id="${sliderPanel.identifier}" variant-experience="${currentNode.identifier}">
                                         <template:module node="${sliderPanel}" nodeTypes="wemnt:sliderPanel" editable="true">
                                             <template:param name="layout" value="${layout}"/>
                                         </template:module>

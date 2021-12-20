@@ -55,7 +55,7 @@
 
                 <jx:ssrExperience id="${currentNode.identifier}"  multiple="false">
                     <c:forEach items="${moduleMap.variants}" var="variant">
-                        <jx:ssrVariant id="${variant.identifier}">
+                        <jx:ssrVariant id="${variant.identifier}" variant-experience="${currentNode.identifier}">
                             <template:option nodetype="wemnt:personalizedBannerItem" node="${variant}" view="default"/>
                         </jx:ssrVariant>
                     </c:forEach>
