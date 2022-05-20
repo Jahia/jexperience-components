@@ -33,7 +33,7 @@
     </parent>
 
     <artifactId>jexperience-components</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>jExperience Components</name>
     <description>This is the custom module (jExperience Components) for running on a Jahia server.</description>
@@ -57,7 +57,7 @@
     </distributionManagement>
 
     <properties>
-        <jahia-module-signature>MCwCFGrN9d9sHgZQ2wNzkvDrmJBN3xrAAhQxLcz0VC5M+DWa3e4kR3Sa4yJj7Q==</jahia-module-signature>
+        <jahia-module-signature>MCwCFDceei1S5qoKedl8Pq4q7t+a8RgXAhQ2o8TnAUN3ozjt/gj8SYXMk6MFKw==</jahia-module-signature>
         <jahia-depends>bootstrap3-core,default,jexperience</jahia-depends>
         <jahia.nexus.staging.repository.id>1b7030912bcbea1</jahia.nexus.staging.repository.id>
     </properties>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>org.jahia.modules</groupId>
             <artifactId>jexperience</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -83,6 +83,21 @@
                 <exclusion>
                     <artifactId>commons-el</artifactId>
                     <groupId>commons-el</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
+            <version>2.2.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
