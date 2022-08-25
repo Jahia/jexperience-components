@@ -6,12 +6,14 @@
 <wemnt = 'http://www.jahia.org/jahia/wem/nt/1.0'>
 <wem = 'http://www.jahia.org/jahia/wem/1.0'>
 
+[wemmix:wemDroppableComponents] > jmix:droppableContent mixin
+
 [wemnt:carouselItem] > jnt:content, mix:title
  - image (weakreference, picker[type='image']) mandatory internationalized < 'jnt:file'
  - caption (string, textarea) internationalized
 
 // DEPRECATED since 1.13.0 add wemmix:personalizedList on the content to personalize instead
-[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemComponents, wemmix:hasContentVariants, wemmix:customEditEngine, wemmix:wemPersonalizationContainer, mix:title orderable
+[wemnt:carousel] > jnt:content, jmix:manuallyOrderable, jmix:list, wemmix:wemDroppableComponents, wemmix:hasContentVariants, wemmix:customEditEngine, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
  - useIndicators (boolean) = 'false' autocreated indexed=no
  - useLeftAndRightControls (boolean) = 'false' autocreated indexed=no
@@ -20,7 +22,7 @@
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
  + * (wemnt:carouselItem) = wemnt:carouselItem
 
-[wemnt:privacySettingsModal] > jnt:content, wemmix:wemComponents
+[wemnt:privacySettingsModal] > jnt:content, wemmix:wemDroppableComponents
  - wem:privacyModalButtonLabel (string) internationalized
  - wem:buttonType (string, choicelist[resourceBundle]) = 'tagButton' autocreated indexed=no nofulltext < 'tagButton', 'tagA'
  - wem:buttonCssClass (string) = 'btn btn-primary' indexed=no nofulltext
@@ -35,7 +37,7 @@
  - wem:downloadMyProfileButtonLabel (string) internationalized
  - wem:captiveModal (boolean) = 'true' autocreated
 
-[wemnt:notYouButton] > jnt:content, wemmix:wemComponents
+[wemnt:notYouButton] > jnt:content, wemmix:wemDroppableComponents
  - wem:notYouButtonLabel (string) internationalized
  - wem:notYouButtonCssClass (string) = 'btn btn-primary' indexed=no nofulltext
  - wem:notYouButtonHtmlId (string) indexed=no nofulltext
@@ -49,7 +51,7 @@
  - backgroundImg (weakreference, picker[type='image']) < 'jmix:image'
 
 // DEPRECATED since 1.13.0 add wemmix:personalizedList on the content to personalize instead
-[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
+[wemnt:slider] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemDroppableComponents, wemmix:hasContentVariants, jmix:list, wemmix:wemPersonalizationContainer, mix:title orderable
  - jcr:title (string) mandatory internationalized
  - transition (string, choicelist[resourceBundle]) = 'slide' < 'slide', 'fade', 'zoom'
  - layout (string, choicelist[resourceBundle]) = 'autofill' < 'autofill', 'partialview'
@@ -64,12 +66,12 @@
  - description (string, richtext) internationalized
 
 // DEPRECATED since 1.13.0 add wemmix:personalizedList on the content to personalize instead
-[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
+[wemnt:list] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemDroppableComponents, wemmix:hasContentVariants, jmix:list, mix:title, wemmix:wemPersonalizationContainer orderable
  - jcr:title (string) internationalized
  // DEPRECATED since 1.13.0 use wem:controlVariant instead (TODO: to be removed in next version)
  - wem:fallbackVariant (weakreference, choicelist[nodes='.;jmix:droppableContent']) hidden nofulltext
 
-[wemnt:tagsAggregation] > jnt:content, wemmix:wemComponents, mix:title
+[wemnt:tagsAggregation] > jnt:content, wemmix:wemDroppableComponents, mix:title
  - jcr:title (string) mandatory internationalized
  - wem:numberOfPastDays (long) = '30' autocreated
 
@@ -86,7 +88,7 @@
  - webSiteFooterTopColor (string)
  - webSiteFooterBottomColor (string)
 
-[wemnt:personalizedBanner] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemComponents, wemmix:hasContentVariants, wemmix:wemPersonalizationContainer, mix:title, jmix:list orderable
+[wemnt:personalizedBanner] > jnt:content, jmix:manuallyOrderable, wemmix:customEditEngine, wemmix:wemDroppableComponents, wemmix:hasContentVariants, wemmix:wemPersonalizationContainer, mix:title, jmix:list orderable
  - jcr:title (string) mandatory internationalized
  - secondaryText (string) internationalized
  - universeSelectorLabel (string) internationalized
