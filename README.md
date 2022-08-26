@@ -1,3 +1,10 @@
+# DEPRECATED MODULE
+
+**This module is deprecated.
+Use the personalized list provided by the jExperience module instead.
+The personalized list (wemmix:personalizedList) is available from the version 2.3.0 of jExperience for Jahia 8 and the version 1.13.0 for 
+Jahia 7.**
+
 # jExperience Components
 
 This project contains all the jExperience components
